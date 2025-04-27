@@ -3,59 +3,892 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Compass - Your Guide to SA Finances</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Financial Compass | Your Guide to South African Finances</title>
+    <meta name="description" content="Free South African financial calculators including SARS income tax, loans, VAT, retirement planning and budgeting tools. Take control of your finances.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Optional: Add custom base styles or font imports here if needed */
-        /* For example, import a modern font like Inter */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif; /* Apply the font */
+        /* --- Base Styles (Inspired by your example) --- */
+        :root {
+            --primary: #0070D1; /* Blue */
+            --primary-dark: #005bb1;
+            --secondary: #00BC8C; /* Teal/Green */
+            --secondary-dark: #009670;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #FFFFFF;
+            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --border: #E1E8ED;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 10px; /* Slightly adjusted radius */
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img {
+             max-width: 100%;
+             height: auto;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px; /* Slightly adjusted padding */
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* --- Sections & Titles --- */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem; /* Slightly larger */
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        /* --- Cards --- */
+         .card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 6px 18px var(--shadow); /* Slightly softer shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border); /* Subtle border */
+         }
+
+         .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Enhanced hover shadow */
+         }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem; /* Slightly bigger logo text */
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px; /* Increased space */
+            font-size: 1.8rem; /* Bigger icon */
+        }
+
+        .logo span {
+             color: var(--primary); /* Highlight 'Compass' */
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px; /* Increased spacing */
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px; /* Added horizontal padding */
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after { /* Style for active link */
+             width: 100%;
+        }
+
+        .mobile-menu-btn { /* Will add JS later */
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem; /* Larger hamburger */
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            /* Using a subtle gradient, similar to inspiration but maybe slightly different */
+            background: linear-gradient(135deg, #F9FBFD, #EEF2F7);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden; /* Prevents potential overflow issues */
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px; /* Space between text and image */
+        }
+
+        .hero-text {
+            max-width: 55%; /* Give text slightly more space */
+            flex-shrink: 0; /* Prevent text shrinking too much */
+        }
+
+        .hero-title {
+            font-size: 3.2rem; /* Larger title */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem; /* More space before buttons */
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 2.5rem;
+        }
+
+        .hero-image-container {
+             width: 40%;
+             text-align: center; /* Center image if container is wider */
+        }
+
+        .hero-image {
+             max-width: 100%; /* Ensure image scales */
+             border-radius: var(--radius);
+             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
+             /* Consider adding a subtle animation */
+             /* animation: float 3s ease-in-out infinite; */
+        }
+
+         /* --- Featured Tools Section --- */
+        .tool-grid {
+            display: grid;
+            /* Adjust columns for different screen sizes if needed */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px; /* Increased gap */
+            margin-top: 48px;
+        }
+
+        .tool-card { /* Inherits base .card styles */
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Make cards in a row equal height */
+        }
+
+        .tool-card-header {
+            padding: 24px;
+            background-color: var(--primary); /* Default header color */
+            color: white;
+            text-align: center;
+            border-bottom: 1px solid var(--border); /* Separator */
+        }
+         /* Unique header colors for visual distinction */
+         .tool-card.tax .tool-card-header { background-color: var(--primary); }
+         .tool-card.budget .tool-card-header { background-color: var(--secondary); }
+         .tool-card.loan .tool-card-header { background-color: #6C63FF; } /* Purple */
+         .tool-card.vat .tool-card-header { background-color: #FF6B6B; } /* Coral */
+
+        .tool-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            line-height: 1; /* Ensure icon vertical alignment */
+        }
+
+        .tool-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .tool-card-body {
+            padding: 24px;
+            flex-grow: 1; /* Allows body to expand, pushing footer down */
+            background-color: var(--background);
+        }
+
+        .tool-card-description {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            font-size: 0.95rem; /* Slightly smaller desc text */
+        }
+
+        .tool-card-footer {
+            padding: 20px 24px; /* Adjusted padding */
+            background-color: var(--background-alt);
+            border-top: 1px solid var(--border);
+            display: flex; /* Use flex to center button */
+            justify-content: center;
+            margin-top: auto; /* Pushes footer to bottom */
+        }
+
+         /* --- Features Section (Why Choose Us) --- */
+         .features-section {
+            background-color: var(--background-alt);
+         }
+
+         .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 32px;
+         }
+
+         .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 24px; /* Add padding inside feature items */
+         }
+
+         .feature-icon-wrapper { /* Changed name */
+            width: 70px; /* Slightly smaller icon bg */
+            height: 70px;
+            border-radius: 50%;
+             /* Use primary color with opacity for background */
+            background-color: rgba(0, 112, 209, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-size: 1.8rem; /* Adjusted icon size */
+            flex-shrink: 0; /* Prevent shrinking */
+         }
+
+         .feature-title {
+            font-size: 1.2rem; /* Slightly smaller title */
+            font-weight: 600;
+            margin-bottom: 12px;
+         }
+
+         .feature-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+         }
+
+
+        /* --- Updates Section --- */
+        .updates-section { /* Added class for potential specific styling */
+             background-color: var(--background); /* White background */
+        }
+
+        .updates-grid {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider cards */
+             gap: 30px;
+        }
+
+        .update-card { /* Uses base .card */
+             display: flex;
+             flex-direction: column;
+             height: 100%;
+        }
+
+        .update-card-content {
+             padding: 24px;
+             flex-grow: 1; /* Push footer down */
+             display: flex;
+             flex-direction: column; /* Align content vertically */
+        }
+
+        .update-date {
+             font-size: 0.85rem; /* Smaller date */
+             color: var(--text-light);
+             margin-bottom: 8px;
+             display: block; /* Ensure it takes its own line */
+        }
+
+        .update-title {
+             font-size: 1.2rem;
+             font-weight: 600;
+             margin-bottom: 12px;
+             color: var(--primary); /* Link-like title */
+             line-height: 1.4; /* Better spacing for titles */
+        }
+
+        .update-excerpt {
+             color: var(--text-light);
+             margin-bottom: 24px; /* More space before button */
+             flex-grow: 1; /* Takes up remaining space */
+             font-size: 0.95rem;
+        }
+
+        .update-card-footer {
+             padding: 0 24px 24px; /* Add padding only at bottom */
+             margin-top: auto; /* Ensure button is at the bottom */
+        }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1e293b; /* Dark blue-grey */
+            color: rgba(255, 255, 255, 0.8); /* Brighter text */
+            padding: 64px 0 32px; /* Adjusted padding */
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column.about .footer-logo { /* Target logo in the 'about' column */
+             color: white; /* White logo text in footer */
+             font-size: 1.6rem;
+             margin-bottom: 16px;
+        }
+        .footer-column.about .footer-logo i {
+             color: var(--primary); /* Keep icon primary color */
+        }
+
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6); /* Lighter description */
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px; /* Slightly smaller gap */
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem; /* Adjust icon size if needed */
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.15rem; /* Adjusted heading size */
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+         /* No newsletter for now */
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15); /* Slightly more visible border */
+            padding-top: 32px; /* More space */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-text {
+                max-width: 100%; /* Full width on smaller screens */
+                margin-bottom: 48px;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .hero-image-container {
+                width: 70%; /* Allow image to be larger */
+                max-width: 450px;
+                margin-top: 32px;
+            }
+            .nav-menu {
+                 /* Mobile menu styles - JS needed to toggle 'active' */
+                position: fixed;
+                top: 73px; /* Match header height approx */
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--background);
+                width: 100%;
+                height: calc(100vh - 73px);
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding-top: 20px;
+                overflow-y: auto; /* Scroll if needed */
+             }
+
+             .nav-menu.active {
+                left: 0;
+             }
+
+             .nav-item {
+                margin: 0; /* Reset margin */
+                width: 100%;
+             }
+             .nav-link {
+                 display: block; /* Make links full width */
+                 padding: 16px 20px; /* Larger tap targets */
+                 text-align: center;
+                 border-bottom: 1px solid var(--border);
+             }
+             .nav-link::after {
+                 display: none; /* Hide underline on mobile */
+             }
+             .nav-link:hover {
+                 background-color: var(--background-alt);
+             }
+
+             .mobile-menu-btn {
+                 display: block; /* Show hamburger */
+             }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 64px 0;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .hero {
+                padding: 80px 0;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                 font-size: 1.1rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr; /* Stack columns */
+                text-align: center;
+            }
+            .footer-column {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center; /* Center content in stacked columns */
+            }
+            .footer-social {
+                 justify-content: center; /* Center social icons */
+            }
+            .footer-links {
+                 text-align: center;
+            }
+        }
+
+         @media (max-width: 576px) {
+             .section-title {
+                 font-size: 1.75rem;
+             }
+             .hero-title {
+                 font-size: 2rem;
+             }
+             .hero-buttons {
+                 flex-direction: column; /* Stack buttons */
+                 align-items: center;
+                 gap: 12px;
+             }
+             .btn {
+                 width: 80%; /* Make buttons wider */
+                 max-width: 300px;
+             }
+             .tool-grid {
+                 grid-template-columns: 1fr; /* Single column */
+             }
+             .features-grid {
+                  grid-template-columns: 1fr;
+             }
+             .updates-grid {
+                 grid-template-columns: 1fr;
+             }
+         }
+
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-    <nav class="bg-white shadow-sm p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold text-blue-600">Financial Compass</div>
-            <div>
-                <a href="#tools" class="text-gray-600 hover:text-blue-600 px-3">Tools</a>
-                <a href="#budget" class="text-gray-600 hover:text-blue-600 px-3">Budget Planner</a>
-                <a href="#about" class="text-gray-600 hover:text-blue-600 px-3">About</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-gradient-to-r from-blue-600 to-teal-500 text-white py-20 md:py-32">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-                Navigate Your South African Finances with Confidence
-            </h1>
-            <p class="text-lg md:text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-                Free, easy-to-use financial calculators and planning tools, built specifically for South Africans. Take control today.
-            </p>
-            <a href="#tools" 
-               class="bg-white text-blue-600 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition duration-300 ease-in-out text-lg shadow-md">
-                Explore Free Tools
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo"> <i class="fas fa-compass"></i> Financial<span>Compass</span>
             </a>
+
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="/" class="nav-link active">Home</a></li> <li class="nav-item"><a href="#tools" class="nav-link">Financial Tools</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="#updates" class="nav-link">Updates</a></li>
+                    </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
         </div>
     </header>
 
-    <main>
-        <section id="tools" class="py-16">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-12">Your Financial Toolkit</h2>
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Navigate Your SA Finances with Confidence</h1>
+                <p class="hero-subtitle">Free, easy-to-use financial calculators and planning tools, built specifically for South Africans. Take control today.</p>
+                <div class="hero-buttons">
+                    <a href="#tools" class="btn">Explore Free Tools</a>
+                    <a href="#about" class="btn btn-outline">Learn More</a>
                 </div>
-        </section>
+            </div>
+            <div class="hero-image-container">
+                <img src="https://via.placeholder.com/500x350/E9ECF3/0070D1?text=Financial+Clarity+Concept" alt="Illustration showing financial clarity and direction" class="hero-image">
+            </div>
+        </div>
+    </section>
 
-        </main>
+    <section class="section" id="tools">
+        <div class="container">
+            <h2 class="section-title">Your Essential Financial Toolkit</h2>
+            <p class="section-subtitle">Accurate & up-to-date calculators built specifically for South African financial regulations and tax laws.</p>
 
-    <footer class="bg-gray-800 text-gray-400 py-8 mt-16">
-        <div class="container mx-auto px-6 text-center text-sm">
-            © 2025 Financial Compass. All Rights Reserved. | <a href="#privacy" class="hover:text-white">Privacy Policy</a> | <a href="#terms" class="hover:text-white">Terms of Use</a>
+            <div class="tool-grid">
+                <div class="tool-card tax">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-receipt"></i></div>
+                        <h3 class="tool-card-title">SARS Income Tax Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-description">Estimate your personal income tax based on the latest 2025/2026 SA tax brackets, rebates, and medical aid credits.</p>
+                    </div>
+                    <div class="tool-card-footer">
+                        <a href="/sars-tax-calculator" class="btn btn-secondary">Calculate Tax</a> </div>
+                </div>
+
+                <div class="tool-card budget">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-wallet"></i></div>
+                        <h3 class="tool-card-title">Comprehensive Budget Planner</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-description">Create, manage, and visualise your personal budget. Track income, expenses, and progress towards your savings goals.</p>
+                    </div>
+                    <div class="tool-card-footer">
+                        <a href="/budget-planner" class="btn btn-secondary">Start Budgeting</a> </div>
+                </div>
+
+                <div class="tool-card loan">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-home"></i></div>
+                        <h3 class="tool-card-title">Loan Calculators</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-description">Calculate repayments for home loans, vehicle finance, and personal loans. Understand interest and total cost.</p>
+                    </div>
+                    <div class="tool-card-footer">
+                        <a href="/loan-calculators" class="btn btn-secondary">Explore Loans</a> </div>
+                </div>
+
+                <div class="tool-card vat">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon"><i class="fas fa-percentage"></i></div>
+                        <h3 class="tool-card-title">VAT Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p class="tool-card-description">Quickly add or exclude VAT (currently 15%) from any amount for your business or personal needs in South Africa.</p>
+                    </div>
+                    <div class="tool-card-footer">
+                        <a href="/vat-calculator" class="btn btn-secondary">Calculate VAT</a> </div>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <section class="section features-section" id="about">
+        <div class="container">
+            <h2 class="section-title">Why Choose Financial Compass?</h2>
+            <p class="section-subtitle">We empower South Africans with clear, accurate, and accessible financial tools.</p>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3 class="feature-title">SA Specific & Accurate</h3>
+                    <p class="feature-description">Calculations meticulously aligned with current South African tax laws (SARS), rates, and regulations.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-chart-pie"></i></div>
+                    <h3 class="feature-title">Clear Visual Insights</h3>
+                    <p class="feature-description">Understand your finances better with engaging charts and graphs that simplify complex data.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-lock"></i></div>
+                    <h3 class="feature-title">Private & Secure</h3>
+                    <p class="feature-description">Calculations happen directly in your browser. Your personal financial data is not stored by us.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-sync-alt"></i></div>
+                    <h3 class="feature-title">Always Updated</h3>
+                    <p class="feature-description">We regularly update tools for the latest tax brackets, regulations, and financial standards in SA.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-mobile-alt"></i></div>
+                    <h3 class="feature-title">Use Anywhere</h3>
+                    <p class="feature-description">Access Financial Compass seamlessly on your desktop, tablet, or smartphone.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon-wrapper"><i class="fas fa-gift"></i></div>
+                    <h3 class="feature-title">Completely Free</h3>
+                    <p class="feature-description">All core calculators and tools are provided free of charge to empower your financial journey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section class="section updates-section" id="updates">
+        <div class="container">
+            <h2 class="section-title">Latest Financial Updates & Insights</h2>
+            <p class="section-subtitle">Key information relevant to your finances in South Africa (as of April 2025).</p>
+
+            <div class="updates-grid">
+                <div class="card update-card">
+                    <div class="update-card-content">
+                        <span class="update-date">April 26, 2025</span>
+                        <h3 class="update-title">Confirmed: SA VAT Rate Remains 15%</h3>
+                        <p class="update-excerpt">National Treasury confirms the proposed VAT increase for May 2025 has been cancelled. The standard VAT rate stays at 15%. Our VAT calculator reflects this.</p>
+                        <div class="update-card-footer">
+                             <a href="#" class="btn btn-outline">Read More</a> </div>
+                    </div>
+                </div>
+
+                <div class="card update-card">
+                    <div class="update-card-content">
+                        <span class="update-date">April 20, 2025</span>
+                        <h3 class="update-title">2025/2026 Tax Tables Implemented</h3>
+                        <p class="update-excerpt">The official SARS tax brackets, rebates (Primary R17,235), and thresholds (starting at R95,750 for under 65s) for 1 Mar 2025 - 28 Feb 2026 are now live in our Tax Calculator.</p>
+                         <div class="update-card-footer">
+                             <a href="#" class="btn btn-outline">View Details</a> </div>
+                    </div>
+                </div>
+
+                <div class="card update-card">
+                    <div class="update-card-content">
+                         <span class="update-date">April 15, 2025</span>
+                        <h3 class="update-title">Understanding Retirement Reforms</h3>
+                         <p class="update-excerpt">Recent changes impact how you access retirement funds. Explore implications for RAs, Pension/Provident funds, and withdrawal benefits.</p>
+                         <div class="update-card-footer">
+                             <a href="#" class="btn btn-outline">Learn More</a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column about">
+                    <a href="/" class="footer-logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
+                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Home</a></li>
+                        <li class="footer-link"><a href="#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a href="/privacy-policy">Privacy Policy</a></li>
+                         <li class="footer-link"><a href="/terms-of-service">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                 <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/sars-tax-calculator">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="/budget-planner">Budget Planner</a></li>
+                        <li class="footer-link"><a href="/loan-calculators">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="/vat-calculator">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="/retirement-calculator">Retirement Calculator</a></li>
+                         </ul>
+                </div>
+
+                 <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                    </div>
+
+            </div> <div class="footer-bottom">
+                &copy; 2025 Financial Compass. Built for South Africans. All Rights Reserved.
+            </div>
         </div>
     </footer>
 
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                // Toggle ARIA expanded state for accessibility
+                const isExpanded = navMenu.classList.contains('active');
+                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+                 // Change icon based on state
+                 mobileMenuBtn.innerHTML = isExpanded ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+
+            // Close menu if a link is clicked (optional)
+            navMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                         navMenu.classList.remove('active');
+                         mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                         mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                });
+            });
+        }
+    </script>
     </body>
 </html>
