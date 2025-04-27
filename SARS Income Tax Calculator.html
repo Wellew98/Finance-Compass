@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARS Income Tax Calculator | Financial Compass</title>
+    <meta name="description" content="Free South African SARS income tax calculator for 2025/2026. Accurately calculate your tax liability with the latest tax brackets, rebates, and medical aid credits.">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        /* --- Base Styles --- */
+        :root {
+            --primary: #0070D1; /* Blue */
+            --primary-dark: #005bb1;
+            --secondary: #00BC8C; /* Teal/Green */
+            --secondary-dark: #009670;
+            --accent: #FFC107; /* Yellow/Gold */
+            --accent-dark: #e6ac00;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #FFFFFF;
+            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --border: #E1E8ED;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 10px;
+            --input-bg: #F5F8FA;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img {
+             max-width: 100%;
+             height: auto;
+             display: block; /* Prevents bottom space */
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent; /* Added for consistent height with outline */
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: #333; /* Darker text for contrast on yellow */
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* --- Sections & Titles --- */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 6px 18px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .card-padding {
+            padding: 24px;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--input-bg);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.1);
+            outline: none;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background-color: var(--input-bg);
+            font-size: 1rem;
+            font-family: inherit;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333333' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.1);
+            outline: none;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group .currency-symbol {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        .input-group .form-input {
+            padding-left: 32px; /* Space for currency symbol */
+        }
+
+        .tooltip {
+            display: inline-block;
+            margin-left: 6px;
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip-icon {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        /* --- Page-specific styles --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-description {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Calculator layout */
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .calculator-form {
+            /* Form styles */
+        }
+
+        .calculator-results {
+            /* Results styles */
+        }
+
+        .result-summary {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        .result-total {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .result-detail {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .result-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-weight: 600;
+        }
+
+        .tax-bracket-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .tax-bracket-table th,
+        .tax-bracket-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tax-bracket-table th {
+            background-color: var(--background-alt);
+            font-weight: 600;
+        }
+
+        .tax-bracket-current {
+            background-color: rgba(0, 112, 209, 0.1);
+            font-weight: 600;
+        }
+
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            margin-top: 30px;
+            height: 300px;
+        }
+
+        /* Info box */
+        .info-box {
+            background-color: rgba(0, 112, 209, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        /* Tax year selector */
+        .tax-year-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tax-year-btn {
+            padding: 8px 20px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tax-year-btn:first-child {
+            border-radius: var(--radius) 0 0 var(--radius);
+        }
+
+        .tax-year-btn:last-child {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .tax-year-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            height: 73px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+             color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1e293b;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 64px 0 32px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column.about .footer-logo {
+             color: white;
+             font-size: 1.6rem;
+             margin-bottom: 16px;
+             display: inline-flex;
+             align-items: center;
+        }
+        .footer-column.about .footer-logo i {
+             color: var(--primary);
+             margin-right: 10px;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 32px;
+            margin-top: 16px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--background-alt);
+        }
+
+        .faq-item {
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background-color: var(--background);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background-color: var(--background);
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(0, 112, 209, 0.05);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-question {
+            background-color: rgba(0, 112, 209, 0.1);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px; /* Adjust as needed */
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 73px;
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--background);
+                width: 100%;
+                height: calc(100vh - 73px);
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+                overflow-y: auto;
+                z-index: 999;
+             }
+
+             .nav-menu.active {
+                left: 0;
+             }
+
+             .nav-item {
+                margin: 0;
+                width: 100%;
+             }
+             
+             .nav-link {
+                 display: block;
+                 padding: 16px 30px;
+                 text-align: left;
+                 border-bottom: 1px solid var(--border);
+                 font-size: 1.1rem;
+             }
+             
+             .nav-link:hover {
+                 background-color: var(--background-alt);
+             }
+             
+             .nav-link::after {
+                 display: none;
+             }
+             
+             .nav-item:last-child .nav-link {
+                 border-bottom: none;
+             }
+
+             .mobile-menu-btn {
+                 display: block;
+             }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .page-header {
+                padding: 30px 0;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+            }
+            
+            .footer-column.about .footer-logo {
+                 justify-content: center;
+            }
+            
+            .footer-social {
+                 justify-content: center;
+            }
+            
+            .footer-links {
+                 text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .page-description {
+                font-size: 1rem;
+            }
+            
+            .result-total {
+                font-size: 2rem;
+            }
+            
+            .header-container {
+                padding: 12px 0;
+                height: 65px;
+            }
+            
+            .nav-menu {
+                top: 65px;
+                height: calc(100vh - 65px);
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .logo i {
+                font-size: 1.6rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo">
+                <i class="fas fa-compass"></i> Financial<span>Compass</span>
+            </a>
+
+            <nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="/#tools" class="nav-link">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">SARS Income Tax Calculator</h1>
+            <p class="page-description">Calculate your personal income tax using the latest 2025/2026 South African tax rates, rebates, and thresholds.</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div class="tax-year-selector">
+                <button class="tax-year-btn active" data-year="2025">2025/2026</button>
+                <button class="tax-year-btn" data-year="2024">2024/2025</button>
+                <button class="tax-year-btn" data-year="2023">2023/2024</button>
+            </div>
+
+            <div class="info-box">
+                <h3 class="info-box-title">Latest Tax Updates</h3>
+                <p>The 2025/2026 tax year runs from 1 March 2025 to 28 February 2026. Key updates include adjusted tax brackets and increased primary rebate to R17,235.</p>
+            </div>
+
+            <div class="calculator-container">
+                <div class="calculator-form card card-padding">
+                    <h2 class="result-heading">Enter Your Details</h2>
+                    
+                    <form id="taxCalculatorForm">
+                        <div class="form-group">
+                            <label class="form-label">Your Age
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Your age at the end of the tax year (28 February 2026)</span>
+                                </span>
+                            </label>
+                            <select class="form-select" id="ageSelect">
+                                <option value="under65">Under 65</option>
+                                <option value="65to74">65 to 74</option>
+                                <option value="75plus">75 and over</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Annual Income (Before Tax)
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Total taxable income before any deductions</span>
+                                </span>
+                            </label>
+                            <div class="input-group">
+                                <span class="currency-symbol">R</span>
+                                <input type="number" class="form-input" id="annualIncome" placeholder="0.00" min="0" step="1000">
+                            </div>
+                        </div>
+                        
+                        <!-- Retirement Fund Contributions Section -->
+                        <div class="form-group">
+                            <label class="form-label">Annual Retirement Fund Contributions
+                                <span class="tooltip">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Total annual contributions to pension, provident, or retirement annuity funds</span>
+                                </span>
+                            </label>
+                            <div class="input-group">
+                                <span class="currency-symbol">R</span>
+                                <input type="number" class="form-input" id="retirementContributions" placeholder="0.00" min="0" step="1000">
+                            </div>
+                        </div>
+                        
+                        <!-- Medical Expenses Section -->
+                        <div class="form-group">
+                            <label class="form-label">Do you belong to a medical aid scheme?</label>
+                            <div class="checkbox-container">
+                                <input type="checkbox" id="hasMedicalAid">
+                                <label for="hasMedicalAid">Yes, I am a member of a medical scheme</label>
+                            </div>
+                            
+                            <div id="medicalAidSection" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">Number of dependents (including yourself)
+                                        <span class="tooltip">
+                                            <i class="fas fa-info-circle tooltip-icon"></i>
+                                            <span class="tooltip-text">Total number of people covered by your medical aid</span>
+                                        </span>
+                                    </label>
+                                    <input type="number" class="form-input" id="medicalDependents" placeholder="1" min="1" value="1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Annual medical aid contributions
+                                        <span class="tooltip">
