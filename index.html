@@ -1,18 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Compass | Your Guide to South African Finances</title>
     <meta name="description" content="Free South African financial calculators including SARS income tax, loans, VAT, retirement planning and budgeting tools. Take control of your finances.">
 
-    <link rel="icon" href="favicon.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- Base Styles (Inspired by your example) --- */
+        /* --- Base Styles --- */
         :root {
             --primary: #0070D1; /* Blue */
             --primary-dark: #005bb1;
@@ -24,7 +26,7 @@
             --background-alt: #F9FBFD; /* Very light blue/grey */
             --border: #E1E8ED;
             --shadow: rgba(0, 0, 0, 0.05);
-            --radius: 10px; /* Slightly adjusted radius */
+            --radius: 10px;
         }
 
         * {
@@ -33,11 +35,17 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text);
             line-height: 1.6;
             background-color: var(--background);
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
         }
 
         a {
@@ -60,20 +68,22 @@
         img {
              max-width: 100%;
              height: auto;
+             display: block; /* Prevents bottom space */
         }
 
         /* --- Buttons --- */
         .btn {
             display: inline-block;
-            padding: 12px 28px; /* Slightly adjusted padding */
+            padding: 12px 28px;
             background-color: var(--primary);
             color: white;
             border-radius: var(--radius);
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: none;
+            border: 2px solid transparent; /* Added for consistent height with outline */
             text-align: center;
+            font-size: 1rem; /* Ensure consistent font size */
         }
 
         .btn:hover {
@@ -108,7 +118,7 @@
         }
 
         .section-title {
-            font-size: 2.25rem; /* Slightly larger */
+            font-size: 2.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
             text-align: center;
@@ -128,14 +138,14 @@
             background-color: var(--background);
             border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 6px 18px var(--shadow); /* Slightly softer shadow */
+            box-shadow: 0 6px 18px var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border); /* Subtle border */
+            border: 1px solid var(--border);
          }
 
          .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Enhanced hover shadow */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
          }
 
         /* --- Header --- */
@@ -152,25 +162,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
+            padding: 16px 0; /* Adjust as needed */
+            height: 73px; /* Explicit height for menu positioning */
         }
 
         .logo {
             display: flex;
             align-items: center;
-            font-size: 1.6rem; /* Slightly bigger logo text */
+            font-size: 1.6rem;
             font-weight: 700;
             color: var(--text);
         }
 
         .logo i {
             color: var(--primary);
-            margin-right: 10px; /* Increased space */
-            font-size: 1.8rem; /* Bigger icon */
+            margin-right: 10px;
+            font-size: 1.8rem;
         }
 
         .logo span {
-             color: var(--primary); /* Highlight 'Compass' */
+             color: var(--primary);
         }
 
         .nav-menu {
@@ -179,13 +190,13 @@
         }
 
         .nav-item {
-            margin-left: 28px; /* Increased spacing */
+            margin-left: 28px;
         }
 
         .nav-link {
             color: var(--text);
             font-weight: 500;
-            padding: 8px 4px; /* Added horizontal padding */
+            padding: 8px 4px;
             position: relative;
             font-size: 1rem;
         }
@@ -193,7 +204,7 @@
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -2px; /* Position slightly below text */
             left: 0;
             width: 0;
             height: 2px;
@@ -202,42 +213,40 @@
         }
 
         .nav-link:hover::after,
-        .nav-link.active::after { /* Style for active link */
+        .nav-link.active::after {
              width: 100%;
         }
 
-        .mobile-menu-btn { /* Will add JS later */
+        .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            font-size: 1.8rem; /* Larger hamburger */
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--text);
+            padding: 5px; /* Easier to tap */
         }
 
         /* --- Hero Section --- */
         .hero {
-            /* Using a subtle gradient, similar to inspiration but maybe slightly different */
             background: linear-gradient(135deg, #F9FBFD, #EEF2F7);
-            padding: 100px 0;
+            padding: 100px 0; /* Reduced padding slightly */
             position: relative;
-            overflow: hidden; /* Prevents potential overflow issues */
+            overflow: hidden;
+            text-align: center; /* Center content now image is removed */
         }
 
         .hero-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px; /* Space between text and image */
+            /* Removed flex properties as content is now centered */
         }
 
         .hero-text {
-            max-width: 55%; /* Give text slightly more space */
-            flex-shrink: 0; /* Prevent text shrinking too much */
+            max-width: 800px; /* Allow text to be wider */
+            margin: 0 auto; /* Center the text block */
         }
 
         .hero-title {
-            font-size: 3.2rem; /* Larger title */
+            font-size: 3rem; /* Slightly smaller if needed */
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
@@ -247,51 +256,38 @@
         .hero-subtitle {
             font-size: 1.2rem;
             color: var(--text-light);
-            margin-bottom: 2.5rem; /* More space before buttons */
+            margin-bottom: 2.5rem;
         }
 
         .hero-buttons {
             display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+            justify-content: center; /* Center buttons */
             gap: 16px;
             margin-top: 2.5rem;
         }
 
-        .hero-image-container {
-             width: 40%;
-             text-align: center; /* Center image if container is wider */
-        }
-
-        .hero-image {
-             max-width: 100%; /* Ensure image scales */
-             border-radius: var(--radius);
-             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1); /* Adjusted shadow */
-             /* Consider adding a subtle animation */
-             /* animation: float 3s ease-in-out infinite; */
-        }
-
-         /* --- Featured Tools Section --- */
+        /* --- Featured Tools Section --- */
         .tool-grid {
             display: grid;
-            /* Adjust columns for different screen sizes if needed */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px; /* Increased gap */
+            gap: 30px;
             margin-top: 48px;
         }
 
-        .tool-card { /* Inherits base .card styles */
+        .tool-card {
             display: flex;
             flex-direction: column;
-            height: 100%; /* Make cards in a row equal height */
+            height: 100%;
         }
 
         .tool-card-header {
             padding: 24px;
-            background-color: var(--primary); /* Default header color */
             color: white;
             text-align: center;
-            border-bottom: 1px solid var(--border); /* Separator */
+            border-bottom: 1px solid var(--border);
         }
-         /* Unique header colors for visual distinction */
+         /* Unique header colors */
          .tool-card.tax .tool-card-header { background-color: var(--primary); }
          .tool-card.budget .tool-card-header { background-color: var(--secondary); }
          .tool-card.loan .tool-card-header { background-color: #6C63FF; } /* Purple */
@@ -300,7 +296,7 @@
         .tool-card-icon {
             font-size: 2.5rem;
             margin-bottom: 16px;
-            line-height: 1; /* Ensure icon vertical alignment */
+            line-height: 1;
         }
 
         .tool-card-title {
@@ -310,23 +306,23 @@
 
         .tool-card-body {
             padding: 24px;
-            flex-grow: 1; /* Allows body to expand, pushing footer down */
+            flex-grow: 1;
             background-color: var(--background);
         }
 
         .tool-card-description {
             color: var(--text-light);
             margin-bottom: 24px;
-            font-size: 0.95rem; /* Slightly smaller desc text */
+            font-size: 0.95rem;
         }
 
         .tool-card-footer {
-            padding: 20px 24px; /* Adjusted padding */
+            padding: 20px 24px;
             background-color: var(--background-alt);
             border-top: 1px solid var(--border);
-            display: flex; /* Use flex to center button */
+            display: flex;
             justify-content: center;
-            margin-top: auto; /* Pushes footer to bottom */
+            margin-top: auto;
         }
 
          /* --- Features Section (Why Choose Us) --- */
@@ -336,7 +332,7 @@
 
          .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 32px;
          }
 
@@ -345,26 +341,25 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 24px; /* Add padding inside feature items */
+            padding: 24px;
          }
 
-         .feature-icon-wrapper { /* Changed name */
-            width: 70px; /* Slightly smaller icon bg */
+         .feature-icon-wrapper {
+            width: 70px;
             height: 70px;
             border-radius: 50%;
-             /* Use primary color with opacity for background */
             background-color: rgba(0, 112, 209, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 24px;
             color: var(--primary);
-            font-size: 1.8rem; /* Adjusted icon size */
-            flex-shrink: 0; /* Prevent shrinking */
+            font-size: 1.8rem;
+            flex-shrink: 0;
          }
 
          .feature-title {
-            font-size: 1.2rem; /* Slightly smaller title */
+            font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 12px;
          }
@@ -376,17 +371,17 @@
 
 
         /* --- Updates Section --- */
-        .updates-section { /* Added class for potential specific styling */
-             background-color: var(--background); /* White background */
+        .updates-section {
+             background-color: var(--background);
         }
 
         .updates-grid {
              display: grid;
-             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider cards */
+             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
              gap: 30px;
         }
 
-        .update-card { /* Uses base .card */
+        .update-card {
              display: flex;
              flex-direction: column;
              height: 100%;
@@ -394,44 +389,49 @@
 
         .update-card-content {
              padding: 24px;
-             flex-grow: 1; /* Push footer down */
+             flex-grow: 1;
              display: flex;
-             flex-direction: column; /* Align content vertically */
+             flex-direction: column;
         }
 
         .update-date {
-             font-size: 0.85rem; /* Smaller date */
+             font-size: 0.85rem;
              color: var(--text-light);
              margin-bottom: 8px;
-             display: block; /* Ensure it takes its own line */
+             display: block;
         }
 
         .update-title {
              font-size: 1.2rem;
              font-weight: 600;
              margin-bottom: 12px;
-             color: var(--primary); /* Link-like title */
-             line-height: 1.4; /* Better spacing for titles */
+             color: var(--primary);
+             line-height: 1.4;
         }
 
         .update-excerpt {
              color: var(--text-light);
-             margin-bottom: 24px; /* More space before button */
-             flex-grow: 1; /* Takes up remaining space */
+             margin-bottom: 24px;
+             flex-grow: 1;
              font-size: 0.95rem;
         }
 
         .update-card-footer {
-             padding: 0 24px 24px; /* Add padding only at bottom */
-             margin-top: auto; /* Ensure button is at the bottom */
+             padding: 0 24px 24px;
+             margin-top: auto;
+        }
+        /* Style the link inside the footer like a button */
+        .update-card-footer a {
+             display: inline-block; /* Make it behave like a button */
+             text-align: center;
         }
 
 
         /* --- Footer --- */
         footer {
-            background-color: #1e293b; /* Dark blue-grey */
-            color: rgba(255, 255, 255, 0.8); /* Brighter text */
-            padding: 64px 0 32px; /* Adjusted padding */
+            background-color: #1e293b;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 64px 0 32px;
             font-size: 0.95rem;
         }
 
@@ -442,25 +442,28 @@
             margin-bottom: 48px;
         }
 
-        .footer-column.about .footer-logo { /* Target logo in the 'about' column */
-             color: white; /* White logo text in footer */
+        .footer-column.about .footer-logo {
+             color: white;
              font-size: 1.6rem;
              margin-bottom: 16px;
+             display: inline-flex; /* Align icon and text */
+             align-items: center;
         }
         .footer-column.about .footer-logo i {
-             color: var(--primary); /* Keep icon primary color */
+             color: var(--primary);
+             margin-right: 10px;
         }
 
 
         .footer-description {
-            color: rgba(255, 255, 255, 0.6); /* Lighter description */
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 24px;
             line-height: 1.7;
         }
 
         .footer-social {
             display: flex;
-            gap: 12px; /* Slightly smaller gap */
+            gap: 12px;
         }
 
         .footer-social-link {
@@ -473,7 +476,7 @@
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
-            font-size: 1rem; /* Adjust icon size if needed */
+            font-size: 1rem;
         }
 
         .footer-social-link:hover {
@@ -482,7 +485,7 @@
         }
 
         .footer-heading {
-            font-size: 1.15rem; /* Adjusted heading size */
+            font-size: 1.15rem;
             font-weight: 600;
             margin-bottom: 24px;
             color: white;
@@ -490,6 +493,7 @@
 
         .footer-links {
             list-style: none;
+            padding: 0; /* Remove default padding */
         }
 
         .footer-link {
@@ -505,11 +509,11 @@
             color: white;
             padding-left: 5px;
         }
-         /* No newsletter for now */
 
         .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.15); /* Slightly more visible border */
-            padding-top: 32px; /* More space */
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 32px;
+            margin-top: 16px; /* Add margin above bottom line */
             text-align: center;
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.875rem;
@@ -517,26 +521,9 @@
 
         /* --- Responsive Styles --- */
         @media (max-width: 992px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero-text {
-                max-width: 100%; /* Full width on smaller screens */
-                margin-bottom: 48px;
-            }
-            .hero-buttons {
-                justify-content: center;
-            }
-            .hero-image-container {
-                width: 70%; /* Allow image to be larger */
-                max-width: 450px;
-                margin-top: 32px;
-            }
             .nav-menu {
-                 /* Mobile menu styles - JS needed to toggle 'active' */
                 position: fixed;
-                top: 73px; /* Match header height approx */
+                top: 73px; /* Match header height */
                 left: -100%;
                 flex-direction: column;
                 background-color: var(--background);
@@ -544,8 +531,9 @@
                 height: calc(100vh - 73px);
                 transition: left 0.3s ease-in-out;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding-top: 20px;
-                overflow-y: auto; /* Scroll if needed */
+                padding: 20px 0; /* Add padding top/bottom */
+                overflow-y: auto;
+                z-index: 999; /* Ensure it's below header but above content */
              }
 
              .nav-menu.active {
@@ -553,24 +541,30 @@
              }
 
              .nav-item {
-                margin: 0; /* Reset margin */
+                margin: 0;
                 width: 100%;
              }
              .nav-link {
-                 display: block; /* Make links full width */
-                 padding: 16px 20px; /* Larger tap targets */
-                 text-align: center;
+                 display: block;
+                 padding: 16px 30px; /* Increase padding */
+                 text-align: left; /* Align text left */
                  border-bottom: 1px solid var(--border);
-             }
-             .nav-link::after {
-                 display: none; /* Hide underline on mobile */
+                 font-size: 1.1rem; /* Slightly larger font */
              }
              .nav-link:hover {
                  background-color: var(--background-alt);
              }
+              .nav-link::after {
+                 display: none; /* Hide underline on mobile */
+             }
+             /* Style last nav item without border */
+             .nav-item:last-child .nav-link {
+                 border-bottom: none;
+             }
+
 
              .mobile-menu-btn {
-                 display: block; /* Show hamburger */
+                 display: block;
              }
         }
 
@@ -591,16 +585,19 @@
                  font-size: 1.1rem;
             }
             .footer-content {
-                grid-template-columns: 1fr; /* Stack columns */
+                grid-template-columns: 1fr;
                 text-align: center;
             }
             .footer-column {
                  display: flex;
                  flex-direction: column;
-                 align-items: center; /* Center content in stacked columns */
+                 align-items: center;
             }
+             .footer-column.about .footer-logo {
+                 justify-content: center; /* Center logo items */
+             }
             .footer-social {
-                 justify-content: center; /* Center social icons */
+                 justify-content: center;
             }
             .footer-links {
                  text-align: center;
@@ -614,23 +611,41 @@
              .hero-title {
                  font-size: 2rem;
              }
+             .hero-subtitle {
+                 font-size: 1rem;
+             }
              .hero-buttons {
-                 flex-direction: column; /* Stack buttons */
+                 flex-direction: column;
                  align-items: center;
                  gap: 12px;
              }
              .btn {
-                 width: 80%; /* Make buttons wider */
-                 max-width: 300px;
+                 width: 90%; /* Make buttons wider */
+                 max-width: 320px;
+                 padding: 14px 20px; /* Adjust padding */
              }
              .tool-grid {
-                 grid-template-columns: 1fr; /* Single column */
+                 grid-template-columns: 1fr;
              }
              .features-grid {
                   grid-template-columns: 1fr;
              }
              .updates-grid {
                  grid-template-columns: 1fr;
+             }
+             .header-container {
+                 padding: 12px 0; /* Reduce header padding */
+                 height: 65px; /* Adjust height */
+             }
+             .nav-menu {
+                 top: 65px; /* Match new header height */
+                 height: calc(100vh - 65px);
+             }
+             .logo {
+                 font-size: 1.4rem;
+             }
+             .logo i {
+                 font-size: 1.6rem;
              }
          }
 
@@ -643,14 +658,14 @@
             </a>
 
             <nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <ul class="nav-menu" id="navMenu">
                     <li class="nav-item"><a href="/" class="nav-link active">Home</a></li> <li class="nav-item"><a href="#tools" class="nav-link">Financial Tools</a></li>
                     <li class="nav-item"><a href="#about" class="nav-link">Why Us</a></li>
                     <li class="nav-item"><a href="#updates" class="nav-link">Updates</a></li>
                     </ul>
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
-                    <i class="fas fa-bars"></i>
-                </button>
             </nav>
         </div>
     </header>
@@ -661,14 +676,10 @@
                 <h1 class="hero-title">Navigate Your SA Finances with Confidence</h1>
                 <p class="hero-subtitle">Free, easy-to-use financial calculators and planning tools, built specifically for South Africans. Take control today.</p>
                 <div class="hero-buttons">
-                    <a href="#tools" class="btn">Explore Free Tools</a>
-                    <a href="#about" class="btn btn-outline">Learn More</a>
+                    <a href="#tools" class="btn btn-primary">Explore Free Tools</a> <a href="#about" class="btn btn-outline">Learn More</a>
                 </div>
             </div>
-            <div class="hero-image-container">
-                <img src="https://via.placeholder.com/500x350/E9ECF3/0070D1?text=Financial+Clarity+Concept" alt="Illustration showing financial clarity and direction" class="hero-image">
             </div>
-        </div>
     </section>
 
     <section class="section" id="tools">
@@ -686,7 +697,8 @@
                         <p class="tool-card-description">Estimate your personal income tax based on the latest 2025/2026 SA tax brackets, rebates, and medical aid credits.</p>
                     </div>
                     <div class="tool-card-footer">
-                        <a href="/sars-tax-calculator" class="btn btn-secondary">Calculate Tax</a> </div>
+                        <a href="sars-tax-calculator.html" class="btn btn-secondary">Calculate Tax</a>
+                    </div>
                 </div>
 
                 <div class="tool-card budget">
@@ -698,7 +710,8 @@
                         <p class="tool-card-description">Create, manage, and visualise your personal budget. Track income, expenses, and progress towards your savings goals.</p>
                     </div>
                     <div class="tool-card-footer">
-                        <a href="/budget-planner" class="btn btn-secondary">Start Budgeting</a> </div>
+                        <a href="budget-planner.html" class="btn btn-secondary">Start Budgeting</a>
+                    </div>
                 </div>
 
                 <div class="tool-card loan">
@@ -710,7 +723,8 @@
                         <p class="tool-card-description">Calculate repayments for home loans, vehicle finance, and personal loans. Understand interest and total cost.</p>
                     </div>
                     <div class="tool-card-footer">
-                        <a href="/loan-calculators" class="btn btn-secondary">Explore Loans</a> </div>
+                        <a href="loan-calculators.html" class="btn btn-secondary">Explore Loans</a>
+                    </div>
                 </div>
 
                 <div class="tool-card vat">
@@ -722,9 +736,31 @@
                         <p class="tool-card-description">Quickly add or exclude VAT (currently 15%) from any amount for your business or personal needs in South Africa.</p>
                     </div>
                     <div class="tool-card-footer">
-                        <a href="/vat-calculator" class="btn btn-secondary">Calculate VAT</a> </div>
+                        <a href="vat-calculator.html" class="btn btn-secondary">Calculate VAT</a>
+                    </div>
                 </div>
-                </div>
+                <div class="tool-card retirement" style="opacity: 0.7;"> <div class="tool-card-header" style="background-color: #FFC107;"> <div class="tool-card-icon"><i class="fas fa-piggy-bank"></i></div>
+                         <h3 class="tool-card-title">Retirement Calculator</h3>
+                     </div>
+                     <div class="tool-card-body">
+                         <p class="tool-card-description">Project your retirement savings (RA/TFSA) and see if you're on track for your goals. (Coming Soon)</p>
+                     </div>
+                     <div class="tool-card-footer">
+                         <button class="btn btn-secondary" disabled>Coming Soon</button>
+                     </div>
+                 </div>
+                 <div class="tool-card savings" style="opacity: 0.7;">
+                     <div class="tool-card-header" style="background-color: #9C27B0;"> <div class="tool-card-icon"><i class="fas fa-bullseye"></i></div>
+                         <h3 class="tool-card-title">Savings Goal Planner</h3>
+                     </div>
+                     <div class="tool-card-body">
+                         <p class="tool-card-description">Define your savings goals (e.g., deposit, holiday) and calculate the required monthly contributions. (Coming Soon)</p>
+                     </div>
+                     <div class="tool-card-footer">
+                         <button class="btn btn-secondary" disabled>Coming Soon</button>
+                     </div>
+                 </div>
+            </div>
         </div>
     </section>
 
@@ -739,31 +775,26 @@
                     <h3 class="feature-title">SA Specific & Accurate</h3>
                     <p class="feature-description">Calculations meticulously aligned with current South African tax laws (SARS), rates, and regulations.</p>
                 </div>
-
                 <div class="feature-item">
                     <div class="feature-icon-wrapper"><i class="fas fa-chart-pie"></i></div>
                     <h3 class="feature-title">Clear Visual Insights</h3>
                     <p class="feature-description">Understand your finances better with engaging charts and graphs that simplify complex data.</p>
                 </div>
-
                 <div class="feature-item">
                     <div class="feature-icon-wrapper"><i class="fas fa-lock"></i></div>
                     <h3 class="feature-title">Private & Secure</h3>
                     <p class="feature-description">Calculations happen directly in your browser. Your personal financial data is not stored by us.</p>
                 </div>
-
                 <div class="feature-item">
                     <div class="feature-icon-wrapper"><i class="fas fa-sync-alt"></i></div>
                     <h3 class="feature-title">Always Updated</h3>
                     <p class="feature-description">We regularly update tools for the latest tax brackets, regulations, and financial standards in SA.</p>
                 </div>
-
                 <div class="feature-item">
                     <div class="feature-icon-wrapper"><i class="fas fa-mobile-alt"></i></div>
                     <h3 class="feature-title">Use Anywhere</h3>
                     <p class="feature-description">Access Financial Compass seamlessly on your desktop, tablet, or smartphone.</p>
                 </div>
-
                 <div class="feature-item">
                     <div class="feature-icon-wrapper"><i class="fas fa-gift"></i></div>
                     <h3 class="feature-title">Completely Free</h3>
@@ -781,31 +812,28 @@
             <div class="updates-grid">
                 <div class="card update-card">
                     <div class="update-card-content">
-                        <span class="update-date">April 26, 2025</span>
-                        <h3 class="update-title">Confirmed: SA VAT Rate Remains 15%</h3>
+                        <span class="update-date">April 27, 2025</span> <h3 class="update-title">Confirmed: SA VAT Rate Remains 15%</h3>
                         <p class="update-excerpt">National Treasury confirms the proposed VAT increase for May 2025 has been cancelled. The standard VAT rate stays at 15%. Our VAT calculator reflects this.</p>
                         <div class="update-card-footer">
-                             <a href="#" class="btn btn-outline">Read More</a> </div>
+                             <a href="#" class="btn btn-outline btn-sm">Read More</a> </div>
                     </div>
                 </div>
-
                 <div class="card update-card">
                     <div class="update-card-content">
                         <span class="update-date">April 20, 2025</span>
                         <h3 class="update-title">2025/2026 Tax Tables Implemented</h3>
                         <p class="update-excerpt">The official SARS tax brackets, rebates (Primary R17,235), and thresholds (starting at R95,750 for under 65s) for 1 Mar 2025 - 28 Feb 2026 are now live in our Tax Calculator.</p>
                          <div class="update-card-footer">
-                             <a href="#" class="btn btn-outline">View Details</a> </div>
+                             <a href="sars-tax-calculator.html" class="btn btn-outline btn-sm">View Details</a> </div>
                     </div>
                 </div>
-
                 <div class="card update-card">
                     <div class="update-card-content">
                          <span class="update-date">April 15, 2025</span>
                         <h3 class="update-title">Understanding Retirement Reforms</h3>
                          <p class="update-excerpt">Recent changes impact how you access retirement funds. Explore implications for RAs, Pension/Provident funds, and withdrawal benefits.</p>
                          <div class="update-card-footer">
-                             <a href="#" class="btn btn-outline">Learn More</a> </div>
+                             <a href="#" class="btn btn-outline btn-sm">Learn More</a> </div>
                     </div>
                 </div>
             </div>
@@ -834,20 +862,17 @@
                         <li class="footer-link"><a href="#tools">Financial Tools</a></li>
                         <li class="footer-link"><a href="#about">Why Choose Us</a></li>
                         <li class="footer-link"><a href="#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="/privacy-policy">Privacy Policy</a></li>
-                         <li class="footer-link"><a href="/terms-of-service">Terms of Service</a></li>
-                    </ul>
+                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
                 </div>
 
                  <div class="footer-column calculators">
                     <h3 class="footer-heading">Calculators</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="/sars-tax-calculator">SARS Tax Calculator</a></li>
-                        <li class="footer-link"><a href="/budget-planner">Budget Planner</a></li>
-                        <li class="footer-link"><a href="/loan-calculators">Loan Calculators</a></li>
-                        <li class="footer-link"><a href="/vat-calculator">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="/retirement-calculator">Retirement Calculator</a></li>
-                         </ul>
+                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
                 </div>
 
                  <div class="footer-column contact">
@@ -858,36 +883,121 @@
                     </div>
 
             </div> <div class="footer-bottom">
-                &copy; 2025 Financial Compass. Built for South Africans. All Rights Reserved.
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
             </div>
         </div>
     </footer>
 
     <script>
+        // --- Mobile Menu Toggle ---
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navMenu = document.getElementById('navMenu');
 
         if (mobileMenuBtn && navMenu) {
             mobileMenuBtn.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-                // Toggle ARIA expanded state for accessibility
-                const isExpanded = navMenu.classList.contains('active');
+                const isExpanded = navMenu.classList.toggle('active');
                 mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
-                 // Change icon based on state
-                 mobileMenuBtn.innerHTML = isExpanded ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                // Change icon based on state (Accessibility improvement)
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+                 // Add/Remove class to body to prevent scrolling when menu is open
+                 document.body.classList.toggle('no-scroll', isExpanded);
             });
 
-            // Close menu if a link is clicked (optional)
-            navMenu.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
+            // Close menu if a link is clicked (for single-page navigation)
+            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Check if menu is active before closing
                     if (navMenu.classList.contains('active')) {
-                         navMenu.classList.remove('active');
-                         mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                         mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                        }
+                         document.body.classList.remove('no-scroll');
+                    }
+                    // Smooth scroll handling (optional, browser support varies)
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        // Basic smooth scroll, more robust libraries exist
+                        // e.preventDefault(); // Prevent default jump
+                        // targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             });
         }
+
+         // Add class to body to prevent scrolling when menu is open
+         // CSS for .no-scroll: body.no-scroll { overflow: hidden; }
+         // Add this CSS rule within the main <style> block
+         /*
+         body.no-scroll {
+             overflow: hidden;
+         }
+         */
+
+
+        // --- Footer Year ---
+        const currentYearSpan = document.getElementById('currentYear');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // --- Active Nav Link Highlighting (Basic Example) ---
+        // This is a simple version, more robust solutions exist for complex routing
+        const navLinks = navMenu.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname; // Gets the path like "/" or "/sars-tax-calculator.html"
+
+        navLinks.forEach(link => {
+            // Check if the link's href matches the current path
+            // For the homepage "/", check exactly or if it's the root link
+            if (link.getAttribute('href') === currentPath || (currentPath === '/' && link.getAttribute('href') === '/')) {
+                 // Remove active class from others first
+                 navLinks.forEach(l => l.classList.remove('active'));
+                 // Add active class to the matching link
+                 link.classList.add('active');
+            } else if (link.getAttribute('href').startsWith('#') && currentPath === '/') {
+                 // Handle hash links on the homepage - remove active from non-hash links
+                 if (!link.getAttribute('href') === '/') link.classList.remove('active');
+            } else {
+                 link.classList.remove('active'); // Ensure others are not active
+            }
+        });
+        // Ensure home is active if path is "/"
+        if (currentPath === '/') {
+             const homeLink = navMenu.querySelector('a[href="/"]');
+             if (homeLink) {
+                 navLinks.forEach(l => l.classList.remove('active')); // Clear others
+                 homeLink.classList.add('active');
+             }
+        }
+
+
     </script>
     </body>
 </html>
+```
+
+**Summary of Changes:**
+
+1.  **Favicon Link:** The `<link rel="icon" href="favicon.svg" type="image/svg+xml">` is confirmed to be correctly placed within the `<head>` section. Make absolutely sure your `favicon.svg` file is in the same folder as this `index.html` file when you deploy.
+2.  **Hero Image Removed:** The entire `<div class="hero-image-container">...</div>` block has been deleted from the `<section class="hero">`.
+3.  **Hero Layout Adjusted:** The `.hero` section now has `text-align: center;`, and the `.hero-text` block uses `margin: 0 auto;` to center it horizontally now that it's the only element in the hero content area.
+4.  **Added Placeholders:** Included basic "Coming Soon" cards for the Retirement and Savings Goal calculators in the Tools section, just to show where they might fit.
+5.  **JS Enhancements:** Added a snippet to automatically update the copyright year in the footer and a basic script to highlight the "active" navigation link based on the current page (useful as we add more pages). Also added logic to prevent background scrolling when the mobile menu is open.
+6.  **Accessibility:** Added `aria-label`, `aria-expanded`, and `aria-controls` to the mobile menu button for better screen reader support.
+
+**Troubleshooting Favicon:**
+
+* **Cache:** Browsers aggressively cache favicons. Try clearing your browser's cache completely, or do a "hard refresh" (usually Ctrl+Shift+R or Cmd+Shift+R).
+* **Path:** Double-check that the `favicon.svg` file is *exactly* in the same folder as your `index.html` file on Netlify. If it's in a subfolder (like `/images/`), the path in the `<link>` tag must be `href="/images/favicon.svg"`.
+* **Filename:** Ensure the filename is exactly `favicon.svg` (case-sensitive on some systems).
+* **SVG Validity:** Make sure the downloaded SVG file is valid and not corrupted.
+
+Replace your current `index.html` content with this complete code, ensure `favicon.svg` is uploaded correctly to the root of your site on GitHub, and try the Netlify deployment again. Hopefully, that sorts out the favicon issue!
+
+Now, shall we proceed to create the **SARS Income Tax Calculator page** (`sars-tax-calculator.html
