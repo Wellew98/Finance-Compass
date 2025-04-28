@@ -28,7 +28,7 @@
             --border: #E1E8ED;
             --shadow: rgba(0, 0, 0, 0.05);
             --radius: 10px;
-            
+
             /* Budget Planner Categories Colors */
             --income: #00BC8C;
             --housing: #0070D1;
@@ -128,6 +128,11 @@
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.9rem;
+        }
+
+         button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         /* --- Sections & Titles --- */
@@ -274,6 +279,7 @@
 
         .budget-intro {
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         .budget-tools {
@@ -287,6 +293,7 @@
         .budget-tools-left, .budget-tools-right {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap; /* Allow wrapping within tool groups */
         }
 
         .budget-form {
@@ -326,45 +333,21 @@
             text-align: center;
         }
 
-        .income-icon {
-            color: var(--income);
-        }
+        .income-icon { color: var(--income); }
+        .housing-icon { color: var(--housing); }
+        .utilities-icon { color: var(--utilities); }
+        .food-icon { color: var(--food); }
+        .transport-icon { color: var(--transport); }
+        .debt-icon { color: var(--debt); }
+        .personal-icon { color: var(--personal); }
+        .savings-icon { color: var(--savings); }
+        .entertainment-icon { color: var(--entertainment); }
+        .misc-icon { color: var(--miscellaneous); }
 
-        .housing-icon {
-            color: var(--housing);
-        }
-
-        .utilities-icon {
-            color: var(--utilities);
-        }
-
-        .food-icon {
-            color: var(--food);
-        }
-
-        .transport-icon {
-            color: var(--transport);
-        }
-
-        .debt-icon {
-            color: var(--debt);
-        }
-
-        .personal-icon {
-            color: var(--personal);
-        }
-
-        .savings-icon {
-            color: var(--savings);
-        }
-
-        .entertainment-icon {
-            color: var(--entertainment);
-        }
-
-        .misc-icon {
-            color: var(--miscellaneous);
-        }
+        .section-total {
+             font-weight: 600;
+             color: var(--text-light);
+         }
 
         .budget-line {
             display: flex;
@@ -372,6 +355,7 @@
             margin-bottom: 1rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid var(--border);
+            gap: 15px; /* Add gap for spacing */
         }
 
         .budget-line:last-child {
@@ -397,6 +381,7 @@
             transform: translateY(-50%);
             color: var(--text-light);
             font-weight: 500;
+            user-select: none; /* Prevent text selection */
         }
 
         .budget-input {
@@ -407,6 +392,13 @@
             font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
             font-size: 1rem;
+             /* Allow browser to handle number input styling */
+             -moz-appearance: textfield;
+        }
+        .budget-input::-webkit-outer-spin-button,
+        .budget-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .budget-input:focus {
@@ -437,6 +429,11 @@
         .budget-summary {
             margin-top: 2rem;
         }
+        .budget-summary h2 {
+             text-align: center;
+             margin-bottom: 1.5rem;
+             font-weight: 600;
+        }
 
         .summary-grid {
             display: grid;
@@ -456,17 +453,9 @@
             border: 1px solid var(--border);
         }
 
-        .summary-card.income {
-            border-top: 4px solid var(--income);
-        }
-
-        .summary-card.expenses {
-            border-top: 4px solid var(--debt);
-        }
-
-        .summary-card.balance {
-            border-top: 4px solid var(--primary);
-        }
+        .summary-card.income { border-top: 4px solid var(--income); }
+        .summary-card.expenses { border-top: 4px solid var(--debt); }
+        .summary-card.balance { border-top: 4px solid var(--primary); }
 
         .summary-title {
             font-size: 1rem;
@@ -480,17 +469,9 @@
             font-weight: 700;
         }
 
-        .summary-amount.positive {
-            color: var(--income);
-        }
-
-        .summary-amount.negative {
-            color: var(--debt);
-        }
-
-        .summary-amount.neutral {
-            color: var(--primary);
-        }
+        .summary-amount.positive { color: var(--income); }
+        .summary-amount.negative { color: var(--debt); }
+        .summary-amount.neutral { color: var(--primary); }
 
         .charts-container {
             display: grid;
@@ -560,11 +541,13 @@
             justify-content: center;
             gap: 15px;
             margin-top: 2rem;
+            flex-wrap: wrap; /* Allow buttons to wrap */
         }
 
         /* Added Item Container */
         .added-items {
             margin-top: 1rem;
+            padding-left: 15px; /* Indent custom items */
         }
 
         .added-item {
@@ -581,6 +564,9 @@
 
         .added-item-name {
             flex: 1;
+            font-style: italic;
+            color: var(--text-light);
+            margin-right: 10px; /* Space before value */
         }
 
         .added-item-value {
@@ -596,6 +582,7 @@
             background: none;
             opacity: 0.7;
             transition: opacity 0.2s;
+            font-size: 0.9em; /* Make delete icon slightly smaller */
         }
 
         .delete-item:hover {
@@ -609,6 +596,7 @@
             gap: 10px;
             margin-top: 15px;
             display: none; /* Hidden by default */
+            padding-left: 15px; /* Indent add field */
         }
 
         .custom-field-container.active {
@@ -628,34 +616,36 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
         }
+        /* Adjust custom input number width */
+        .custom-field-container .budget-input-group {
+             width: 150px; /* Slightly smaller */
+         }
+
+        .add-custom-btn, .cancel-custom-btn {
+             padding: 10px 15px;
+             border: none;
+             border-radius: var(--radius);
+             cursor: pointer;
+             font-family: 'Poppins', sans-serif;
+             color: white;
+             font-size: 0.9rem;
+             transition: background-color 0.2s;
+         }
 
         .add-custom-btn {
-            padding: 10px 15px;
             background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
         }
-
         .add-custom-btn:hover {
             background-color: var(--primary-dark);
         }
 
         .cancel-custom-btn {
-            padding: 10px 15px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
+            background-color: #6c757d; /* Grey */
+        }
+        .cancel-custom-btn:hover {
+            background-color: #5a6268;
         }
 
-        .cancel-custom-btn:hover {
-            background-color: #c82333;
-        }
 
         /* --- Footer --- */
         footer {
@@ -663,6 +653,7 @@
             color: rgba(255, 255, 255, 0.8);
             padding: 64px 0 32px;
             font-size: 0.95rem;
+            margin-top: 4rem; /* Add space above footer */
         }
 
         .footer-content {
@@ -813,9 +804,11 @@
             }
             .budget-tools {
                 flex-direction: column;
+                align-items: center; /* Center tools when stacked */
             }
             .budget-tools-left, .budget-tools-right {
                 justify-content: center;
+                 width: 100%; /* Make tool groups take full width */
             }
             .budget-section {
                 padding: 1.5rem;
@@ -844,6 +837,23 @@
             .footer-links {
                  text-align: center;
             }
+             .budget-line {
+                 flex-direction: column;
+                 align-items: flex-start;
+                 gap: 10px;
+                 padding-bottom: 1.5rem; /* Add more space when stacked */
+                 margin-bottom: 1.5rem;
+             }
+             .budget-input-group {
+                 width: 100%; /* Make input full width */
+             }
+             .custom-field-container {
+                 flex-direction: column;
+                 align-items: stretch; /* Stretch items full width */
+             }
+             .custom-field-container .budget-input-group {
+                  width: 100%; /* Make custom value input full width */
+              }
         }
 
          @media (max-width: 576px) {
@@ -861,7 +871,7 @@
                  gap: 10px;
              }
              .btn {
-                 width: 100%;
+                 width: 100%; /* Make buttons full width */
                  max-width: none;
              }
              .header-container {
@@ -878,19 +888,59 @@
              .logo i {
                  font-size: 1.6rem;
              }
-             .budget-line {
-                 flex-direction: column;
-                 align-items: flex-start;
-                 gap: 10px;
-             }
-             .budget-input-group {
-                 width: 100%;
-             }
          }
-         
+
          body.no-scroll {
              overflow: hidden;
          }
+         /* Print styles */
+        @media print {
+            header, footer, .budget-tools, .add-item-btn, .custom-field-container, .budget-actions, .tips-section, .mobile-menu-btn {
+                display: none !important;
+            }
+            body {
+                font-size: 10pt;
+                color: #000;
+                background-color: #fff;
+            }
+            .container {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+             .page-header {
+                background: none;
+                padding: 20px 0;
+             }
+            .budget-section {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                page-break-inside: avoid; /* Prevent sections breaking across pages */
+            }
+            .budget-line {
+                 border-bottom: 1px solid #eee;
+            }
+            .summary-grid, .charts-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                page-break-inside: avoid;
+            }
+            .summary-card, .chart-card {
+                 box-shadow: none;
+                 border: 1px solid #ccc;
+                 padding: 1rem;
+            }
+            .summary-amount { font-size: 1.5rem; }
+            .chart-container { height: 250px; }
+            a { text-decoration: none; color: #000; }
+            .btn { display: none; }
+            .budget-input { border: none; padding-left: 20px; background: #f8f8f8;} /* Show value, but not as editable input */
+             .budget-input-group span { display: block; position: static; transform: none; margin-right: 5px; font-weight: bold; } /* Show R symbol */
+             .added-item-value::before { content: "R"; margin-right: 2px; }
+             .delete-item { display: none; }
+        }
 
     </style>
 </head>
@@ -905,7 +955,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li> 
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="#" class="nav-link active">Financial Tools</a></li>
                     <li class="nav-item"><a href="index.html#about" class="nav-link">Why Us</a></li>
                     <li class="nav-item"><a href="index.html#updates" class="nav-link">Updates</a></li>
@@ -942,636 +992,544 @@
                         <i class="fas fa-save"></i> Save Budget
                     </button>
                     <button class="btn btn-primary" id="printBtn">
-                        <i class="fas fa-file-export"></i> Export PDF
+                        <i class="fas fa-print"></i> Print Budget
                     </button>
                 </div>
             </div>
 
-            <div class="budget-form" id="budgetForm">
-                <!-- Income Section -->
-                <div class="budget-section">
+            <form class="budget-form" id="budgetForm">
+                <div class="budget-section" data-category="income">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-money-bill-wave income-icon"></i> Monthly Income</h3>
                         <div class="section-total">Total: <span id="incomeTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Salary (After Tax)</div>
+                        <label for="salary" class="budget-line-title">Salary (After Tax)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input income-input" id="salary" placeholder="0">
+                            <input type="number" class="budget-input income-input" id="salary" placeholder="0" step="0.01" min="0" data-item-name="Salary (After Tax)">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Side Jobs/Freelance</div>
+                        <label for="sideJobs" class="budget-line-title">Side Jobs/Freelance</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input income-input" id="sideJobs" placeholder="0">
+                            <input type="number" class="budget-input income-input" id="sideJobs" placeholder="0" step="0.01" min="0" data-item-name="Side Jobs/Freelance">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Investment Income</div>
+                        <label for="investmentIncome" class="budget-line-title">Investment Income</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input income-input" id="investmentIncome" placeholder="0">
-                        </div></div>
-                    
-                    <div class="budget-line">
-                        <div class="budget-line-title">Social Grants</div>
-                        <div class="budget-input-group">
-                            <span>R</span>
-                            <input type="number" class="budget-input income-input" id="socialGrants" placeholder="0">
+                            <input type="number" class="budget-input income-input" id="investmentIncome" placeholder="0" step="0.01" min="0" data-item-name="Investment Income">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Other Income</div>
+                        <label for="socialGrants" class="budget-line-title">Social Grants</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input income-input" id="otherIncome" placeholder="0">
+                            <input type="number" class="budget-input income-input" id="socialGrants" placeholder="0" step="0.01" min="0" data-item-name="Social Grants">
                         </div>
                     </div>
-                    
-                    <div id="incomeCustomItems" class="added-items">
-                        <!-- Custom income items will be added here -->
+                    <div class="budget-line">
+                        <label for="otherIncome" class="budget-line-title">Other Income</label>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="otherIncome" placeholder="0" step="0.01" min="0" data-item-name="Other Income">
+                        </div>
                     </div>
-                    
-                    <button class="add-item-btn" id="addIncomeBtn">
+                    <div id="incomeCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="income">
                         <i class="fas fa-plus-circle"></i> Add Income Source
                     </button>
-                    
                     <div class="custom-field-container" id="incomeCustomField">
-                        <input type="text" class="custom-field-input" id="incomeCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Rental Income)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="incomeCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addIncomeCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelIncomeCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Housing Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="housing">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-home housing-icon"></i> Housing</h3>
                         <div class="section-total">Total: <span id="housingTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Rent/Mortgage</div>
+                        <label for="rent" class="budget-line-title">Rent/Mortgage</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input housing-input" id="rent" placeholder="0">
+                            <input type="number" class="budget-input expense-input housing-input" id="rent" placeholder="0" step="0.01" min="0" data-item-name="Rent/Mortgage">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Property Rates</div>
+                        <label for="propertyRates" class="budget-line-title">Property Rates</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input housing-input" id="propertyRates" placeholder="0">
+                            <input type="number" class="budget-input expense-input housing-input" id="propertyRates" placeholder="0" step="0.01" min="0" data-item-name="Property Rates">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Home Insurance</div>
+                        <label for="homeInsurance" class="budget-line-title">Home Insurance</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input housing-input" id="homeInsurance" placeholder="0">
+                            <input type="number" class="budget-input expense-input housing-input" id="homeInsurance" placeholder="0" step="0.01" min="0" data-item-name="Home Insurance">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Maintenance/Repairs</div>
+                        <label for="repairs" class="budget-line-title">Maintenance/Repairs</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input housing-input" id="repairs" placeholder="0">
+                            <input type="number" class="budget-input expense-input housing-input" id="repairs" placeholder="0" step="0.01" min="0" data-item-name="Maintenance/Repairs">
                         </div>
                     </div>
-                    
-                    <div id="housingCustomItems" class="added-items">
-                        <!-- Custom housing items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addHousingBtn">
+                    <div id="housingCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="housing">
                         <i class="fas fa-plus-circle"></i> Add Housing Expense
                     </button>
-                    
                     <div class="custom-field-container" id="housingCustomField">
-                        <input type="text" class="custom-field-input" id="housingCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Levies)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="housingCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addHousingCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelHousingCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Utilities Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="utilities">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-bolt utilities-icon"></i> Utilities</h3>
                         <div class="section-total">Total: <span id="utilitiesTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Electricity</div>
+                        <label for="electricity" class="budget-line-title">Electricity</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input utilities-input" id="electricity" placeholder="0">
+                            <input type="number" class="budget-input expense-input utilities-input" id="electricity" placeholder="0" step="0.01" min="0" data-item-name="Electricity">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Water</div>
+                        <label for="water" class="budget-line-title">Water & Sewerage</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input utilities-input" id="water" placeholder="0">
+                            <input type="number" class="budget-input expense-input utilities-input" id="water" placeholder="0" step="0.01" min="0" data-item-name="Water & Sewerage">
                         </div>
                     </div>
-                    
-                    <div class="budget-line">
-                        <div class="budget-line-title">Internet/WiFi</div>
+                     <div class="budget-line">
+                        <label for="refuse" class="budget-line-title">Refuse Removal</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input utilities-input" id="internet" placeholder="0">
+                            <input type="number" class="budget-input expense-input utilities-input" id="refuse" placeholder="0" step="0.01" min="0" data-item-name="Refuse Removal">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Cell Phone</div>
+                        <label for="internet" class="budget-line-title">Internet/WiFi</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input utilities-input" id="cellPhone" placeholder="0">
+                            <input type="number" class="budget-input expense-input utilities-input" id="internet" placeholder="0" step="0.01" min="0" data-item-name="Internet/WiFi">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Television/Streaming</div>
+                        <label for="cellPhone" class="budget-line-title">Cell Phone</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input utilities-input" id="television" placeholder="0">
+                            <input type="number" class="budget-input expense-input utilities-input" id="cellPhone" placeholder="0" step="0.01" min="0" data-item-name="Cell Phone">
                         </div>
                     </div>
-                    
-                    <div id="utilitiesCustomItems" class="added-items">
-                        <!-- Custom utilities items will be added here -->
+                    <div class="budget-line">
+                        <label for="television" class="budget-line-title">Television/Streaming</label>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input expense-input utilities-input" id="television" placeholder="0" step="0.01" min="0" data-item-name="Television/Streaming">
+                        </div>
                     </div>
-                    
-                    <button class="add-item-btn" id="addUtilitiesBtn">
+                    <div id="utilitiesCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="utilities">
                         <i class="fas fa-plus-circle"></i> Add Utility Expense
                     </button>
-                    
                     <div class="custom-field-container" id="utilitiesCustomField">
-                        <input type="text" class="custom-field-input" id="utilitiesCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Security)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="utilitiesCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addUtilitiesCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelUtilitiesCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Food Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="food">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-utensils food-icon"></i> Food</h3>
                         <div class="section-total">Total: <span id="foodTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Groceries</div>
+                        <label for="groceries" class="budget-line-title">Groceries</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input food-input" id="groceries" placeholder="0">
+                            <input type="number" class="budget-input expense-input food-input" id="groceries" placeholder="0" step="0.01" min="0" data-item-name="Groceries">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Eating Out</div>
+                        <label for="eatingOut" class="budget-line-title">Eating Out</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input food-input" id="eatingOut" placeholder="0">
+                            <input type="number" class="budget-input expense-input food-input" id="eatingOut" placeholder="0" step="0.01" min="0" data-item-name="Eating Out">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Takeaways/Deliveries</div>
+                        <label for="takeaways" class="budget-line-title">Takeaways/Deliveries</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input food-input" id="takeaways" placeholder="0">
+                            <input type="number" class="budget-input expense-input food-input" id="takeaways" placeholder="0" step="0.01" min="0" data-item-name="Takeaways/Deliveries">
                         </div>
                     </div>
-                    
-                    <div id="foodCustomItems" class="added-items">
-                        <!-- Custom food items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addFoodBtn">
+                    <div id="foodCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="food">
                         <i class="fas fa-plus-circle"></i> Add Food Expense
                     </button>
-                    
                     <div class="custom-field-container" id="foodCustomField">
-                        <input type="text" class="custom-field-input" id="foodCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Coffee Shops)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="foodCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addFoodCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelFoodCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Transport Section -->
-                <div class="budget-section">
+
+                 <div class="budget-section" data-category="transport">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-car transport-icon"></i> Transport</h3>
                         <div class="section-total">Total: <span id="transportTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Car Payment</div>
+                        <label for="carPayment" class="budget-line-title">Car Payment</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input transport-input" id="carPayment" placeholder="0">
+                            <input type="number" class="budget-input expense-input transport-input" id="carPayment" placeholder="0" step="0.01" min="0" data-item-name="Car Payment">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Fuel</div>
+                        <label for="fuel" class="budget-line-title">Fuel</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input transport-input" id="fuel" placeholder="0">
+                            <input type="number" class="budget-input expense-input transport-input" id="fuel" placeholder="0" step="0.01" min="0" data-item-name="Fuel">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Car Insurance</div>
+                        <label for="carInsurance" class="budget-line-title">Car Insurance</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input transport-input" id="carInsurance" placeholder="0">
+                            <input type="number" class="budget-input expense-input transport-input" id="carInsurance" placeholder="0" step="0.01" min="0" data-item-name="Car Insurance">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Maintenance/Service</div>
+                        <label for="carMaintenance" class="budget-line-title">Maintenance/Service</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input transport-input" id="carMaintenance" placeholder="0">
+                            <input type="number" class="budget-input expense-input transport-input" id="carMaintenance" placeholder="0" step="0.01" min="0" data-item-name="Maintenance/Service">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Public Transport</div>
+                        <label for="publicTransport" class="budget-line-title">Public Transport</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input transport-input" id="publicTransport" placeholder="0">
+                            <input type="number" class="budget-input expense-input transport-input" id="publicTransport" placeholder="0" step="0.01" min="0" data-item-name="Public Transport">
                         </div>
                     </div>
-                    
-                    <div id="transportCustomItems" class="added-items">
-                        <!-- Custom transport items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addTransportBtn">
+                    <div id="transportCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="transport">
                         <i class="fas fa-plus-circle"></i> Add Transport Expense
                     </button>
-                    
                     <div class="custom-field-container" id="transportCustomField">
-                        <input type="text" class="custom-field-input" id="transportCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Toll Fees)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="transportCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addTransportCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelTransportCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Debt Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="debt">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-credit-card debt-icon"></i> Debt Repayments</h3>
                         <div class="section-total">Total: <span id="debtTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Personal Loan</div>
+                        <label for="personalLoan" class="budget-line-title">Personal Loan</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input debt-input" id="personalLoan" placeholder="0">
+                            <input type="number" class="budget-input expense-input debt-input" id="personalLoan" placeholder="0" step="0.01" min="0" data-item-name="Personal Loan">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Credit Card</div>
+                        <label for="creditCard" class="budget-line-title">Credit Card</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input debt-input" id="creditCard" placeholder="0">
+                            <input type="number" class="budget-input expense-input debt-input" id="creditCard" placeholder="0" step="0.01" min="0" data-item-name="Credit Card">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Student Loan</div>
+                        <label for="studentLoan" class="budget-line-title">Student Loan</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input debt-input" id="studentLoan" placeholder="0">
+                            <input type="number" class="budget-input expense-input debt-input" id="studentLoan" placeholder="0" step="0.01" min="0" data-item-name="Student Loan">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Store Accounts</div>
+                        <label for="storeAccounts" class="budget-line-title">Store Accounts</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input debt-input" id="storeAccounts" placeholder="0">
+                            <input type="number" class="budget-input expense-input debt-input" id="storeAccounts" placeholder="0" step="0.01" min="0" data-item-name="Store Accounts">
                         </div>
                     </div>
-                    
-                    <div id="debtCustomItems" class="added-items">
-                        <!-- Custom debt items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addDebtBtn">
+                    <div id="debtCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="debt">
                         <i class="fas fa-plus-circle"></i> Add Debt Payment
                     </button>
-                    
                     <div class="custom-field-container" id="debtCustomField">
-                        <input type="text" class="custom-field-input" id="debtCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Overdraft)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="debtCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addDebtCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelDebtCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Personal Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="personal">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-user personal-icon"></i> Personal Expenses</h3>
                         <div class="section-total">Total: <span id="personalTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Medical Aid</div>
+                        <label for="medicalAid" class="budget-line-title">Medical Aid</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input personal-input" id="medicalAid" placeholder="0">
+                            <input type="number" class="budget-input expense-input personal-input" id="medicalAid" placeholder="0" step="0.01" min="0" data-item-name="Medical Aid">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Medicine/Pharmacy</div>
+                        <label for="medicine" class="budget-line-title">Medicine/Pharmacy</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input personal-input" id="medicine" placeholder="0">
+                            <input type="number" class="budget-input expense-input personal-input" id="medicine" placeholder="0" step="0.01" min="0" data-item-name="Medicine/Pharmacy">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Clothing</div>
+                        <label for="clothing" class="budget-line-title">Clothing</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input personal-input" id="clothing" placeholder="0">
+                            <input type="number" class="budget-input expense-input personal-input" id="clothing" placeholder="0" step="0.01" min="0" data-item-name="Clothing">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Personal Care</div>
+                        <label for="personalCare" class="budget-line-title">Personal Care</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input personal-input" id="personalCare" placeholder="0">
+                            <input type="number" class="budget-input expense-input personal-input" id="personalCare" placeholder="0" step="0.01" min="0" data-item-name="Personal Care">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Childcare</div>
+                        <label for="childcare" class="budget-line-title">Childcare/School Fees</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input personal-input" id="childcare" placeholder="0">
+                            <input type="number" class="budget-input expense-input personal-input" id="childcare" placeholder="0" step="0.01" min="0" data-item-name="Childcare/School Fees">
                         </div>
                     </div>
-                    
-                    <div id="personalCustomItems" class="added-items">
-                        <!-- Custom personal items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addPersonalBtn">
+                    <div id="personalCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="personal">
                         <i class="fas fa-plus-circle"></i> Add Personal Expense
                     </button>
-                    
                     <div class="custom-field-container" id="personalCustomField">
-                        <input type="text" class="custom-field-input" id="personalCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Gym)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="personalCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addPersonalCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelPersonalCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Savings Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="savings">
                     <div class="budget-section-header">
-                        <h3 class="budget-section-title"><i class="fas fa-piggy-bank savings-icon"></i> Savings</h3>
+                        <h3 class="budget-section-title"><i class="fas fa-piggy-bank savings-icon"></i> Savings & Investments</h3>
                         <div class="section-total">Total: <span id="savingsTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Emergency Fund</div>
+                        <label for="emergencyFund" class="budget-line-title">Emergency Fund</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input savings-input" id="emergencyFund" placeholder="0">
+                            <input type="number" class="budget-input expense-input savings-input" id="emergencyFund" placeholder="0" step="0.01" min="0" data-item-name="Emergency Fund">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Retirement Fund</div>
+                        <label for="retirementFund" class="budget-line-title">Retirement Fund (RA/Pension)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input savings-input" id="retirementFund" placeholder="0">
+                            <input type="number" class="budget-input expense-input savings-input" id="retirementFund" placeholder="0" step="0.01" min="0" data-item-name="Retirement Fund (RA/Pension)">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Tax-Free Savings</div>
+                        <label for="taxFreeSavings" class="budget-line-title">Tax-Free Savings (TFSA)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input savings-input" id="taxFreeSavings" placeholder="0">
+                            <input type="number" class="budget-input expense-input savings-input" id="taxFreeSavings" placeholder="0" step="0.01" min="0" data-item-name="Tax-Free Savings (TFSA)">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Goal-specific Savings</div>
+                        <label for="goalSavings" class="budget-line-title">Goal-specific Savings (e.g., Holiday)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input savings-input" id="goalSavings" placeholder="0">
+                            <input type="number" class="budget-input expense-input savings-input" id="goalSavings" placeholder="0" step="0.01" min="0" data-item-name="Goal-specific Savings">
                         </div>
                     </div>
-                    
-                    <div id="savingsCustomItems" class="added-items">
-                        <!-- Custom savings items will be added here -->
+                     <div class="budget-line">
+                        <label for="otherInvestments" class="budget-line-title">Other Investments</label>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input expense-input savings-input" id="otherInvestments" placeholder="0" step="0.01" min="0" data-item-name="Other Investments">
+                        </div>
                     </div>
-                    
-                    <button class="add-item-btn" id="addSavingsBtn">
+                    <div id="savingsCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="savings">
                         <i class="fas fa-plus-circle"></i> Add Savings Category
                     </button>
-                    
                     <div class="custom-field-container" id="savingsCustomField">
-                        <input type="text" class="custom-field-input" id="savingsCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., House Deposit)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="savingsCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addSavingsCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelSavingsCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Entertainment Section -->
-                <div class="budget-section">
+
+                <div class="budget-section" data-category="entertainment">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-film entertainment-icon"></i> Entertainment</h3>
                         <div class="section-total">Total: <span id="entertainmentTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Subscriptions</div>
+                        <label for="subscriptions" class="budget-line-title">Subscriptions (Non-Utility)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input entertainment-input" id="subscriptions" placeholder="0">
+                            <input type="number" class="budget-input expense-input entertainment-input" id="subscriptions" placeholder="0" step="0.01" min="0" data-item-name="Subscriptions">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Movies/Events</div>
+                        <label for="moviesEvents" class="budget-line-title">Movies/Events</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input entertainment-input" id="moviesEvents" placeholder="0">
+                            <input type="number" class="budget-input expense-input entertainment-input" id="moviesEvents" placeholder="0" step="0.01" min="0" data-item-name="Movies/Events">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Hobbies</div>
+                        <label for="hobbies" class="budget-line-title">Hobbies</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input entertainment-input" id="hobbies" placeholder="0">
+                            <input type="number" class="budget-input expense-input entertainment-input" id="hobbies" placeholder="0" step="0.01" min="0" data-item-name="Hobbies">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Holidays/Travel</div>
+                        <label for="travel" class="budget-line-title">Holidays/Travel (Non-Savings)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input entertainment-input" id="travel" placeholder="0">
+                            <input type="number" class="budget-input expense-input entertainment-input" id="travel" placeholder="0" step="0.01" min="0" data-item-name="Holidays/Travel">
                         </div>
                     </div>
-                    
-                    <div id="entertainmentCustomItems" class="added-items">
-                        <!-- Custom entertainment items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addEntertainmentBtn">
+                    <div id="entertainmentCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="entertainment">
                         <i class="fas fa-plus-circle"></i> Add Entertainment Expense
                     </button>
-                    
                     <div class="custom-field-container" id="entertainmentCustomField">
-                        <input type="text" class="custom-field-input" id="entertainmentCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name (e.g., Sports Club)">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="entertainmentCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addEntertainmentCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelEntertainmentCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-                
-                <!-- Miscellaneous Section -->
-                <div class="budget-section">
+
+                 <div class="budget-section" data-category="miscellaneous">
                     <div class="budget-section-header">
                         <h3 class="budget-section-title"><i class="fas fa-ellipsis-h misc-icon"></i> Miscellaneous</h3>
                         <div class="section-total">Total: <span id="miscTotal">R0</span></div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Donations/Charity</div>
+                        <label for="donations" class="budget-line-title">Donations/Charity</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input misc-input" id="donations" placeholder="0">
+                            <input type="number" class="budget-input expense-input misc-input" id="donations" placeholder="0" step="0.01" min="0" data-item-name="Donations/Charity">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Gifts</div>
+                        <label for="gifts" class="budget-line-title">Gifts</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input misc-input" id="gifts" placeholder="0">
+                            <input type="number" class="budget-input expense-input misc-input" id="gifts" placeholder="0" step="0.01" min="0" data-item-name="Gifts">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Education</div>
+                        <label for="education" class="budget-line-title">Education (Non-Loan)</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input misc-input" id="education" placeholder="0">
+                            <input type="number" class="budget-input expense-input misc-input" id="education" placeholder="0" step="0.01" min="0" data-item-name="Education (Non-Loan)">
                         </div>
                     </div>
-                    
                     <div class="budget-line">
-                        <div class="budget-line-title">Unexpected Expenses</div>
+                        <label for="unexpected" class="budget-line-title">Unexpected Expenses</label>
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input misc-input" id="unexpected" placeholder="0">
+                            <input type="number" class="budget-input expense-input misc-input" id="unexpected" placeholder="0" step="0.01" min="0" data-item-name="Unexpected Expenses">
                         </div>
                     </div>
-                    
-                    <div id="miscCustomItems" class="added-items">
-                        <!-- Custom misc items will be added here -->
-                    </div>
-                    
-                    <button class="add-item-btn" id="addMiscBtn">
+                    <div id="miscCustomItems" class="added-items"></div>
+                    <button type="button" class="add-item-btn" data-category="miscellaneous">
                         <i class="fas fa-plus-circle"></i> Add Miscellaneous Expense
                     </button>
-                    
                     <div class="custom-field-container" id="miscCustomField">
-                        <input type="text" class="custom-field-input" id="miscCustomName" placeholder="Item name">
+                        <input type="text" class="custom-field-input" placeholder="Item name">
                         <div class="budget-input-group">
                             <span>R</span>
-                            <input type="number" class="budget-input" id="miscCustomValue" placeholder="0">
+                            <input type="number" class="budget-input" placeholder="0" step="0.01" min="0">
                         </div>
-                        <button class="add-custom-btn" id="addMiscCustomBtn">Add</button>
-                        <button class="cancel-custom-btn" id="cancelMiscCustomBtn">Cancel</button>
+                        <button type="button" class="add-custom-btn">Add</button>
+                        <button type="button" class="cancel-custom-btn">Cancel</button>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Budget Summary Section -->
-            <div class="budget-summary">
-                <h2>Budget Summary</h2>
+            </form>
+
+            <div class="budget-summary" id="summarySection" style="display: none;"> <h2>Budget Summary</h2>
                 <div class="summary-grid">
                     <div class="summary-card income">
                         <h3 class="summary-title">Total Monthly Income</h3>
                         <div class="summary-amount positive" id="summaryIncome">R0</div>
                     </div>
-                    
                     <div class="summary-card expenses">
                         <h3 class="summary-title">Total Monthly Expenses</h3>
                         <div class="summary-amount negative" id="summaryExpenses">R0</div>
                     </div>
-                    
                     <div class="summary-card balance">
-                        <h3 class="summary-title">Monthly Balance</h3>
+                        <h3 class="summary-title">Monthly Balance (Income - Expenses)</h3>
                         <div class="summary-amount neutral" id="summaryBalance">R0</div>
                     </div>
                 </div>
-                
+
                 <div class="charts-container">
                     <div class="chart-card">
                         <h3 class="chart-title">Income vs Expenses</h3>
@@ -1579,7 +1537,6 @@
                             <canvas id="incomeExpensesChart"></canvas>
                         </div>
                     </div>
-                    
                     <div class="chart-card">
                         <h3 class="chart-title">Expense Breakdown</h3>
                         <div class="chart-container">
@@ -1587,36 +1544,664 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="budget-actions">
-                    <button class="btn btn-secondary" id="calculateBtn">
-                        <i class="fas fa-calculator"></i> Calculate Budget
-                    </button>
-                    <button class="btn btn-primary" id="downloadBtn">
-                        <i class="fas fa-download"></i> Download Budget Report
+                    <button class="btn btn-primary" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> Recalculate Budget
                     </button>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Budget Tips Section -->
+
     <section class="tips-section">
         <div class="container">
             <h2 class="section-title">Smart Budgeting Tips</h2>
             <p class="section-subtitle">Follow these strategies to make the most of your budget and improve your financial health.</p>
-            
+
             <div class="tips-grid">
                 <div class="tip-card">
-                    <h3 class="tip-title">50/30/20 Rule</h3>
-                    <p class="tip-content">Allocate 50% of your income to needs, 30% to wants, and 20% to savings and debt repayment for a balanced budget approach.</p>
+                    <h3 class="tip-title">Use the 50/30/20 Rule</h3>
+                    <p class="tip-content">Allocate roughly 50% of your after-tax income to Needs (housing, food, transport), 30% to Wants (entertainment, hobbies), and 20% to Savings & Debt repayment.</p>
                 </div>
-                
                 <div class="tip-card">
-                    <h3 class="tip-title">Emergency Fund Priority</h3>
-                    <p class="tip-content">Build an emergency fund that covers 3-6 months of expenses before focusing on other financial goals.</p>
+                    <h3 class="tip-title">Build an Emergency Fund</h3>
+                    <p class="tip-content">Aim to save 3-6 months' worth of essential living expenses in an easily accessible account for unexpected events like job loss or medical bills.</p>
                 </div>
-                
                 <div class="tip-card">
-                    <h3 class="tip-title">Track Every Expense</h3>
-                    <p class="tip-content">Record all expenses, no matter how small, to understan
+                    <h3 class="tip-title">Track Every Rand</h3>
+                    <p class="tip-content">Use your budget to monitor where your money actually goes. Small, frequent expenses can add up quickly. Adjust spending habits based on your findings.</p>
+                </div>
+                 <div class="tip-card">
+                    <h3 class="tip-title">Review & Adjust Regularly</h3>
+                    <p class="tip-content">Your budget isn't static. Review it monthly or quarterly to account for income changes, new goals, or shifting expense patterns.</p>
+                </div>
+                 <div class="tip-card">
+                    <h3 class="tip-title">Automate Savings</h3>
+                    <p class="tip-content">Set up automatic transfers to your savings or investment accounts each payday. Treat savings like a bill you have to pay.</p>
+                </div>
+                <div class="tip-card">
+                    <h3 class="tip-title">Distinguish Needs vs. Wants</h3>
+                    <p class="tip-content">Be honest about what's essential versus discretionary. This helps identify areas where you can cut back if needed to reach savings goals faster.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                 <div class="footer-column about">
+                    <a href="/" class="footer-logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
+                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="index.html">Home</a></li>
+                        <li class="footer-link"><a href="index.html#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="index.html#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="index.html#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a href="#">Privacy Policy</a></li> <li class="footer-link"><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                 <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="#">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="#">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="#">Retirement Calculator</a></li>
+                        <li class="footer-link"><a href="#">Savings Goal Planner</a></li>
+                    </ul>
+                </div>
+
+                 <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                    </div>
+
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const body = document.body;
+
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = navMenu.classList.toggle('active');
+                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+                body.classList.toggle('no-scroll', isExpanded);
+            });
+
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                        }
+                        body.classList.remove('no-scroll');
+                    }
+                });
+            });
+        }
+
+        // --- Footer Year ---
+        const currentYearSpan = document.getElementById('currentYear');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // --- Budget Planner Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const budgetForm = document.getElementById('budgetForm');
+            const summarySection = document.getElementById('summarySection');
+            const calculateBtn = document.getElementById('calculateBtn'); // Use the "Recalculate" button
+            const resetBtn = document.getElementById('resetBtn');
+            const sampleDataBtn = document.getElementById('sampleDataBtn');
+            const saveLocalBtn = document.getElementById('saveLocalBtn');
+            const printBtn = document.getElementById('printBtn');
+
+            let incomeExpensesChart = null;
+            let expensesChart = null;
+
+             const categoryDetails = {
+                income: { totalEl: document.getElementById('incomeTotal'), itemsEl: document.getElementById('incomeCustomItems'), customFieldEl: document.getElementById('incomeCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="income"]') },
+                housing: { totalEl: document.getElementById('housingTotal'), itemsEl: document.getElementById('housingCustomItems'), customFieldEl: document.getElementById('housingCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="housing"]') },
+                utilities: { totalEl: document.getElementById('utilitiesTotal'), itemsEl: document.getElementById('utilitiesCustomItems'), customFieldEl: document.getElementById('utilitiesCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="utilities"]') },
+                food: { totalEl: document.getElementById('foodTotal'), itemsEl: document.getElementById('foodCustomItems'), customFieldEl: document.getElementById('foodCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="food"]') },
+                transport: { totalEl: document.getElementById('transportTotal'), itemsEl: document.getElementById('transportCustomItems'), customFieldEl: document.getElementById('transportCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="transport"]') },
+                debt: { totalEl: document.getElementById('debtTotal'), itemsEl: document.getElementById('debtCustomItems'), customFieldEl: document.getElementById('debtCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="debt"]') },
+                personal: { totalEl: document.getElementById('personalTotal'), itemsEl: document.getElementById('personalCustomItems'), customFieldEl: document.getElementById('personalCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="personal"]') },
+                savings: { totalEl: document.getElementById('savingsTotal'), itemsEl: document.getElementById('savingsCustomItems'), customFieldEl: document.getElementById('savingsCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="savings"]') },
+                entertainment: { totalEl: document.getElementById('entertainmentTotal'), itemsEl: document.getElementById('entertainmentCustomItems'), customFieldEl: document.getElementById('entertainmentCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="entertainment"]') },
+                miscellaneous: { totalEl: document.getElementById('miscTotal'), itemsEl: document.getElementById('miscCustomItems'), customFieldEl: document.getElementById('miscCustomField'), addBtnEl: document.querySelector('.add-item-btn[data-category="miscellaneous"]') }
+            };
+
+            // --- Formatting Helper ---
+            const formatCurrency = (value) => {
+                return `R${(value || 0).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`; // Basic R currency format
+            };
+
+            // --- Calculate Section Total ---
+            const calculateSectionTotal = (category) => {
+                const section = budgetForm.querySelector(`.budget-section[data-category="${category}"]`);
+                if (!section) return 0;
+
+                const inputs = section.querySelectorAll('.budget-input');
+                let total = 0;
+                inputs.forEach(input => {
+                    total += parseFloat(input.value) || 0;
+                });
+
+                // Update the section total display
+                if (categoryDetails[category] && categoryDetails[category].totalEl) {
+                    categoryDetails[category].totalEl.textContent = formatCurrency(total);
+                }
+                return total;
+            };
+
+            // --- Calculate Overall Budget ---
+            const calculateBudget = () => {
+                let totalIncome = 0;
+                let totalExpenses = 0;
+                const expenseBreakdown = {};
+
+                // Calculate income
+                totalIncome = calculateSectionTotal('income');
+
+                // Calculate expenses and breakdown
+                Object.keys(categoryDetails).forEach(category => {
+                    if (category !== 'income') {
+                        const sectionTotal = calculateSectionTotal(category);
+                        totalExpenses += sectionTotal;
+                        if (sectionTotal > 0) {
+                             // Get category name from title
+                             const titleEl = budgetForm.querySelector(`.budget-section[data-category="${category}"] .budget-section-title`);
+                             const categoryName = titleEl ? titleEl.textContent.trim() : category; // Fallback to key
+                             expenseBreakdown[categoryName] = sectionTotal;
+                         }
+                    }
+                });
+
+                const balance = totalIncome - totalExpenses;
+
+                // Update Summary Display
+                document.getElementById('summaryIncome').textContent = formatCurrency(totalIncome);
+                document.getElementById('summaryExpenses').textContent = formatCurrency(totalExpenses);
+                const balanceEl = document.getElementById('summaryBalance');
+                balanceEl.textContent = formatCurrency(balance);
+                balanceEl.classList.remove('positive', 'negative', 'neutral');
+                if (balance > 0) balanceEl.classList.add('positive');
+                else if (balance < 0) balanceEl.classList.add('negative');
+                else balanceEl.classList.add('neutral');
+
+                // Update Charts
+                updateIncomeExpensesChart(totalIncome, totalExpenses);
+                updateExpensesChart(expenseBreakdown);
+
+                // Show the summary section
+                summarySection.style.display = 'block';
+                // Scroll to summary (optional)
+                // summarySection.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            // --- Update Income vs Expenses Chart ---
+            const updateIncomeExpensesChart = (income, expenses) => {
+                const ctx = document.getElementById('incomeExpensesChart').getContext('2d');
+                const data = {
+                    labels: ['Total Income', 'Total Expenses'],
+                    datasets: [{
+                        label: 'Amount (R)',
+                        data: [income, expenses],
+                        backgroundColor: [
+                            'rgba(0, 188, 140, 0.7)', // --secondary with opacity
+                            'rgba(220, 53, 69, 0.7)'  // --debt with opacity
+                        ],
+                        borderColor: [
+                            'rgb(0, 188, 140)',
+                            'rgb(220, 53, 69)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                if (incomeExpensesChart) {
+                    incomeExpensesChart.data = data;
+                    incomeExpensesChart.update();
+                } else {
+                    incomeExpensesChart = new Chart(ctx, {
+                        type: 'bar', // Or 'pie', 'doughnut'
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: { display: false },
+                            title: { display: false }, // Title is in HTML
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        callback: function(value) { return formatCurrency(value); }
+                                    }
+                                }]
+                            },
+                            tooltips: {
+                                callbacks: {
+                                    label: function(tooltipItem, data) {
+                                        let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                        if (label) { label += ': '; }
+                                        label += formatCurrency(tooltipItem.yLabel);
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            };
+
+            // --- Update Expenses Breakdown Chart ---
+             const updateExpensesChart = (expenseData) => {
+                 const ctx = document.getElementById('expensesChart').getContext('2d');
+                 const labels = Object.keys(expenseData);
+                 const dataValues = Object.values(expenseData);
+
+                 // Get colors from CSS variables (provide fallbacks)
+                 const style = getComputedStyle(document.documentElement);
+                 const backgroundColors = [
+                     style.getPropertyValue('--housing').trim() || '#0070D1',
+                     style.getPropertyValue('--utilities').trim() || '#6C63FF',
+                     style.getPropertyValue('--food').trim() || '#FFC107',
+                     style.getPropertyValue('--transport').trim() || '#FF6B6B',
+                     style.getPropertyValue('--debt').trim() || '#DC3545',
+                     style.getPropertyValue('--personal').trim() || '#9C27B0',
+                     style.getPropertyValue('--savings').trim() || '#28A745',
+                     style.getPropertyValue('--entertainment').trim() || '#FF9800',
+                     style.getPropertyValue('--miscellaneous').trim() || '#6C757D',
+                     // Add more colors if more categories are expected
+                     '#fd7e14', '#20c997', '#0dcaf0'
+                 ];
+
+                 const data = {
+                     labels: labels,
+                     datasets: [{
+                         label: 'Expense Amount (R)',
+                         data: dataValues,
+                         backgroundColor: backgroundColors.slice(0, labels.length), // Use defined colors
+                         borderWidth: 1
+                     }]
+                 };
+
+                 if (expensesChart) {
+                     expensesChart.data = data;
+                     expensesChart.update();
+                 } else {
+                     expensesChart = new Chart(ctx, {
+                         type: 'doughnut', // Or 'pie'
+                         data: data,
+                         options: {
+                             responsive: true,
+                             maintainAspectRatio: false,
+                             legend: {
+                                 position: 'bottom', // Or 'right'
+                                 labels: { padding: 15 }
+                             },
+                             title: { display: false }, // Title is in HTML
+                             tooltips: {
+                                 callbacks: {
+                                     label: function(tooltipItem, data) {
+                                         const dataset = data.datasets[tooltipItem.datasetIndex];
+                                         const total = dataset.data.reduce((acc, value) => acc + value, 0);
+                                         const currentValue = dataset.data[tooltipItem.index];
+                                         const percentage = total ? Math.round((currentValue / total) * 100) : 0;
+                                         let label = data.labels[tooltipItem.index] || '';
+                                         if (label) { label += ': '; }
+                                         label += formatCurrency(currentValue) + ` (${percentage}%)`;
+                                         return label;
+                                     }
+                                 }
+                             }
+                         }
+                     });
+                 }
+             };
+
+             // --- Add Custom Item ---
+             const addCustomItem = (category, name, value) => {
+                 const { itemsEl } = categoryDetails[category];
+                 if (!itemsEl || !name || value < 0) return; // Basic validation
+
+                 const valueNum = parseFloat(value) || 0;
+
+                 const newItem = document.createElement('div');
+                 newItem.classList.add('added-item');
+                 newItem.innerHTML = `
+                     <span class="added-item-name">${name}</span>
+                     <span class="added-item-value">${formatCurrency(valueNum)}</span>
+                     <input type="hidden" class="budget-input custom-input ${category}-input" value="${valueNum}" data-item-name="${name}">
+                     <button type="button" class="delete-item"><i class="fas fa-trash-alt"></i></button>
+                 `;
+
+                 itemsEl.appendChild(newItem);
+
+                 // Add listener to the new delete button
+                 newItem.querySelector('.delete-item').addEventListener('click', () => {
+                     newItem.remove();
+                     calculateBudget(); // Recalculate after deleting
+                 });
+
+                 // Clear and hide the custom input fields
+                 const { customFieldEl } = categoryDetails[category];
+                 if (customFieldEl) {
+                     customFieldEl.querySelector('input[type="text"]').value = '';
+                     customFieldEl.querySelector('input[type="number"]').value = '';
+                     customFieldEl.classList.remove('active');
+                 }
+                 // Hide the 'Add Item' button temporarily after adding
+                  const { addBtnEl } = categoryDetails[category];
+                  if (addBtnEl) addBtnEl.style.display = 'flex';
+
+
+                 calculateBudget(); // Recalculate after adding
+             };
+
+             // --- Event Listeners ---
+
+             // Recalculate on any input change
+             budgetForm.addEventListener('input', (e) => {
+                 if (e.target.classList.contains('budget-input')) {
+                     // Optional: live update totals (can be performance intensive)
+                     // calculateBudget();
+                 }
+             });
+
+             // Calculate button click
+             calculateBtn.addEventListener('click', calculateBudget);
+
+             // Add Item button click (Show custom field)
+             budgetForm.querySelectorAll('.add-item-btn').forEach(button => {
+                 button.addEventListener('click', () => {
+                     const category = button.dataset.category;
+                     const { customFieldEl, addBtnEl } = categoryDetails[category];
+                     if (customFieldEl) {
+                         customFieldEl.classList.add('active');
+                         customFieldEl.querySelector('input[type="text"]').focus();
+                         if(addBtnEl) addBtnEl.style.display = 'none'; // Hide 'Add' button
+                     }
+                 });
+             });
+
+             // Cancel Custom Item button click
+             budgetForm.querySelectorAll('.cancel-custom-btn').forEach(button => {
+                 button.addEventListener('click', () => {
+                     const container = button.closest('.custom-field-container');
+                      const category = container.id.replace('CustomField', ''); // Extract category
+                      const { addBtnEl } = categoryDetails[category];
+                     if (container) {
+                         container.classList.remove('active');
+                         container.querySelector('input[type="text"]').value = '';
+                         container.querySelector('input[type="number"]').value = '';
+                         if(addBtnEl) addBtnEl.style.display = 'flex'; // Show 'Add' button again
+                     }
+                 });
+             });
+
+             // Add Custom Item button click (inside the custom field container)
+             budgetForm.querySelectorAll('.add-custom-btn').forEach(button => {
+                 button.addEventListener('click', () => {
+                     const container = button.closest('.custom-field-container');
+                     const category = container.id.replace('CustomField', ''); // Extract category
+                     const nameInput = container.querySelector('input[type="text"]');
+                     const valueInput = container.querySelector('input[type="number"]');
+
+                     addCustomItem(category, nameInput.value.trim(), valueInput.value);
+                 });
+             });
+
+             // Dynamic delete listener for initially hidden items (needed for sample/load data)
+             budgetForm.addEventListener('click', (e) => {
+                 if (e.target.closest('.delete-item')) {
+                     const item = e.target.closest('.added-item');
+                     if (item) {
+                         item.remove();
+                         calculateBudget();
+                     }
+                 }
+             });
+
+              // --- Reset Form ---
+             resetBtn.addEventListener('click', () => {
+                 if (confirm('Are you sure you want to reset the budget form? All data will be lost.')) {
+                     budgetForm.reset(); // Resets standard inputs
+                     // Clear custom items
+                     budgetForm.querySelectorAll('.added-items').forEach(el => el.innerHTML = '');
+                     // Hide custom input fields
+                     budgetForm.querySelectorAll('.custom-field-container').forEach(el => el.classList.remove('active'));
+                     // Reset totals and summary
+                     Object.values(categoryDetails).forEach(detail => {
+                         if (detail.totalEl) detail.totalEl.textContent = formatCurrency(0);
+                         if (detail.addBtnEl) detail.addBtnEl.style.display = 'flex'; // Ensure add buttons are visible
+                     });
+                     document.getElementById('summaryIncome').textContent = formatCurrency(0);
+                     document.getElementById('summaryExpenses').textContent = formatCurrency(0);
+                     document.getElementById('summaryBalance').textContent = formatCurrency(0);
+                     summarySection.style.display = 'none'; // Hide summary
+                     // Optionally destroy and re-initialize charts or just clear them
+                     if (incomeExpensesChart) incomeExpensesChart.destroy();
+                     if (expensesChart) expensesChart.destroy();
+                     incomeExpensesChart = null;
+                     expensesChart = null;
+                      localStorage.removeItem('budgetPlannerData'); // Clear saved data
+                     console.log("Budget reset.");
+                 }
+             });
+
+             // --- Load Sample Data ---
+             sampleDataBtn.addEventListener('click', () => {
+                 if (confirm('Load sample data? This will overwrite current entries.')) {
+                     resetBtn.click(); // Clear existing data first
+
+                     const sample = {
+                         salary: 25000, sideJobs: 1500,
+                         rent: 7500, propertyRates: 600, homeInsurance: 350, repairs: 200,
+                         electricity: 1200, water: 450, refuse: 150, internet: 650, cellPhone: 500, television: 300,
+                         groceries: 4000, eatingOut: 800, takeaways: 400,
+                         carPayment: 3500, fuel: 1800, carInsurance: 900, carMaintenance: 300,
+                         personalLoan: 1000, creditCard: 750, storeAccounts: 500,
+                         medicalAid: 2200, medicine: 150, clothing: 600, personalCare: 300, childcare: 1500,
+                         emergencyFund: 1000, retirementFund: 2000, taxFreeSavings: 500,
+                         subscriptions: 200, moviesEvents: 300, hobbies: 250,
+                         donations: 100, gifts: 150, unexpected: 200,
+                         // Sample custom items
+                         income_custom: [{ name: "Rental Unit", value: 3000 }],
+                         housing_custom: [{ name: "Levies", value: 1100 }],
+                         utilities_custom: [{ name: "Garden Service", value: 350 }],
+                         personal_custom: [{ name: "Gym Membership", value: 450 }],
+                         savings_custom: [{ name: "Holiday Fund", value: 700 }],
+                     };
+
+                     Object.keys(sample).forEach(key => {
+                         if (key.endsWith('_custom')) {
+                             const category = key.split('_')[0];
+                             sample[key].forEach(item => addCustomItem(category, item.name, item.value));
+                         } else {
+                             const input = document.getElementById(key);
+                             if (input) {
+                                 input.value = sample[key];
+                             }
+                         }
+                     });
+                     calculateBudget(); // Calculate totals after loading data
+                     console.log("Sample data loaded.");
+                 }
+             });
+
+             // --- Save/Load Budget to Local Storage ---
+             saveLocalBtn.addEventListener('click', () => {
+                 const budgetData = {};
+                 // Get standard input values
+                 budgetForm.querySelectorAll('.budget-input:not(.custom-input)').forEach(input => {
+                     if(input.id && input.value) { // Only save if it has an ID and a value
+                         budgetData[input.id] = input.value;
+                     }
+                 });
+                 // Get custom items
+                  Object.keys(categoryDetails).forEach(category => {
+                     const itemsContainer = categoryDetails[category].itemsEl;
+                     if (itemsContainer) {
+                         const customItems = [];
+                         itemsContainer.querySelectorAll('.added-item').forEach(itemEl => {
+                             const name = itemEl.querySelector('.added-item-name').textContent;
+                             const value = itemEl.querySelector('.custom-input').value;
+                             customItems.push({ name, value });
+                         });
+                         if (customItems.length > 0) {
+                             budgetData[`${category}_custom`] = customItems;
+                         }
+                     }
+                 });
+
+                 if (Object.keys(budgetData).length > 0) {
+                      try {
+                         localStorage.setItem('budgetPlannerData', JSON.stringify(budgetData));
+                         alert('Budget saved successfully to your browser!');
+                          console.log("Budget saved locally:", budgetData);
+                     } catch (e) {
+                         console.error("Error saving to local storage:", e);
+                         alert('Error saving budget. Local storage might be full or disabled.');
+                     }
+                 } else {
+                     alert('No data entered to save.');
+                 }
+             });
+
+             const loadLocalData = () => {
+                 const savedData = localStorage.getItem('budgetPlannerData');
+                 if (savedData) {
+                     console.log("Loading saved budget...");
+                     resetBtn.click(); // Clear form before loading
+                     try {
+                         const budgetData = JSON.parse(savedData);
+                         Object.keys(budgetData).forEach(key => {
+                             if (key.endsWith('_custom')) {
+                                 const category = key.split('_')[0];
+                                 budgetData[key].forEach(item => addCustomItem(category, item.name, item.value));
+                             } else {
+                                 const input = document.getElementById(key);
+                                 if (input) {
+                                     input.value = budgetData[key];
+                                 }
+                             }
+                         });
+                         calculateBudget(); // Calculate after loading
+                         console.log("Budget loaded successfully.");
+                     } catch (e) {
+                         console.error("Error parsing saved data:", e);
+                         localStorage.removeItem('budgetPlannerData'); // Clear corrupted data
+                         alert('Could not load saved budget. Data might be corrupted.');
+                     }
+                 } else {
+                     console.log("No saved budget found.");
+                      // Optionally calculate empty budget to initialize displays if needed
+                      // calculateBudget();
+                 }
+             };
+
+            // --- Print/Export Budget ---
+             printBtn.addEventListener('click', () => {
+                 // Option 1: Simple Browser Print
+                 // window.print();
+
+                 // Option 2: Using html2pdf.js for better PDF generation
+                 if (typeof html2pdf === 'undefined') {
+                      alert('PDF generation library not loaded. Using browser print instead.');
+                      window.print();
+                      return;
+                  }
+
+                 // Ensure calculations are done before printing
+                 calculateBudget();
+
+                 alert("Preparing PDF. This might take a moment...");
+
+                 const element = document.body; // Or a specific container like budget-container + summarySection
+                 const opt = {
+                     margin:       [0.5, 0.5, 0.5, 0.5], // Margins in inches [top, left, bottom, right]
+                     filename:     'My-Budget-FinancialCompass.pdf',
+                     image:        { type: 'jpeg', quality: 0.98 },
+                     html2canvas:  { scale: 2, useCORS: true, logging: false }, // Improve resolution, handle external resources like fonts if needed
+                     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+                      pagebreak:    { mode: ['avoid-all', '.budget-section', '.summary-grid', '.charts-container'] } // Try to avoid breaking specific elements
+                 };
+
+                 // Select the main content area to print
+                 const contentToPrint = document.createElement('div');
+                 const pageHeader = document.querySelector('.page-header').cloneNode(true);
+                 const budgetFormClone = budgetForm.cloneNode(true);
+                 const summaryClone = summarySection.cloneNode(true);
+
+                  // Optional: Simplify the cloned form for printing (remove buttons etc.)
+                 budgetFormClone.querySelectorAll('.add-item-btn, .custom-field-container, .delete-item').forEach(el => el.remove());
+                  summaryClone.querySelectorAll('.budget-actions').forEach(el => el.remove()); // Remove recalculate button from summary clone
+
+                 contentToPrint.appendChild(pageHeader);
+                 contentToPrint.appendChild(budgetFormClone);
+                  // Ensure summary is visible in the clone if it was visible on screen
+                  if (summarySection.style.display !== 'none') {
+                     summaryClone.style.display = 'block'; // Make sure it's visible for pdf generation
+                     contentToPrint.appendChild(summaryClone);
+                 }
+
+                 html2pdf().set(opt).from(contentToPrint).save()
+                     .then(() => {
+                         console.log('PDF generated successfully.');
+                     })
+                     .catch(err => {
+                         console.error("Error generating PDF:", err);
+                         alert('Could not generate PDF. Using browser print as fallback.');
+                         window.print();
+                     });
+             });
+
+             // --- Initial Load ---
+             loadLocalData(); // Load any saved data when the page loads
+
+        });
+
+    </script>
+
+</body>
+</html>
