@@ -980,24 +980,3 @@
     </script>
     </body>
 </html>
-```
-
-**Summary of Changes:**
-
-1.  **Favicon Link:** The `<link rel="icon" href="favicon.svg" type="image/svg+xml">` is confirmed to be correctly placed within the `<head>` section. Make absolutely sure your `favicon.svg` file is in the same folder as this `index.html` file when you deploy.
-2.  **Hero Image Removed:** The entire `<div class="hero-image-container">...</div>` block has been deleted from the `<section class="hero">`.
-3.  **Hero Layout Adjusted:** The `.hero` section now has `text-align: center;`, and the `.hero-text` block uses `margin: 0 auto;` to center it horizontally now that it's the only element in the hero content area.
-4.  **Added Placeholders:** Included basic "Coming Soon" cards for the Retirement and Savings Goal calculators in the Tools section, just to show where they might fit.
-5.  **JS Enhancements:** Added a snippet to automatically update the copyright year in the footer and a basic script to highlight the "active" navigation link based on the current page (useful as we add more pages). Also added logic to prevent background scrolling when the mobile menu is open.
-6.  **Accessibility:** Added `aria-label`, `aria-expanded`, and `aria-controls` to the mobile menu button for better screen reader support.
-
-**Troubleshooting Favicon:**
-
-* **Cache:** Browsers aggressively cache favicons. Try clearing your browser's cache completely, or do a "hard refresh" (usually Ctrl+Shift+R or Cmd+Shift+R).
-* **Path:** Double-check that the `favicon.svg` file is *exactly* in the same folder as your `index.html` file on Netlify. If it's in a subfolder (like `/images/`), the path in the `<link>` tag must be `href="/images/favicon.svg"`.
-* **Filename:** Ensure the filename is exactly `favicon.svg` (case-sensitive on some systems).
-* **SVG Validity:** Make sure the downloaded SVG file is valid and not corrupted.
-
-Replace your current `index.html` content with this complete code, ensure `favicon.svg` is uploaded correctly to the root of your site on GitHub, and try the Netlify deployment again. Hopefully, that sorts out the favicon issue!
-
-Now, shall we proceed to create the **SARS Income Tax Calculator page** (`sars-tax-calculator.html
