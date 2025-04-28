@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner | Financial Compass</title>
+    <meta name="description" content="Create, manage and visualize your personal budget with our free South African budget planner tool. Track income, expenses and savings goals.">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base Styles --- */
+        :root {
+            --primary: #0070D1; /* Blue */
+            --primary-dark: #005bb1;
+            --secondary: #00BC8C; /* Teal/Green */
+            --secondary-dark: #009670;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #FFFFFF;
+            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --border: #E1E8ED;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 10px;
+            
+            /* Budget Planner Categories Colors */
+            --income: #00BC8C;
+            --housing: #0070D1;
+            --utilities: #6C63FF;
+            --food: #FFC107;
+            --transport: #FF6B6B;
+            --debt: #DC3545;
+            --personal: #9C27B0;
+            --savings: #28A745;
+            --entertainment: #FF9800;
+            --miscellaneous: #6C757D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img {
+             max-width: 100%;
+             height: auto;
+             display: block; /* Prevents bottom space */
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent; /* Added for consistent height with outline */
+            text-align: center;
+            font-size: 1rem; /* Ensure consistent font size */
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Sections & Titles --- */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        /* --- Cards --- */
+         .card {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 6px 18px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border);
+         }
+
+         .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+         }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0; /* Adjust as needed */
+            height: 73px; /* Explicit height for menu positioning */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+             color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Position slightly below text */
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px; /* Easier to tap */
+        }
+
+        /* --- Page Header --- */
+        .page-header {
+            background: linear-gradient(135deg, #F9FBFD, #EEF2F7);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .page-description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Budget Planner Styles --- */
+        .budget-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .budget-intro {
+            margin-bottom: 2rem;
+        }
+
+        .budget-tools {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .budget-tools-left, .budget-tools-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .budget-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .budget-section {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px var(--shadow);
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .budget-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .budget-section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+
+        .budget-section-title i {
+            width: 30px;
+            text-align: center;
+        }
+
+        .income-icon {
+            color: var(--income);
+        }
+
+        .housing-icon {
+            color: var(--housing);
+        }
+
+        .utilities-icon {
+            color: var(--utilities);
+        }
+
+        .food-icon {
+            color: var(--food);
+        }
+
+        .transport-icon {
+            color: var(--transport);
+        }
+
+        .debt-icon {
+            color: var(--debt);
+        }
+
+        .personal-icon {
+            color: var(--personal);
+        }
+
+        .savings-icon {
+            color: var(--savings);
+        }
+
+        .entertainment-icon {
+            color: var(--entertainment);
+        }
+
+        .misc-icon {
+            color: var(--miscellaneous);
+        }
+
+        .budget-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .budget-line:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .budget-line-title {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .budget-input-group {
+            position: relative;
+            width: 180px;
+        }
+
+        .budget-input-group span {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .budget-input {
+            width: 100%;
+            padding: 10px 10px 10px 30px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
+        }
+
+        .budget-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+        }
+
+        .add-item-btn {
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 15px;
+            padding: 5px 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .add-item-btn:hover {
+            color: var(--primary-dark);
+        }
+
+        .budget-summary {
+            margin-top: 2rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--background);
+            border: 1px solid var(--border);
+        }
+
+        .summary-card.income {
+            border-top: 4px solid var(--income);
+        }
+
+        .summary-card.expenses {
+            border-top: 4px solid var(--debt);
+        }
+
+        .summary-card.balance {
+            border-top: 4px solid var(--primary);
+        }
+
+        .summary-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .summary-amount.positive {
+            color: var(--income);
+        }
+
+        .summary-amount.negative {
+            color: var(--debt);
+        }
+
+        .summary-amount.neutral {
+            color: var(--primary);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .chart-card {
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px var(--shadow);
+            background-color: var(--background);
+            border: 1px solid var(--border);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        /* --- Budget Tips Section --- */
+        .tips-section {
+            background-color: var(--background-alt);
+            padding: 4rem 0;
+            margin-top: 3rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tip-card {
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 15px var(--shadow);
+            background-color: var(--background);
+            border-left: 4px solid var(--primary);
+        }
+
+        .tip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .tip-content {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Budget Actions */
+        .budget-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        /* Added Item Container */
+        .added-items {
+            margin-top: 1rem;
+        }
+
+        .added-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .added-item:last-child {
+            border-bottom: none;
+        }
+
+        .added-item-name {
+            flex: 1;
+        }
+
+        .added-item-value {
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        .delete-item {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .delete-item:hover {
+            opacity: 1;
+        }
+
+        /* Custom field input */
+        .custom-field-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            display: none; /* Hidden by default */
+        }
+
+        .custom-field-container.active {
+            display: flex; /* Show when active */
+        }
+
+        .custom-field-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-field-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+        }
+
+        .add-custom-btn {
+            padding: 10px 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .add-custom-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .cancel-custom-btn {
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cancel-custom-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1e293b;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 64px 0 32px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column.about .footer-logo {
+             color: white;
+             font-size: 1.6rem;
+             margin-bottom: 16px;
+             display: inline-flex; /* Align icon and text */
+             align-items: center;
+        }
+        .footer-column.about .footer-logo i {
+             color: var(--primary);
+             margin-right: 10px;
+        }
+
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0; /* Remove default padding */
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 32px;
+            margin-top: 16px; /* Add margin above bottom line */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 73px; /* Match header height */
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--background);
+                width: 100%;
+                height: calc(100vh - 73px);
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0; /* Add padding top/bottom */
+                overflow-y: auto;
+                z-index: 999; /* Ensure it's below header but above content */
+             }
+
+             .nav-menu.active {
+                left: 0;
+             }
+
+             .nav-item {
+                margin: 0;
+                width: 100%;
+             }
+             .nav-link {
+                 display: block;
+                 padding: 16px 30px; /* Increase padding */
+                 text-align: left; /* Align text left */
+                 border-bottom: 1px solid var(--border);
+                 font-size: 1.1rem; /* Slightly larger font */
+             }
+             .nav-link:hover {
+                 background-color: var(--background-alt);
+             }
+              .nav-link::after {
+                 display: none; /* Hide underline on mobile */
+             }
+             /* Style last nav item without border */
+             .nav-item:last-child .nav-link {
+                 border-bottom: none;
+             }
+
+
+             .mobile-menu-btn {
+                 display: block;
+             }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 64px 0;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .page-header {
+                padding: 50px 0;
+            }
+            .page-title {
+                font-size: 2.2rem;
+            }
+            .budget-tools {
+                flex-direction: column;
+            }
+            .budget-tools-left, .budget-tools-right {
+                justify-content: center;
+            }
+            .budget-section {
+                padding: 1.5rem;
+            }
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-column {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+            }
+             .footer-column.about .footer-logo {
+                 justify-content: center; /* Center logo items */
+             }
+            .footer-social {
+                 justify-content: center;
+            }
+            .footer-links {
+                 text-align: center;
+            }
+        }
+
+         @media (max-width: 576px) {
+             .section-title {
+                 font-size: 1.75rem;
+             }
+             .page-title {
+                 font-size: 1.8rem;
+             }
+             .page-description {
+                 font-size: 1rem;
+             }
+             .budget-actions {
+                 flex-direction: column;
+                 gap: 10px;
+             }
+             .btn {
+                 width: 100%;
+                 max-width: none;
+             }
+             .header-container {
+                 padding: 12px 0; /* Reduce header padding */
+                 height: 65px; /* Adjust height */
+             }
+             .nav-menu {
+                 top: 65px; /* Match new header height */
+                 height: calc(100vh - 65px);
+             }
+             .logo {
+                 font-size: 1.4rem;
+             }
+             .logo i {
+                 font-size: 1.6rem;
+             }
+             .budget-line {
+                 flex-direction: column;
+                 align-items: flex-start;
+                 gap: 10px;
+             }
+             .budget-input-group {
+                 width: 100%;
+             }
+         }
+         
+         body.no-scroll {
+             overflow: hidden;
+         }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo"> <i class="fas fa-compass"></i> Financial<span>Compass</span>
+            </a>
+
+            <nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li> 
+                    <li class="nav-item"><a href="#" class="nav-link active">Financial Tools</a></li>
+                    <li class="nav-item"><a href="index.html#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="index.html#updates" class="nav-link">Updates</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Comprehensive Budget Planner</h1>
+            <p class="page-description">Create, manage, and visualize your monthly budget. Track income, expenses, and savings goals to take control of your finances.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container budget-container">
+            <div class="budget-intro">
+                <h2>Create Your Monthly Budget</h2>
+                <p>Fill in the amounts below to get a clear picture of your monthly finances. Add custom items as needed for a personalized budget.</p>
+            </div>
+
+            <div class="budget-tools">
+                <div class="budget-tools-left">
+                    <button class="btn btn-outline" id="resetBtn">
+                        <i class="fas fa-redo-alt"></i> Reset Form
+                    </button>
+                    <button class="btn btn-outline" id="sampleDataBtn">
+                        <i class="fas fa-lightbulb"></i> Sample Data
+                    </button>
+                </div>
+                <div class="budget-tools-right">
+                    <button class="btn btn-secondary" id="saveLocalBtn">
+                        <i class="fas fa-save"></i> Save Budget
+                    </button>
+                    <button class="btn btn-primary" id="printBtn">
+                        <i class="fas fa-file-export"></i> Export PDF
+                    </button>
+                </div>
+            </div>
+
+            <div class="budget-form" id="budgetForm">
+                <!-- Income Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-money-bill-wave income-icon"></i> Monthly Income</h3>
+                        <div class="section-total">Total: <span id="incomeTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Salary (After Tax)</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="salary" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Side Jobs/Freelance</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="sideJobs" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Investment Income</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="investmentIncome" placeholder="0">
+                        </div></div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Social Grants</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="socialGrants" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Other Income</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input income-input" id="otherIncome" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="incomeCustomItems" class="added-items">
+                        <!-- Custom income items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addIncomeBtn">
+                        <i class="fas fa-plus-circle"></i> Add Income Source
+                    </button>
+                    
+                    <div class="custom-field-container" id="incomeCustomField">
+                        <input type="text" class="custom-field-input" id="incomeCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="incomeCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addIncomeCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelIncomeCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Housing Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-home housing-icon"></i> Housing</h3>
+                        <div class="section-total">Total: <span id="housingTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Rent/Mortgage</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input housing-input" id="rent" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Property Rates</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input housing-input" id="propertyRates" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Home Insurance</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input housing-input" id="homeInsurance" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Maintenance/Repairs</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input housing-input" id="repairs" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="housingCustomItems" class="added-items">
+                        <!-- Custom housing items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addHousingBtn">
+                        <i class="fas fa-plus-circle"></i> Add Housing Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="housingCustomField">
+                        <input type="text" class="custom-field-input" id="housingCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="housingCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addHousingCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelHousingCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Utilities Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-bolt utilities-icon"></i> Utilities</h3>
+                        <div class="section-total">Total: <span id="utilitiesTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Electricity</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input utilities-input" id="electricity" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Water</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input utilities-input" id="water" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Internet/WiFi</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input utilities-input" id="internet" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Cell Phone</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input utilities-input" id="cellPhone" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Television/Streaming</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input utilities-input" id="television" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="utilitiesCustomItems" class="added-items">
+                        <!-- Custom utilities items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addUtilitiesBtn">
+                        <i class="fas fa-plus-circle"></i> Add Utility Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="utilitiesCustomField">
+                        <input type="text" class="custom-field-input" id="utilitiesCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="utilitiesCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addUtilitiesCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelUtilitiesCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Food Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-utensils food-icon"></i> Food</h3>
+                        <div class="section-total">Total: <span id="foodTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Groceries</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input food-input" id="groceries" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Eating Out</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input food-input" id="eatingOut" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Takeaways/Deliveries</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input food-input" id="takeaways" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="foodCustomItems" class="added-items">
+                        <!-- Custom food items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addFoodBtn">
+                        <i class="fas fa-plus-circle"></i> Add Food Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="foodCustomField">
+                        <input type="text" class="custom-field-input" id="foodCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="foodCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addFoodCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelFoodCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Transport Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-car transport-icon"></i> Transport</h3>
+                        <div class="section-total">Total: <span id="transportTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Car Payment</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input transport-input" id="carPayment" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Fuel</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input transport-input" id="fuel" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Car Insurance</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input transport-input" id="carInsurance" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Maintenance/Service</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input transport-input" id="carMaintenance" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Public Transport</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input transport-input" id="publicTransport" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="transportCustomItems" class="added-items">
+                        <!-- Custom transport items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addTransportBtn">
+                        <i class="fas fa-plus-circle"></i> Add Transport Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="transportCustomField">
+                        <input type="text" class="custom-field-input" id="transportCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="transportCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addTransportCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelTransportCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Debt Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-credit-card debt-icon"></i> Debt Repayments</h3>
+                        <div class="section-total">Total: <span id="debtTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Personal Loan</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input debt-input" id="personalLoan" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Credit Card</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input debt-input" id="creditCard" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Student Loan</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input debt-input" id="studentLoan" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Store Accounts</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input debt-input" id="storeAccounts" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="debtCustomItems" class="added-items">
+                        <!-- Custom debt items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addDebtBtn">
+                        <i class="fas fa-plus-circle"></i> Add Debt Payment
+                    </button>
+                    
+                    <div class="custom-field-container" id="debtCustomField">
+                        <input type="text" class="custom-field-input" id="debtCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="debtCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addDebtCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelDebtCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Personal Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-user personal-icon"></i> Personal Expenses</h3>
+                        <div class="section-total">Total: <span id="personalTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Medical Aid</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input personal-input" id="medicalAid" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Medicine/Pharmacy</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input personal-input" id="medicine" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Clothing</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input personal-input" id="clothing" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Personal Care</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input personal-input" id="personalCare" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Childcare</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input personal-input" id="childcare" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="personalCustomItems" class="added-items">
+                        <!-- Custom personal items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addPersonalBtn">
+                        <i class="fas fa-plus-circle"></i> Add Personal Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="personalCustomField">
+                        <input type="text" class="custom-field-input" id="personalCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="personalCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addPersonalCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelPersonalCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Savings Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-piggy-bank savings-icon"></i> Savings</h3>
+                        <div class="section-total">Total: <span id="savingsTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Emergency Fund</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input savings-input" id="emergencyFund" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Retirement Fund</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input savings-input" id="retirementFund" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Tax-Free Savings</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input savings-input" id="taxFreeSavings" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Goal-specific Savings</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input savings-input" id="goalSavings" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="savingsCustomItems" class="added-items">
+                        <!-- Custom savings items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addSavingsBtn">
+                        <i class="fas fa-plus-circle"></i> Add Savings Category
+                    </button>
+                    
+                    <div class="custom-field-container" id="savingsCustomField">
+                        <input type="text" class="custom-field-input" id="savingsCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="savingsCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addSavingsCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelSavingsCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Entertainment Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-film entertainment-icon"></i> Entertainment</h3>
+                        <div class="section-total">Total: <span id="entertainmentTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Subscriptions</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input entertainment-input" id="subscriptions" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Movies/Events</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input entertainment-input" id="moviesEvents" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Hobbies</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input entertainment-input" id="hobbies" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Holidays/Travel</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input entertainment-input" id="travel" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="entertainmentCustomItems" class="added-items">
+                        <!-- Custom entertainment items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addEntertainmentBtn">
+                        <i class="fas fa-plus-circle"></i> Add Entertainment Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="entertainmentCustomField">
+                        <input type="text" class="custom-field-input" id="entertainmentCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="entertainmentCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addEntertainmentCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelEntertainmentCustomBtn">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Miscellaneous Section -->
+                <div class="budget-section">
+                    <div class="budget-section-header">
+                        <h3 class="budget-section-title"><i class="fas fa-ellipsis-h misc-icon"></i> Miscellaneous</h3>
+                        <div class="section-total">Total: <span id="miscTotal">R0</span></div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Donations/Charity</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input misc-input" id="donations" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Gifts</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input misc-input" id="gifts" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Education</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input misc-input" id="education" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div class="budget-line">
+                        <div class="budget-line-title">Unexpected Expenses</div>
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input misc-input" id="unexpected" placeholder="0">
+                        </div>
+                    </div>
+                    
+                    <div id="miscCustomItems" class="added-items">
+                        <!-- Custom misc items will be added here -->
+                    </div>
+                    
+                    <button class="add-item-btn" id="addMiscBtn">
+                        <i class="fas fa-plus-circle"></i> Add Miscellaneous Expense
+                    </button>
+                    
+                    <div class="custom-field-container" id="miscCustomField">
+                        <input type="text" class="custom-field-input" id="miscCustomName" placeholder="Item name">
+                        <div class="budget-input-group">
+                            <span>R</span>
+                            <input type="number" class="budget-input" id="miscCustomValue" placeholder="0">
+                        </div>
+                        <button class="add-custom-btn" id="addMiscCustomBtn">Add</button>
+                        <button class="cancel-custom-btn" id="cancelMiscCustomBtn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Budget Summary Section -->
+            <div class="budget-summary">
+                <h2>Budget Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-card income">
+                        <h3 class="summary-title">Total Monthly Income</h3>
+                        <div class="summary-amount positive" id="summaryIncome">R0</div>
+                    </div>
+                    
+                    <div class="summary-card expenses">
+                        <h3 class="summary-title">Total Monthly Expenses</h3>
+                        <div class="summary-amount negative" id="summaryExpenses">R0</div>
+                    </div>
+                    
+                    <div class="summary-card balance">
+                        <h3 class="summary-title">Monthly Balance</h3>
+                        <div class="summary-amount neutral" id="summaryBalance">R0</div>
+                    </div>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Income vs Expenses</h3>
+                        <div class="chart-container">
+                            <canvas id="incomeExpensesChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3 class="chart-title">Expense Breakdown</h3>
+                        <div class="chart-container">
+                            <canvas id="expensesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="budget-actions">
+                    <button class="btn btn-secondary" id="calculateBtn">
+                        <i class="fas fa-calculator"></i> Calculate Budget
+                    </button>
+                    <button class="btn btn-primary" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Budget Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Budget Tips Section -->
+    <section class="tips-section">
+        <div class="container">
+            <h2 class="section-title">Smart Budgeting Tips</h2>
+            <p class="section-subtitle">Follow these strategies to make the most of your budget and improve your financial health.</p>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h3 class="tip-title">50/30/20 Rule</h3>
+                    <p class="tip-content">Allocate 50% of your income to needs, 30% to wants, and 20% to savings and debt repayment for a balanced budget approach.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3 class="tip-title">Emergency Fund Priority</h3>
+                    <p class="tip-content">Build an emergency fund that covers 3-6 months of expenses before focusing on other financial goals.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <h3 class="tip-title">Track Every Expense</h3>
+                    <p class="tip-content">Record all expenses, no matter how small, to understan
