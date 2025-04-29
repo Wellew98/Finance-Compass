@@ -1,22 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Loan Calculator | Financial Compass</title>
-    <meta name="description" content="Calculate your home loan repayments, interest costs and amortization schedule with this free South African home loan calculator. Includes bond fees and transfer duties.">
+    <meta name="description" content="Calculate your South African home loan repayments, interest costs, and amortization schedule with our free calculator. Plan your bond repayments confidently.">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJGsqsoo2R/GMe9Xs2cBs9R/gEMIiDVYdMyCUzwF01NDwmdR4vYJ9fXQUNzOhlHdwpOAmjIr078LM8arlFhxQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyFfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Base styles (matching your index.html) */
+        /* --- Base Styles --- */
         :root {
             --primary: #0070D1; /* Blue */
             --primary-dark: #005bb1;
@@ -29,8 +28,8 @@
             --border: #E1E8ED;
             --shadow: rgba(0, 0, 0, 0.05);
             --radius: 10px;
-            --highlight: #FFC107; /* Yellow/amber for highlighting important values */
-            --error: #FF5252; /* Red for validation errors */
+            --error: #e74c3c;
+            --success: #2ecc71;
         }
 
         * {
@@ -40,7 +39,7 @@
         }
 
         html {
-            scroll-behavior: smooth;
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
         }
 
         body {
@@ -48,7 +47,7 @@
             color: var(--text);
             line-height: 1.6;
             background-color: var(--background);
-            -webkit-font-smoothing: antialiased;
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
             -moz-osx-font-smoothing: grayscale;
         }
 
@@ -69,221 +68,7 @@
             padding: 0 20px;
         }
 
-        /* Header (copied from index to ensure consistency) */
-        header {
-            background-color: var(--background);
-            box-shadow: 0 2px 10px var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            height: 73px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .logo i {
-            color: var(--primary);
-            margin-right: 10px;
-            font-size: 1.8rem;
-        }
-
-        .logo span {
-            color: var(--primary);
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-left: 28px;
-        }
-
-        .nav-link {
-            color: var(--text);
-            font-weight: 500;
-            padding: 8px 4px;
-            position: relative;
-            font-size: 1rem;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--text);
-            padding: 5px;
-        }
-
-        /* Page title section */
-        .page-title-section {
-            background: linear-gradient(135deg, #f2f7fd, #EEF2F7);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        .page-title {
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .page-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Main calculator section */
-        .calculator-section {
-            padding: 60px 0;
-        }
-
-        .calculator-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        /* Input form styles */
-        .calculator-form {
-            background-color: var(--background);
-            border-radius: var(--radius);
-            box-shadow: 0 6px 18px var(--shadow);
-            padding: 30px;
-            border: 1px solid var(--border);
-        }
-
-        .calculator-form h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: var(--primary);
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px 16px;
-            padding-left: 40px; /* Space for the icon */
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            font-family: inherit;
-            color: var(--text);
-            transition: border-color 0.3s;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.1);
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-
-        /* Range slider styles */
-        .range-slider {
-            margin-top: 12px;
-        }
-
-        .range-slider input[type="range"] {
-            width: 100%;
-            height: 6px;
-            -webkit-appearance: none;
-            background: #e0e0e0;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .range-slider input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--primary);
-            cursor: pointer;
-            transition: background 0.15s ease;
-        }
-
-        .range-slider input[type="range"]::-webkit-slider-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        .range-values {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: var(--text-light);
-        }
-
-        /* Horizontal rule */
-        .calculator-form hr {
-            margin: 24px 0;
-            border: none;
-            border-top: 1px solid var(--border);
-        }
-
-        /* Button styles */
+        /* --- Buttons --- */
         .btn {
             display: inline-block;
             padding: 12px 28px;
@@ -293,9 +78,9 @@
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid transparent; /* Added for consistent height with outline */
             text-align: center;
-            font-size: 1rem;
+            font-size: 1rem; /* Ensure consistent font size */
         }
 
         .btn:hover {
@@ -324,8 +109,199 @@
             color: white;
         }
 
-        .btn-full {
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
             width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0; /* Adjust as needed */
+            height: 73px; /* Explicit height for menu positioning */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+             color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Position slightly below text */
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px; /* Easier to tap */
+        }
+
+        /* --- Calculator Styles --- */
+        .calculator-section {
+            padding: 60px 0;
+            background-color: var(--background-alt);
+        }
+
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .calculator-form {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+        }
+
+        /* Range slider styling */
+        .range-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e1e8ed;
+            outline: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s ease;
+            border: none;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .range-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .range-slider:hover + .range-value,
+        .range-slider:focus + .range-value {
+            opacity: 1;
         }
 
         /* Results section */
@@ -335,229 +311,114 @@
             box-shadow: 0 6px 18px var(--shadow);
             padding: 30px;
             border: 1px solid var(--border);
+            position: relative;
         }
 
-        .calculator-results h3 {
+        .results-header {
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-title {
             font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 24px;
             color: var(--primary);
-            text-align: center;
+            margin-bottom: 5px;
         }
 
-        .result-summary {
+        .results-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .results-summary {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .result-item {
-            text-align: center;
-            padding: 16px;
             background-color: var(--background-alt);
+            padding: 16px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-        }
-
-        .result-item.highlight {
-            border-color: var(--primary);
-            background-color: rgba(0, 112, 209, 0.05);
         }
 
         .result-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 500;
             color: var(--text-light);
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .result-value {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: var(--text);
-        }
-
-        .result-item.highlight .result-value {
-            color: var(--primary);
         }
 
         .result-note {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-top: 6px;
-        }
-
-        /* Chart container */
-        .chart-container {
-            margin-top: 30px;
-            height: 300px;
-        }
-
-        /* Loan breakdown section */
-        .loan-breakdown {
-            margin-top: 30px;
-        }
-
-        .loan-breakdown h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
-
-        /* Extra payment section */
-        .extra-payment {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: var(--background-alt);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-
-        .extra-payment h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
-
-        .extra-result {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-        }
-
-        .extra-result-item {
-            text-align: center;
-            padding: 12px;
-            flex: 1;
-        }
-
-        .extra-result-label {
             font-size: 0.8rem;
             color: var(--text-light);
-            margin-bottom: 6px;
+            margin-top: 5px;
         }
 
-        .extra-result-value {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary);
+        .chart-container {
+            position: relative;
+            margin-top: 24px;
+            height: 250px;
         }
 
-        /* Amortization table */
+        .amortization-toggle {
+            margin-top: 24px;
+            text-align: center;
+        }
+
         .amortization-table {
-            margin-top: 40px;
-        }
-
-        .amortization-table h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text);
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
-        }
-
-        th, td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background-color: var(--background-alt);
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        tr:hover td {
-            background-color: rgba(0, 112, 209, 0.03);
-        }
-
-        /* Additional Information Section */
-        .additional-info {
-            margin-top: 60px;
-        }
-
-        .info-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-
-        .info-tab {
-            padding: 12px 20px;
-            cursor: pointer;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .info-tab.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .info-content {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
             display: none;
-            padding: 20px 0;
         }
 
-        .info-content.active {
+        .amortization-table.active {
             display: block;
         }
 
-        .info-content h5 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text);
+        .amortization-table th,
+        .amortization-table td {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
         }
 
-        .info-content p {
-            margin-bottom: 16px;
-            color: var(--text-light);
+        .amortization-table th {
+            background-color: var(--background-alt);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
         }
 
-        .info-content ul {
-            margin-bottom: 16px;
-            padding-left: 20px;
-        }
-
-        .info-content li {
-            margin-bottom: 8px;
-            color: var(--text-light);
+        .amortization-table tbody tr:hover {
+            background-color: rgba(0, 112, 209, 0.05);
         }
 
         /* FAQ Section */
         .faq-section {
-            background-color: var(--background-alt);
             padding: 60px 0;
-        }
-
-        .faq-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-align: center;
-            color: var(--text);
+            background-color: var(--background);
         }
 
         .accordion {
-            background-color: var(--background);
+            margin-top: 40px;
+            border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: 0 4px 12px var(--shadow);
             overflow: hidden;
-            margin-bottom: 20px;
         }
 
         .accordion-item {
@@ -569,12 +430,21 @@
         }
 
         .accordion-header {
-            padding: 20px;
+            background-color: var(--background);
+            padding: 20px 24px;
             cursor: pointer;
-            position: relative;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--background-alt);
+        }
+
+        .accordion-title {
+            font-size: 1.1rem;
             font-weight: 500;
             color: var(--text);
         }
@@ -583,1030 +453,67 @@
             transition: transform 0.3s ease;
         }
 
-        .accordion-header.active .accordion-icon {
-            transform: rotate(180deg);
-        }
-
         .accordion-content {
+            padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            color: var(--text-light);
+            transition: max-height 0.3s ease, padding 0.3s ease;
         }
 
         .accordion-content-inner {
-            padding: 0 20px 20px;
+            padding: 0 24px 24px;
+            color: var(--text-light);
         }
 
-        .accordion-header.active + .accordion-content {
-            max-height: 500px;
+        .accordion-item.active .accordion-header {
+            background-color: var(--background-alt);
         }
 
-        /* Footer (copied from index to ensure consistency) */
-        footer {
-            background-color: #1e293b;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 64px 0 32px;
-            font-size: 0.95rem;
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 48px;
-            margin-bottom: 48px;
-        }
-
-        .footer-column.about .footer-logo {
-            color: white;
-            font-size: 1.6rem;
-            margin-bottom: 16px;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .footer-column.about .footer-logo i {
-            color: var(--primary);
-            margin-right: 10px;
-        }
-
-        .footer-description {
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 24px;
-            line-height: 1.7;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 12px;
-        }
-
-        .footer-social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .footer-social-link:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-heading {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: white;
-        }
-
-        .footer-links {
-            list-style: none;
+        .accordion-item.active .accordion-content {
+            max-height: 1000px;
             padding: 0;
         }
 
-        .footer-link {
-            margin-bottom: 12px;
+        /* Calculator Tips */
+        .tip-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0, 112, 209, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
         }
 
-        .footer-link a {
-            color: rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
+        .tip-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: var(--primary);
         }
 
-        .footer-link a:hover {
-            color: white;
-            padding-left: 5px;
+        .tip-title i {
+            margin-right: 10px;
         }
 
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            padding-top: 32px;
-            margin-top: 16px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.875rem;
+        .tip-content {
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
 
-        /* Responsive styles */
-        @media (max-width: 992px) {
-            .nav-menu {
-                position: fixed;
-                top: 73px;
-                left: -100%;
-                flex-direction: column;
-                background-color: var(--background);
-                width: 100%;
-                height: calc(100vh - 73px);
-                transition: left 0.3s ease-in-out;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px 0;
-                overflow-y: auto;
-                z-index: 999;
-            }
-
-            .nav-menu.active {
-                left: 0;
-            }
-
-            .nav-item {
-                margin: 0;
-                width: 100%;
-            }
-            
-            .nav-link {
-                display: block;
-                padding: 16px 30px;
-                text-align: left;
-                border-bottom: 1px solid var(--border);
-                font-size: 1.1rem;
-            }
-            
-            .nav-link:hover {
-                background-color: var(--background-alt);
-            }
-            
-            .nav-link::after {
-                display: none;
-            }
-            
-            .nav-item:last-child .nav-link {
-                border-bottom: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .calculator-container {
-                grid-template-columns: 1fr;
-            }
+        .tip-content ul {
+            margin-top: 10px;
+            padding-left: 25px;
         }
 
-        @media (max-width: 768px) {
-            .page-title {
-                font-size: 2rem;
-            }
-            
-            .calculator-form, .calculator-results {
-                padding: 24px;
-            }
-            
-            .result-summary {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            
-            .chart-container {
-                height: 250px;
-            }
+        .tip-content li {
+            margin-bottom: 5px;
         }
 
-        @media (max-width: 576px) {
-            .page-title {
-                font-size: 1.75rem;
-            }
-            
-            .page-subtitle {
-                font-size: 1rem;
-            }
-            
-            .calculator-form h3, .calculator-results h3 {
-                font-size: 1.25rem;
-            }
-            
-            .result-value {
-                font-size: 1.2rem;
-            }
-            
-            .input-group input {
-                padding: 10px 14px 10px 36px;
-                font-size: 0.95rem;
-            }
-            
-            .info-tab {
-                padding: 10px 14px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header Section -->
-    <header>
-        <div class="container header-container">
-            <a href="/" class="logo">
-                <i class="fas fa-compass"></i> Financial<span>Compass</span>
-            </a>
-
-            <nav>
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/#tools" class="nav-link">Financial Tools</a></li>
-                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
-                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Page Title Section -->
-    <section class="page-title-section">
-        <div class="container">
-            <h1 class="page-title">South African Home Loan Calculator</h1>
-            <p class="page-subtitle">Calculate your bond repayments, total costs, and see how you can save with extra payments. Updated with latest interest rates and transfer duties.</p>
-        </div>
-    </section>
-
-    <!-- Main Calculator Section -->
-    <section class="calculator-section">
-        <div class="container">
-            <div class="calculator-container">
-                <!-- Calculator Form -->
-                <div class="calculator-form">
-                    <h3>Enter Your Home Loan Details</h3>
-                    
-                    <form id="homeLoanForm">
-                        <div class="form-group">
-                            <label for="purchasePrice">Property Purchase Price</label>
-                            <div class="input-group">
-                                <i class="fas fa-home"></i>
-                                <input type="number" id="purchasePrice" placeholder="e.g. 1500000" min="0" value="1500000">
-                            </div>
-                            <div class="range-slider">
-                                <input type="range" id="purchasePriceSlider" min="100000" max="10000000" step="50000" value="1500000">
-                                <div class="range-values">
-                                    <span>R100,000</span>
-                                    <span>R10,000,000</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="depositAmount">Deposit Amount</label>
-                            <div class="input-group">
-                                <i class="fas fa-coins"></i>
-                                <input type="number" id="depositAmount" placeholder="e.g. 150000" min="0" value="150000">
-                            </div>
-                            <div class="range-slider">
-                                <input type="range" id="depositSlider" min="0" max="500000" step="10000" value="150000">
-                                <div class="range-values">
-                                    <span>R0</span>
-                                    <span>R500,000</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="interestRate">Interest Rate (%)</label>
-                            <div class="input-group">
-                                <i class="fas fa-percentage"></i>
-                                <input type="number" id="interestRate" placeholder="e.g. 10.75" min="0" max="20" step="0.25" value="10.75">
-                            </div>
-                            <div class="range-slider">
-                                <input type="range" id="interestRateSlider" min="7" max="15" step="0.25" value="10.75">
-                                <div class="range-values">
-                                    <span>7%</span>
-                                    <span>15%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="loanTerm">Loan Term (Years)</label>
-                            <div class="input-group">
-                                <i class="fas fa-calendar-alt"></i>
-                                <input type="number" id="loanTerm" placeholder="e.g. 20" min="1" max="30" value="20">
-                            </div>
-                            <div class="range-slider">
-                                <input type="range" id="loanTermSlider" min="5" max="30" step="1" value="20">
-                                <div class="range-values">
-                                    <span>5 years</span>
-                                    <span>30 years</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="form-group">
-                            <label for="extraPayment">Optional: Additional Monthly Payment</label>
-                            <div class="input-group">
-                                <i class="fas fa-plus-circle"></i>
-                                <input type="number" id="extraPayment" placeholder="e.g. 500" min="0" value="0">
-                            </div>
-                        </div>
-
-                        <button type="button" id="calculateBtn" class="btn btn-primary btn-full">Calculate Home Loan</button>
-                    </form>
-                </div>
-
-                <!-- Calculator Results -->
-                <div class="calculator-results">
-                    <h3>Your Home Loan Breakdown</h3>
-                    
-                    <div class="result-summary">
-                        <div class="result-item highlight">
-                            <div class="result-label">Monthly Repayment</div>
-                            <div class="result-value" id="monthlyRepayment">R13,463</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-label">Loan Amount</div>
-                            <div class="result-value" id="loanAmount">R1,350,000</div>
-                            <div class="result-note">After R150,000 deposit</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-label">Total Interest</div>
-                            <div class="result-value" id="totalInterest">R1,881,120</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="result-label">Total Repayment</div>
-                            <div class="result-value" id="totalRepayment">R3,231,120</div>
-                        </div>
-                    </div>
-
-                    <div class="loan-breakdown">
-                        <h4>Loan Composition</h4>
-                        <div class="chart-container">
-                            <canvas id="loanChart"></canvas>// Get DOM elements
-const purchasePriceInput = document.getElementById('purchasePrice');
-const purchasePriceSlider = document.getElementById('purchasePriceSlider');
-const depositInput = document.getElementById('depositAmount');
-const depositSlider = document.getElementById('depositSlider');
-const interestRateInput = document.getElementById('interestRate');
-const interestRateSlider = document.getElementById('interestRateSlider');
-const loanTermInput = document.getElementById('loanTerm');
-const loanTermSlider = document.getElementById('loanTermSlider');
-const extraPaymentInput = document.getElementById('extraPayment');
-const calculateBtn = document.getElementById('calculateBtn');
-
-// Results elements
-const monthlyRepaymentElement = document.getElementById('monthlyRepayment');
-const loanAmountElement = document.getElementById('loanAmount');
-const totalInterestElement = document.getElementById('totalInterest');
-const totalRepaymentElement = document.getElementById('totalRepayment');
-
-// Chart element
-const loanChartCanvas = document.getElementById('loanChart');
-let loanChart; // Will hold the chart instance
-
-// Transfer duty rates for South Africa (as of 2025)
-// These rates may need to be updated periodically
-const TRANSFER_DUTY_RATES = [
-    { threshold: 1000000, rate: 0, base: 0 },
-    { threshold: 1375000, rate: 0.03, base: 0 },
-    { threshold: 1925000, rate: 0.06, base: 11250 },
-    { threshold: 2475000, rate: 0.08, base: 44250 },
-    { threshold: 11000000, rate: 0.11, base: 82250 },
-    { threshold: Infinity, rate: 0.13, base: 1026000 }
-];
-
-// Bond registration and legal fees (estimated)
-function calculateLegalFees(purchasePrice) {
-    // This is an approximation and should be updated with actual fee structure
-    let baseFee;
-    
-    if (purchasePrice <= 1000000) {
-        baseFee = 15000;
-    } else if (purchasePrice <= 3000000) {
-        baseFee = 18000;
-    } else if (purchasePrice <= 5000000) {
-        baseFee = 22000;
-    } else {
-        baseFee = 25000 + (purchasePrice - 5000000) * 0.001;
-    }
-    
-    const vatOnFees = baseFee * 0.15; // 15% VAT
-    const deeds = 2000; // Approximate deeds office fees
-    const postages = 1500; // Petties and postages
-    
-    return baseFee + vatOnFees + deeds + postages;
-}
-
-// Initialize input/slider synchronization
-function initializeInputs() {
-    // Sync purchase price
-    purchasePriceSlider.addEventListener('input', () => {
-        purchasePriceInput.value = purchasePriceSlider.value;
-        // Adjust deposit slider max value to 50% of purchase price
-        const maxDeposit = Math.min(500000, Math.floor(purchasePriceSlider.value * 0.5));
-        depositSlider.max = maxDeposit;
-        depositSlider.nextElementSibling.children[1].textContent = `R${formatNumber(maxDeposit)}`;
-    });
-    
-    purchasePriceInput.addEventListener('input', () => {
-        const value = Math.min(10000000, Math.max(100000, purchasePriceInput.value));
-        purchasePriceInput.value = value;
-        purchasePriceSlider.value = value;
-        // Adjust deposit slider max value
-        const maxDeposit = Math.min(500000, Math.floor(value * 0.5));
-        depositSlider.max = maxDeposit;
-        depositSlider.nextElementSibling.children[1].textContent = `R${formatNumber(maxDeposit)}`;
-    });
-    
-    // Sync deposit
-    depositSlider.addEventListener('input', () => {
-        depositInput.value = depositSlider.value;
-    });
-    
-    depositInput.addEventListener('input', () => {
-        const maxDeposit = Math.min(500000, Math.floor(purchasePriceInput.value * 0.5));
-        const value = Math.min(maxDeposit, Math.max(0, depositInput.value));
-        depositInput.value = value;
-        depositSlider.value = value;
-    });
-    
-    // Sync interest rate
-    interestRateSlider.addEventListener('input', () => {
-        interestRateInput.value = interestRateSlider.value;
-    });
-    
-    interestRateInput.addEventListener('input', () => {
-        const value = Math.min(15, Math.max(7, interestRateInput.value));
-        interestRateInput.value = value;
-        interestRateSlider.value = value;
-    });
-    
-    // Sync loan term
-    loanTermSlider.addEventListener('input', () => {
-        loanTermInput.value = loanTermSlider.value;
-    });
-    
-    loanTermInput.addEventListener('input', () => {
-        const value = Math.min(30, Math.max(5, loanTermInput.value));
-        loanTermInput.value = value;
-        loanTermSlider.value = value;
-    });
-}
-
-// Format number with commas for thousands
-function formatNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-// Format currency with R symbol and commas
-function formatCurrency(amount) {
-    return 'R' + formatNumber(Math.round(amount));
-}
-
-// Calculate transfer duty based on purchase price
-function calculateTransferDuty(purchasePrice) {
-    // Find applicable rate
-    let rate = TRANSFER_DUTY_RATES[0];
-    
-    for (let i = 0; i < TRANSFER_DUTY_RATES.length; i++) {
-        if (purchasePrice <= TRANSFER_DUTY_RATES[i].threshold) {
-            rate = TRANSFER_DUTY_RATES[i];
-            break;
-        }
-    }
-    
-    // Calculate the duty
-    const previousThreshold = rate === TRANSFER_DUTY_RATES[0] ? 0 : TRANSFER_DUTY_RATES[TRANSFER_DUTY_RATES.indexOf(rate) - 1].threshold;
-    const duty = rate.base + (purchasePrice - previousThreshold) * rate.rate;
-    
-    return duty;
-}
-
-// Calculate monthly repayment using the formula:
-// M = P * (r * (1 + r)^n) / ((1 + r)^n - 1)
-function calculateMonthlyRepayment(principal, interestRate, termYears) {
-    const monthlyRate = interestRate / 100 / 12;
-    const numPayments = termYears * 12;
-    
-    if (monthlyRate === 0) {
-        return principal / numPayments;
-    }
-    
-    const repayment = principal * 
-        (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
-        (Math.pow(1 + monthlyRate, numPayments) - 1);
-    
-    return repayment;
-}
-
-// Generate amortization schedule
-function generateAmortizationSchedule(principal, interestRate, termYears, extraPayment = 0) {
-    const monthlyRate = interestRate / 100 / 12;
-    const numPayments = termYears * 12;
-    const monthlyPayment = calculateMonthlyRepayment(principal, interestRate, termYears);
-    
-    let balance = principal;
-    let schedule = [];
-    let totalInterest = 0;
-    let totalPrincipal = 0;
-    
-    for (let month = 1; month <= numPayments; month++) {
-        const interestPayment = balance * monthlyRate;
-        const principalPayment = monthlyPayment - interestPayment;
-        const actualPrincipalPayment = Math.min(balance, principalPayment + extraPayment);
-        
-        balance -= actualPrincipalPayment;
-        totalInterest += interestPayment;
-        totalPrincipal += actualPrincipalPayment;
-        
-        // Add to schedule - limit to every 12 months (annual) to avoid large arrays
-        if (month % 12 === 0 || month === 1 || balance <= 0) {
-            schedule.push({
-                month: month,
-                year: Math.ceil(month / 12),
-                interestPayment: interestPayment,
-                principalPayment: actualPrincipalPayment,
-                balance: Math.max(0, balance),
-                totalInterest: totalInterest,
-                totalPrincipal: totalPrincipal
-            });
-        }
-        
-        // If balance is paid off, break the loop
-        if (balance <= 0) {
-            break;
-        }
-    }
-    
-    return {
-        schedule: schedule,
-        totalInterest: totalInterest,
-        totalRepayment: totalInterest + principal,
-        totalMonths: schedule.length > 0 ? schedule[schedule.length - 1].month : 0
-    };
-}
-
-// Create loan chart
-function createLoanChart(loanAmount, totalInterest) {
-    if (loanChart) {
-        loanChart.destroy();
-    }
-    
-    const ctx = loanChartCanvas.getContext('2d');
-    loanChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Principal', 'Interest'],
-            datasets: [{
-                data: [loanAmount, totalInterest],
-                backgroundColor: ['#0070D1', '#FF5252'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '60%',
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        font: {
-                            family: "'Poppins', sans-serif",
-                            size: 14
-                        },
-                        color: '#333'
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const label = context.label || '';
-                            const value = context.raw || 0;
-                            const percentage = Math.round((value / (loanAmount + totalInterest)) * 100);
-                            return `${label}: ${formatCurrency(value)} (${percentage}%)`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-// Update results
-function updateResults() {
-    const purchasePrice = Number(purchasePriceInput.value);
-    const depositAmount = Number(depositInput.value);
-    const interestRate = Number(interestRateInput.value);
-    const loanTerm = Number(loanTermInput.value);
-    const extraPayment = Number(extraPaymentInput.value);
-    
-    // Calculate loan amount
-    const loanAmount = purchasePrice - depositAmount;
-    
-    // Calculate transfer duty and legal fees
-    const transferDuty = calculateTransferDuty(purchasePrice);
-    const legalFees = calculateLegalFees(purchasePrice);
-    
-    // Calculate monthly repayment
-    const monthlyRepayment = calculateMonthlyRepayment(loanAmount, interestRate, loanTerm);
-    
-    // Generate amortization schedule
-    const standardSchedule = generateAmortizationSchedule(loanAmount, interestRate, loanTerm);
-    
-    // Generate schedule with extra payment
-    const extraSchedule = generateAmortizationSchedule(loanAmount, interestRate, loanTerm, extraPayment);
-    
-    // Update display
-    monthlyRepaymentElement.textContent = formatCurrency(monthlyRepayment);
-    loanAmountElement.textContent = formatCurrency(loanAmount);
-    totalInterestElement.textContent = formatCurrency(standardSchedule.totalInterest);
-    totalRepaymentElement.textContent = formatCurrency(standardSchedule.totalRepayment);
-    
-    // Update chart
-    createLoanChart(loanAmount, standardSchedule.totalInterest);
-    
-    // Update extra payment section
-    if (extraPayment > 0) {
-        // If there's no extra payment section, create it
-        let extraSection = document.querySelector('.extra-payment');
-        if (!extraSection) {
-            extraSection = document.createElement('div');
-            extraSection.className = 'extra-payment';
-            extraSection.innerHTML = `
-                <h4>Extra Payment Impact</h4>
-                <p>See how adding R${formatNumber(extraPayment)} to your monthly payment affects your loan:</p>
-                <div class="extra-result">
-                    <div class="extra-result-item">
-                        <div class="extra-result-label">Time Saved</div>
-                        <div class="extra-result-value" id="timeSaved">0 months</div>
-                    </div>
-                    <div class="extra-result-item">
-                        <div class="extra-result-label">Interest Saved</div>
-                        <div class="extra-result-value" id="interestSaved">R0</div>
-                    </div>
-                    <div class="extra-result-item">
-                        <div class="extra-result-label">New Loan Term</div>
-                        <div class="extra-result-value" id="newTerm">0 years</div>
-                    </div>
-                </div>
-            `;
-            document.querySelector('.loan-breakdown').after(extraSection);
-        }
-        
-        // Update extra payment results
-        const timeSaved = (loanTerm * 12) - extraSchedule.totalMonths;
-        const interestSaved = standardSchedule.totalInterest - extraSchedule.totalInterest;
-        const newTermYears = Math.floor(extraSchedule.totalMonths / 12);
-        const newTermMonths = extraSchedule.totalMonths % 12;
-        
-        document.getElementById('timeSaved').textContent = timeSaved > 0 ? 
-            `${Math.floor(timeSaved / 12)} years ${timeSaved % 12} months` : 
-            '0 months';
-        document.getElementById('interestSaved').textContent = formatCurrency(interestSaved);
-        document.getElementById('newTerm').textContent = newTermMonths > 0 ? 
-            `${newTermYears} years ${newTermMonths} months` : 
-            `${newTermYears} years`;
-    } else {
-        // Remove extra payment section if it exists
-        const extraSection = document.querySelector('.extra-payment');
-        if (extraSection) {
-            extraSection.remove();
-        }
-    }
-    
-    // Create or update amortization table
-    createAmortizationTable(extraPayment > 0 ? extraSchedule.schedule : standardSchedule.schedule);
-}
-
-// Create amortization table
-function createAmortizationTable(schedule) {
-    // Create or update table section
-    let tableSection = document.querySelector('.amortization-table');
-    if (!tableSection) {
-        tableSection = document.createElement('div');
-        tableSection.className = 'amortization-table';
-        tableSection.innerHTML = `
-            <h4>Amortization Schedule</h4>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Year</th>
-                            <th>Principal Paid</th>
-                            <th>Interest Paid</th>
-                            <th>Remaining Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody id="amortizationBody">
-                    </tbody>
-                </table>
-            </div>
-        `;
-        document.querySelector('.calculator-results').appendChild(tableSection);
-    }
-    
-    // Populate table
-    const tableBody = document.getElementById('amortizationBody');
-    tableBody.innerHTML = '';
-    
-    let prevYear = 0;
-    let yearlyPrincipal = 0;
-    let yearlyInterest = 0;
-    
-    schedule.forEach((payment, index) => {
-        if (payment.year !== prevYear || index === schedule.length - 1) {
-            if (prevYear > 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>Year ${prevYear}</td>
-                    <td>R${formatNumber(Math.round(yearlyPrincipal))}</td>
-                    <td>R${formatNumber(Math.round(yearlyInterest))}</td>
-                    <td>R${formatNumber(Math.round(payment.balance))}</td>
-                `;
-                tableBody.appendChild(row);
-            }
-            
-            prevYear = payment.year;
-            yearlyPrincipal = payment.principalPayment;
-            yearlyInterest = payment.interestPayment;
-        } else {
-            yearlyPrincipal += payment.principalPayment;
-            yearlyInterest += payment.interestPayment;
-        }
-    });
-    
-    // Add final row if needed
-    if (schedule.length > 0 && schedule[schedule.length - 1].balance === 0) {
-        const lastPayment = schedule[schedule.length - 1];
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>Final Payment (Year ${Math.ceil(lastPayment.month / 12)})</td>
-            <td>R${formatNumber(Math.round(lastPayment.principalPayment))}</td>
-            <td>R${formatNumber(Math.round(lastPayment.interestPayment))}</td>
-            <td>R0</td>
-        `;
-        tableBody.appendChild(row);
-    }
-}
-
-// Add information tabs functionality
-function initializeInfoTabs() {
-    // Create information tabs section if it doesn't exist
-    let infoSection = document.querySelector('.additional-info');
-    if (!infoSection) {
-        infoSection = document.createElement('div');
-        infoSection.className = 'additional-info';
-        infoSection.innerHTML = `
-            <div class="info-tabs">
-                <div class="info-tab active" data-tab="home-loan-basics">Home Loan Basics</div>
-                <div class="info-tab" data-tab="sa-fees">SA Transfer Costs</div>
-                <div class="info-tab" data-tab="saving-tips">Saving Tips</div>
-            </div>
-            
-            <div class="info-content active" id="home-loan-basics">
-                <h5>Understanding Home Loans in South Africa</h5>
-                <p>A home loan (also called a mortgage or bond) is a long-term financial commitment. The bank provides you with funds to purchase property, and you repay this amount with interest over an agreed period.</p>
-                
-                <h5>Key Terms to Understand</h5>
-                <ul>
-                    <li><strong>Principal:</strong> The amount you borrow from the bank.</li>
-                    <li><strong>Interest Rate:</strong> The percentage the bank charges you for lending the money. In South Africa, rates are typically quoted as "Prime plus/minus X%".</li>
-                    <li><strong>Loan Term:</strong> The period over which you'll repay the loan, usually 20-30 years in South Africa.</li>
-                    <li><strong>Deposit:</strong> The initial payment you make towards the property. A larger deposit typically results in better interest rates.</li>
-                    <li><strong>Repayment:</strong> The monthly amount you pay, consisting of both principal and interest.</li>
-                </ul>
-            </div>
-            
-            <div class="info-content" id="sa-fees">
-                <h5>South African Transfer Costs</h5>
-                <p>When buying property in South Africa, you'll need to budget for several additional costs beyond the purchase price:</p>
-                
-                <ul>
-                    <li><strong>Transfer Duty:</strong> A tax paid to SARS for property transfers. First-time buyers enjoy exemptions up to R1 million.</li>
-                    <li><strong>Bond Registration:</strong> Fee paid to the attorney who registers your bond.</li>
-                    <li><strong>Transfer Attorney Fees:</strong> Cost of transferring property ownership.</li>
-                    <li><strong>Deeds Office Fees:</strong> Government fee for registering the property transfer.</li>
-                    <li><strong>Initiation Fee:</strong> Bank fee for processing your home loan application.</li>
-                    <li><strong>Municipal Rates and Clearance Certificate:</strong> Covering the seller's municipal rates and taxes.</li>
-                </ul>
-                
-                <p>These costs can add between 8-10% to your purchase price, so budget accordingly.</p>
-            </div>
-            
-            <div class="info-content" id="saving-tips">
-                <h5>Tips to Save on Your Home Loan</h5>
-                <p>With strategic planning, you can save thousands on your bond:</p>
-                
-                <ul>
-                    <li><strong>Make Extra Payments:</strong> Even small additional monthly payments can substantially reduce your loan term and interest.</li>
-                    <li><strong>Save for a Larger Deposit:</strong> A 10-20% deposit can secure better interest rates and reduce your loan amount.</li>
-                    <li><strong>Negotiate Your Interest Rate:</strong> Shop around for the best rates and negotiate with your bank.</li>
-                    <li><strong>Consider Shorter Loan Terms:</strong> While monthly payments are higher, you'll pay less interest over time.</li>
-                    <li><strong>Review Your Home Loan Annually:</strong> Check if you can refinance at better rates or increase your payments.</li>
-                    <li><strong>Make Lump Sum Payments:</strong> Use bonuses or tax refunds to make lump sum payments to reduce your principal.</li>
-                </ul>
-            </div>
-        `;
-        document.querySelector('.calculator-section').appendChild(infoSection);
-        
-        // Add tab functionality
-        const tabs = document.querySelectorAll('.info-tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and content
-                document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.info-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.add('active');
-            });
-        });
-    }
-}
-
-// Add FAQ section
-function createFAQSection() {
-    let faqSection = document.querySelector('.faq-section');
-    if (!faqSection) {
-        faqSection = document.createElement('section');
-        faqSection.className = 'faq-section';
-        faqSection.innerHTML = `
-            <div class="container">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
-                
-                <div class="accordion">
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>What is a good interest rate for a home loan in South Africa?</span>
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>As of April 2025, the Prime lending rate in South Africa is around 10.75%. A good interest rate would typically be Prime + 0% to Prime - 0.5% for buyers with excellent credit profiles. First-time buyers might expect rates around Prime + 0.5% to Prime + 1%. Your actual rate depends on your credit score, income stability, deposit amount, and property value.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>How much deposit do I need for a home loan in South Africa?</span>
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>While 100% bonds (no deposit) are available for qualifying buyers, most banks prefer a minimum 10% deposit. A larger deposit (10-20%) often secures better interest rates and improves your application's chances. First-time homebuyers with good credit profiles may qualify for higher loan-to-value ratios with smaller deposits.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>What additional costs should I budget for when buying property?</span>
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Beyond the purchase price, budget for:</p>
-                                <ul>
-                                    <li>Transfer duty (progressive tax starting at 0% for properties under R1m)</li>
-                                    <li>Bond registration costs (about 1-2% of loan amount)</li>
-                                    <li>Transfer attorney fees (around 1-1.5% of property value)</li>
-                                    <li>Deeds office registration fees (fixed fees)</li>
-                                    <li>Bank initiation fee (currently about R6,000)</li>
-                                    <li>Municipal rates clearance certificate</li>
-                                </ul>
-                                <p>These costs typically add 8-10% to your property purchase price.</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>How can I improve my chances of home loan approval?</span>
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>To improve your chances:</p>
-                                <ul>
-                                    <li>Maintain a good credit score (check your credit report regularly)</li>
-                                    <li>Save for a substantial deposit (10% or more)</li>
-                                    <li>Reduce existing debt and avoid new credit before applying</li>
-                                    <li>Ensure stable employment and income history</li>
-                                    <li>Have proof of regular savings</li>
-                                    <li>Apply through a mortgage originator who can submit to multiple banks</li>
-                                    <li>Be realistic about what you can afford (aim for repayments under 30% of your gross income)</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <span>Should I pay off my home loan early?</span>
-                            <i class="fas fa-chevron-down accordion-icon"></i>
-                        </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>Paying off your home loan early has significant advantages:</p>
-                                <ul>
-                                    <li>Substantial interest savings over the loan term</li>
-                                    <li>Reduced financial risk and increased net worth</li>
-                                    <li>Freedom from a major monthly expense</li>
-                                </ul>
-                                <p>However, consider other factors like higher-interest debt, investment opportunities, tax implications, and emergency savings. Use our calculator to see how extra payments affect your loan term and interest savings.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.querySelector('.calculator-section').after(faqSection);
-        
-        // Add accordion functionality
-        const accordionHeaders = document.querySelectorAll('.accordion-header');
-        accordionHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                header.classList.toggle('active');
-            });
-        });
-    }
-}
-
-// Initialize the calculator
-function initializeCalculator() {
-    // Initialize inputs
-    initializeInputs();
-    
-    // Create info tabs
-    initializeInfoTabs();
-    
-    // Create FAQ section
-    createFAQSection();
-    
-    // Add calculate button event listener
-    calculateBtn.addEventListener('click', updateResults);
-    
-    // Initial calculation
-    updateResults();
-}
-
-// Load scripts and initialize
-document.addEventListener('DOMContentLoaded', function() {
-    // Load Chart.js if not already loaded
-    if (typeof Chart === 'undefined') {
-        const chartScript = document.createElement('script');
-        chartScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js';
-        chartScript.integrity = 'sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==';
-        chartScript.crossOrigin = 'anonymous';
-        chartScript.referrerPolicy = 'no-referrer';
-        chartScript.onload = initializeCalculator;
-        document.body.appendChild(chartScript);
-    } else {
-        initializeCalculator();
-    }
-});</div>
-                    </div>
-
-                    <div class="extra-payment" id="extraPaymentResults" style="display: none;">
-                        <!-- This will be populated by JavaScript -->
-                    </div>
-
-                    <div class="amortization-table">
-                        <h4>Amortization Schedule</h4>
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Year</th>
-                                        <th>Principal Paid</th>
-                                        <th>Interest Paid</th>
-                                        <th>Remaining Balance</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="amortizationBody">
-                                    <!-- This will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Additional Information Section -->
-    <section class="additional-info">
-        <div class="container">
-            <div class="info-tabs">
-                <div class="info-tab active" data-tab="home-loan-basics">Home Loan Basics</div>
-                <div class="info-tab" data-tab="sa-fees">SA Transfer Costs</div>
-                <div class="info-tab" data-tab="saving-tips">Saving Tips</div>
-            </div>
-            
-            <div class="info-content active" id="home-loan-basics">
-                <h5>Understanding Home Loans in South Africa</h5>
-                <p>A home loan (also calle
-
-
-        /* --- Footer --- */
+        /* Footer */
         footer {
             background-color: #1e293b;
             color: rgba(255, 255, 255, 0.8);
@@ -1698,7 +605,107 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 0.875rem;
         }
 
-        /* --- Responsive Styles --- */
+        /* Additional form component styles */
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-addon {
+            padding: 12px 16px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: var(--radius) 0 0 var(--radius);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .input-group .form-control {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--error);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .toggle-label {
+            margin-right: 12px;
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-text {
+            margin-left: 12px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Responsive Styles */
         @media (max-width: 992px) {
             .nav-menu {
                 position: fixed;
@@ -1741,93 +748,108 @@ document.addEventListener('DOMContentLoaded', function() {
                  border-bottom: none;
              }
 
-
              .mobile-menu-btn {
                  display: block;
+             }
+
+             .calculator-container {
+                grid-template-columns: 1fr;
              }
         }
 
         @media (max-width: 768px) {
-            .section {
-                padding: 64px 0;
+            .results-summary {
+                grid-template-columns: 1fr;
             }
-            .section-title {
-                font-size: 2rem;
-            }
-            .hero {
-                padding: 80px 0;
-            }
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            .hero-subtitle {
-                 font-size: 1.1rem;
-            }
+            
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
+            
             .footer-column {
                  display: flex;
                  flex-direction: column;
                  align-items: center;
             }
-             .footer-column.about .footer-logo {
+            
+            .footer-column.about .footer-logo {
                  justify-content: center; /* Center logo items */
-             }
+            }
+            
             .footer-social {
                  justify-content: center;
             }
+            
             .footer-links {
                  text-align: center;
             }
         }
 
-         @media (max-width: 576px) {
-             .section-title {
-                 font-size: 1.75rem;
-             }
-             .hero-title {
-                 font-size: 2rem;
-             }
-             .hero-subtitle {
-                 font-size: 1rem;
-             }
-             .hero-buttons {
-                 flex-direction: column;
-                 align-items: center;
-                 gap: 12px;
-             }
-             .btn {
-                 width: 90%; /* Make buttons wider */
-                 max-width: 320px;
-                 padding: 14px 20px; /* Adjust padding */
-             }
-             .tool-grid {
-                 grid-template-columns: 1fr;
-             }
-             .features-grid {
-                  grid-template-columns: 1fr;
-             }
-             .updates-grid {
-                 grid-template-columns: 1fr;
-             }
-             .header-container {
-                 padding: 12px 0; /* Reduce header padding */
-                 height: 65px; /* Adjust height */
-             }
-             .nav-menu {
-                 top: 65px; /* Match new header height */
-                 height: calc(100vh - 65px);
-             }
-             .logo {
-                 font-size: 1.4rem;
-             }
-             .logo i {
-                 font-size: 1.6rem;
-             }
-         }
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 12px 0; /* Reduce header padding */
+                height: 65px; /* Adjust height */
+            }
+            
+            .nav-menu {
+                top: 65px; /* Match new header height */
+                height: calc(100vh - 65px);
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .logo i {
+                font-size: 1.6rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .result-value {
+                font-size: 1.3rem;
+            }
+        }
 
+        body.no-scroll {
+             overflow: hidden;
+        }
+
+        /* For the tab navigation on loan calculators page */
+        .loan-nav {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .loan-nav::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .loan-nav-link {
+            padding: 12px 20px;
+            white-space: nowrap;
+            color: var(--text);
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .loan-nav-link.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .loan-nav-link:hover:not(.active) {
+            color: var(--primary-dark);
+            border-bottom-color: var(--border);
+        }
     </style>
 </head>
 <body>
@@ -1841,153 +863,81 @@ document.addEventListener('DOMContentLoaded', function() {
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item"><a href="/" class="nav-link active">Home</a></li> <li class="nav-item"><a href="#tools" class="nav-link">Financial Tools</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">Why Us</a></li>
-                    <li class="nav-item"><a href="#updates" class="nav-link">Updates</a></li>
-                    </ul>
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li> 
+                    <li class="nav-item"><a href="/#tools" class="nav-link">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
-
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column about">
-                    <a href="/" class="footer-logo">
-                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
-                    </a>
-                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
-                    <div class="footer-social">
-                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+    <main>
+        <section class="calculator-section">
+            <div class="container">
+                <h1 class="section-title">Home Loan Calculator</h1>
+                <p class="section-subtitle">Calculate your monthly bond repayments, total interest, and see your amortization schedule based on South African home loan terms.</p>
+                
+                <div class="loan-nav">
+                    <a href="loan-calculators.html" class="loan-nav-link">All Loan Calculators</a>
+                    <a href="home-loan-calculator.html" class="loan-nav-link active">Home Loan</a>
+                    <a href="vehicle-finance-calculator.html" class="loan-nav-link">Vehicle Finance</a>
+                    <a href="personal-loan-calculator.html" class="loan-nav-link">Personal Loan</a>
                 </div>
 
-                <div class="footer-column links">
-                    <h3 class="footer-heading">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="/">Home</a></li>
-                        <li class="footer-link"><a href="#tools">Financial Tools</a></li>
-                        <li class="footer-link"><a href="#about">Why Choose Us</a></li>
-                        <li class="footer-link"><a href="#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
-                </div>
+                <div class="calculator-container">
+                    <div class="calculator-form">
+                        <form id="homeLoanForm">
+                            <div class="form-group">
+                                <label for="propertyPrice" class="form-label">Property Purchase Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">R</span>
+                                    <input type="number" id="propertyPrice" class="form-control" value="1500000" min="100000" max="20000000" required>
+                                </div>
+                                <span class="form-message" id="propertyPriceError"></span>
+                                <div class="range-container">
+                                    <input type="range" class="range-slider" id="propertyPriceSlider" min="100000" max="5000000" step="50000" value="1500000">
+                                    <span class="range-value" id="propertyPriceValue">R 1,500,000</span>
+                                    <div class="range-labels">
+                                        <span>R100K</span>
+                                        <span>R5M</span>
+                                    </div>
+                                </div>
+                            </div>
 
-                 <div class="footer-column calculators">
-                    <h3 class="footer-heading">Calculators</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
-                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
-                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
-                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
-                </div>
+                            <div class="form-group">
+                                <label for="depositAmount" class="form-label">Deposit Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">R</span>
+                                    <input type="number" id="depositAmount" class="form-control" value="150000" min="0" required>
+                                </div>
+                                <span class="form-message" id="depositError"></span>
+                                <div class="range-container">
+                                    <input type="range" class="range-slider" id="depositSlider" min="0" max="500000" step="10000" value="150000">
+                                    <span class="range-value" id="depositValue">R 150,000</span>
+                                    <div class="range-labels">
+                                        <span>R0</span>
+                                        <span>R500K</span>
+                                    </div>
+                                </div>
+                            </div>
 
-                 <div class="footer-column contact">
-                    <h3 class="footer-heading">Disclaimer</h3>
-                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
-                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
-                    </p>
-                    </div>
+                            <div class="form-group">
+                                <label for="interestRate" class="form-label">Interest Rate</label>
+                                <div class="input-group">
+                                    <input type="number" id="interestRate" class="form-control" value="11.75" min="5" max="20" step="0.25" required>
+                                    <span class="input-group-addon">% p.a.</span>
+                                </div>
+                                <span class="form-message" id="interestRateError"></span>
+                                <div class="range-container">
+                                    <input type="range" class="range-slider" id="interestRateSlider" min="5" max="20" step="0.25" value="11.75">
+                                    <span class="range-value" id="interestRateValue">11.75%</span>
+                                    <div class="range-labels">
+                                        <span>5%</span>
+                                        <span>20%</span>
+                                    </div>
+                                </div>
+                            </div>
 
-            </div> <div class="footer-bottom">
-                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // --- Mobile Menu Toggle ---
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-
-        if (mobileMenuBtn && navMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                const isExpanded = navMenu.classList.toggle('active');
-                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
-                // Change icon based on state (Accessibility improvement)
-                const icon = mobileMenuBtn.querySelector('i');
-                if (icon) {
-                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
-                }
-                 // Add/Remove class to body to prevent scrolling when menu is open
-                 document.body.classList.toggle('no-scroll', isExpanded);
-            });
-
-            // Close menu if a link is clicked (for single-page navigation)
-            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    // Check if menu is active before closing
-                    if (navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        const icon = mobileMenuBtn.querySelector('i');
-                        if (icon) {
-                             icon.className = 'fas fa-bars';
-                        }
-                         document.body.classList.remove('no-scroll');
-                    }
-                    // Smooth scroll handling (optional, browser support varies)
-                    const targetId = link.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        // Basic smooth scroll, more robust libraries exist
-                        // e.preventDefault(); // Prevent default jump
-                        // targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        }
-
-         // Add class to body to prevent scrolling when menu is open
-         // CSS for .no-scroll: body.no-scroll { overflow: hidden; }
-         // Add this CSS rule within the main <style> block
-         /*
-         body.no-scroll {
-             overflow: hidden;
-         }
-         */
-
-
-        // --- Footer Year ---
-        const currentYearSpan = document.getElementById('currentYear');
-        if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
-        }
-
-        // --- Active Nav Link Highlighting (Basic Example) ---
-        // This is a simple version, more robust solutions exist for complex routing
-        const navLinks = navMenu.querySelectorAll('.nav-link');
-        const currentPath = window.location.pathname; // Gets the path like "/" or "/sars-tax-calculator.html"
-
-        navLinks.forEach(link => {
-            // Check if the link's href matches the current path
-            // For the homepage "/", check exactly or if it's the root link
-            if (link.getAttribute('href') === currentPath || (currentPath === '/' && link.getAttribute('href') === '/')) {
-                 // Remove active class from others first
-                 navLinks.forEach(l => l.classList.remove('active'));
-                 // Add active class to the matching link
-                 link.classList.add('active');
-            } else if (link.getAttribute('href').startsWith('#') && currentPath === '/') {
-                 // Handle hash links on the homepage - remove active from non-hash links
-                 if (!link.getAttribute('href') === '/') link.classList.remove('active');
-            } else {
-                 link.classList.remove('active'); // Ensure others are not active
-            }
-        });
-        // Ensure home is active if path is "/"
-        if (currentPath === '/') {
-             const homeLink = navMenu.querySelector('a[href="/"]');
-             if (homeLink) {
-                 navLinks.forEach(l => l.classList.remove('active')); // Clear others
-                 homeLink.classList.add('active');
-             }
-        }
-
-
-    </script>
-    </body>
-</html>
+                            <div class="form-group">
+                                <label for="loanTerm" class="form
