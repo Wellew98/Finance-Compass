@@ -941,3 +941,600 @@
 
                             <div class="form-group">
                                 <label for="loanTerm" class="form
+<div class="form-group">
+                                <label for="loanTerm" class="form-label">Loan Term</label>
+                                <div class="input-group">
+                                    <input type="number" id="loanTerm" class="form-control" value="20" min="5" max="30" required>
+                                    <span class="input-group-addon">Years</span>
+                                </div>
+                                <span class="form-message" id="loanTermError"></span>
+                                <div class="range-container">
+                                    <input type="range" class="range-slider" id="loanTermSlider" min="5" max="30" step="1" value="20">
+                                    <span class="range-value" id="loanTermValue">20 Years</span>
+                                    <div class="range-labels">
+                                        <span>5 Years</span>
+                                        <span>30 Years</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="toggle-container">
+                                <label class="toggle-label">Include bond fees</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="includeFees" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="toggle-text">Bank initiation & monthly admin fees</span>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button type="button" id="calculateBtn" class="btn btn-primary">Calculate Repayments</button>
+                                <button type="reset" id="resetBtn" class="btn btn-outline">Reset Inputs</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div class="results-header">
+                            <h3 class="results-title">Your Home Loan Calculation</h3>
+                            <p class="results-subtitle">Based on current SA interest rates</p>
+                        </div>
+                        
+                        <div class="results-summary">
+                            <div class="result-item">
+                                <div class="result-label">Monthly Repayment</div>
+                                <div class="result-value" id="monthlyRepayment">R12,983</div>
+                                <div class="result-note">Including R69 admin fee</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Required Income</div>
+                                <div class="result-value" id="requiredIncome">R38,949</div>
+                                <div class="result-note">At 30% debt-to-income ratio</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Total Interest</div>
+                                <div class="result-value" id="totalInterest">R1,718,920</div>
+                                <div class="result-note">Over the full loan term</div>
+                            </div>
+                            
+                            <div class="result-item">
+                                <div class="result-label">Total Repayment</div>
+                                <div class="result-value" id="totalRepayment">R3,118,920</div>
+                                <div class="result-note">Loan amount + interest + fees</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="loanBreakdownChart"></canvas>
+                        </div>
+                        
+                        <div class="amortization-toggle">
+                            <button type="button" id="showAmortizationBtn" class="btn btn-outline">View Amortization Schedule</button>
+                        </div>
+                        
+                        <div class="amortization-container" style="max-height: 400px; overflow-y: auto; margin-top: 20px; display: none;">
+                            <table class="amortization-table" id="amortizationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Payment</th>
+                                        <th>Principal</th>
+                                        <th>Interest</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortizationBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Smart Home Loan Tips</h4>
+                    <div class="tip-content">
+                        <p>Make your home loan work harder for you with these South African-specific tips:</p>
+                        <ul>
+                            <li><strong>Higher deposit:</strong> Aim for at least 10-20% deposit to secure better interest rates and reduce monthly payments.</li>
+                            <li><strong>Bond originator:</strong> Consider using a bond originator who can negotiate better rates across multiple banks.</li>
+                            <li><strong>Extra payments:</strong> Even R500 extra monthly can save hundreds of thousands in interest and reduce your loan term by years.</li>
+                            <li><strong>Rate negotiations:</strong> You can renegotiate your interest rate every 12-24 months, especially if your credit score has improved.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Common questions about home loans in South Africa</p>
+                
+                <div class="accordion" id="homeLoanFAQ">
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq1Header">
+                            <h3 class="accordion-title">What deposit size is ideal for a South African home loan?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content" id="faq1Content">
+                            <div class="accordion-content-inner">
+                                <p>In South Africa, most banks prefer a minimum deposit of 10% of the property purchase price, but 15-20% is ideal. A larger deposit:</p>
+                                <ul>
+                                    <li>Increases your chances of loan approval</li>
+                                    <li>May qualify you for better interest rates (potentially saving hundreds of thousands over the loan term)</li>
+                                    <li>Reduces your monthly repayments</li>
+                                    <li>May eliminate the need for mortgage insurance</li>
+                                </ul>
+                                <p>First-time buyers might qualify for up to 105% loans from some banks (covering transfer and registration costs), but these typically come with higher interest rates.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq2Header">
+                            <h3 class="accordion-title">What costs are involved beyond the purchase price?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content" id="faq2Content">
+                            <div class="accordion-content-inner">
+                                <p>When buying property in South Africa, budget for these additional costs:</p>
+                                <ul>
+                                    <li><strong>Transfer duty:</strong> Tax payable to SARS (exemption for properties under R1 million)</li>
+                                    <li><strong>Transfer costs:</strong> Legal fees for conveyancing attorneys (roughly 1.5-2% of purchase price)</li>
+                                    <li><strong>Bond registration costs:</strong> Legal fees for registering the mortgage bond</li>
+                                    <li><strong>Bank initiation fee:</strong> Currently capped at R6,037.50 (incl. VAT)</li> 
+                                    <li><strong>Monthly admin fee:</strong> Around R69 per month</li>
+                                    <li><strong>Home insurance:</strong> Required by banks for the full property value</li>
+                                </ul>
+                                <p>These costs typically add 8-10% to the purchase price for properties above R1 million.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq3Header">
+                            <h3 class="accordion-title">How does the prime interest rate affect my home loan?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content" id="faq3Content">
+                            <div class="accordion-content-inner">
+                                <p>Most South African home loans have variable interest rates linked to the prime rate (currently 11.75% as of April 2025). Your actual rate is typically expressed as prime plus or minus a percentage (e.g., prime + 0.5%).</p>
+                                <p>When the South African Reserve Bank changes the repo rate, the prime rate adjusts accordingly, affecting your:</p>
+                                <ul>
+                                    <li>Monthly repayment amount</li>
+                                    <li>Total interest paid over the loan term</li>
+                                    <li>Loan repayment period (if you maintain the same payment amount)</li>
+                                </ul>
+                                <p>A 0.25% increase in the prime rate can add approximately R225 to monthly payments on a R1 million loan over 20 years.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq4Header">
+                            <h3 class="accordion-title">What is the maximum home loan term in South Africa?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content" id="faq4Content">
+                            <div class="accordion-content-inner">
+                                <p>In South Africa, banks typically offer home loans with terms ranging from 5 to 30 years, with 20 years being the standard option.</p>
+                                <p>While a longer term reduces your monthly payments, it significantly increases the total interest paid. For example, on a R1 million loan at 11.75%:</p>
+                                <ul>
+                                    <li>20-year term: Monthly payment ~R10,600, total interest ~R1.54 million</li>
+                                    <li>30-year term: Monthly payment ~R9,800, total interest ~R2.52 million</li>
+                                </ul>
+                                <p>That's nearly R1 million in additional interest for just R800 less in monthly payments!</p>
+                                <p>Wherever possible, choose the shortest term you can comfortably afford to save substantially on interest costs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="faq5Header">
+                            <h3 class="accordion-title">Can I pay off my home loan early in South Africa?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content" id="faq5Content">
+                            <div class="accordion-content-inner">
+                                <p>Yes, and it's highly recommended! South African banks do not charge early settlement penalties on home loans. Paying extra on your bond offers several benefits:</p>
+                                <ul>
+                                    <li><strong>Reduce loan term:</strong> Even R500 extra monthly can cut years off your loan</li>
+                                    <li><strong>Save on interest:</strong> Every extra rand goes directly to reducing your principal</li>
+                                    <li><strong>Build equity faster:</strong> Increasing your ownership stake in the property</li>
+                                    <li><strong>Financial flexibility:</strong> Access to a bond's access facility if needed later</li>
+                                </ul>
+                                <p>Consider setting up an access bond facility where available, which allows you to reuse any extra funds paid while maintaining the interest-saving benefits when not withdrawn.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column about">
+                    <a href="/" class="footer-logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
+                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Home</a></li>
+                        <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
+                        <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="#">Retirement Calculator</a></li>
+                        <li class="footer-link"><a href="#">Savings Goal Planner</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                    <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                </div>
+
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = navMenu.classList.toggle('active');
+                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+                // Change icon based on state (Accessibility improvement)
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+                // Add/Remove class to body to prevent scrolling when menu is open
+                document.body.classList.toggle('no-scroll', isExpanded);
+            });
+
+            // Close menu if a link is clicked (for single-page navigation)
+            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Check if menu is active before closing
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.className = 'fas fa-bars';
+                        }
+                        document.body.classList.remove('no-scroll');
+                    }
+                });
+            });
+        }
+
+        // --- Footer Year ---
+        const currentYearSpan = document.getElementById('currentYear');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // --- Accordion Functionality ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                // Toggle the current item
+                item.classList.toggle('active');
+                
+                // Close other items (optional)
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // --- Range Slider Updates ---
+        // Property Price
+        const propertyPrice = document.getElementById('propertyPrice');
+        const propertyPriceSlider = document.getElementById('propertyPriceSlider');
+        const propertyPriceValue = document.getElementById('propertyPriceValue');
+        
+        function updatePropertyPriceValue() {
+            const value = parseInt(propertyPriceSlider.value);
+            propertyPrice.value = value;
+            propertyPriceValue.textContent = 'R ' + value.toLocaleString();
+            
+            // Update deposit slider max value based on property price
+            depositSlider.max = Math.min(value * 0.5, 1000000); // Max deposit is 50% or R1M
+            depositSlider.value = Math.min(depositSlider.value, depositSlider.max);
+            updateDepositValue();
+        }
+        
+        propertyPriceSlider.addEventListener('input', updatePropertyPriceValue);
+        propertyPrice.addEventListener('input', function() {
+            const value = Math.max(parseInt(this.value) || 0, parseInt(propertyPriceSlider.min));
+            propertyPriceSlider.value = Math.min(value, parseInt(propertyPriceSlider.max));
+            updatePropertyPriceValue();
+        });
+
+        // Deposit
+        const depositAmount = document.getElementById('depositAmount');
+        const depositSlider = document.getElementById('depositSlider');
+        const depositValue = document.getElementById('depositValue');
+        
+        function updateDepositValue() {
+            const value = parseInt(depositSlider.value);
+            depositAmount.value = value;
+            depositValue.textContent = 'R ' + value.toLocaleString();
+        }
+        
+        depositSlider.addEventListener('input', updateDepositValue);
+        depositAmount.addEventListener('input', function() {
+            const value = Math.max(parseInt(this.value) || 0, parseInt(depositSlider.min));
+            depositSlider.value = Math.min(value, parseInt(depositSlider.max));
+            updateDepositValue();
+        });
+
+        // Interest Rate
+        const interestRate = document.getElementById('interestRate');
+        const interestRateSlider = document.getElementById('interestRateSlider');
+        const interestRateValue = document.getElementById('interestRateValue');
+        
+        function updateInterestRateValue() {
+            const value = parseFloat(interestRateSlider.value);
+            interestRate.value = value;
+            interestRateValue.textContent = value + '%';
+        }
+        
+        interestRateSlider.addEventListener('input', updateInterestRateValue);
+        interestRate.addEventListener('input', function() {
+            const value = Math.max(parseFloat(this.value) || 0, parseFloat(interestRateSlider.min));
+            interestRateSlider.value = Math.min(value, parseFloat(interestRateSlider.max));
+            updateInterestRateValue();
+        });
+
+        // Loan Term
+        const loanTerm = document.getElementById('loanTerm');
+        const loanTermSlider = document.getElementById('loanTermSlider');
+        const loanTermValue = document.getElementById('loanTermValue');
+        
+        function updateLoanTermValue() {
+            const value = parseInt(loanTermSlider.value);
+            loanTerm.value = value;
+            loanTermValue.textContent = value + ' Years';
+        }
+        
+        loanTermSlider.addEventListener('input', updateLoanTermValue);
+        loanTerm.addEventListener('input', function() {
+            const value = Math.max(parseInt(this.value) || 0, parseInt(loanTermSlider.min));
+            loanTermSlider.value = Math.min(value, parseInt(loanTermSlider.max));
+            updateLoanTermValue();
+        });
+
+        // --- Home Loan Calculator Logic ---
+        const calculateBtn = document.getElementById('calculateBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const includeFees = document.getElementById('includeFees');
+        const monthlyRepayment = document.getElementById('monthlyRepayment');
+        const requiredIncome = document.getElementById('requiredIncome');
+        const totalInterest = document.getElementById('totalInterest');
+        const totalRepayment = document.getElementById('totalRepayment');
+        const showAmortizationBtn = document.getElementById('showAmortizationBtn');
+        const amortizationContainer = document.querySelector('.amortization-container');
+        const amortizationBody = document.getElementById('amortizationBody');
+        
+        let loanBreakdownChart;
+        
+        function calculateHomeLoan() {
+            // Get input values
+            const price = parseFloat(propertyPrice.value);
+            const deposit = parseFloat(depositAmount.value) || 0;
+            const rate = parseFloat(interestRate.value) / 100;
+            const years = parseInt(loanTerm.value);
+            const includeAdminFees = includeFees.checked;
+            
+            // Calculate loan amount
+            const loanAmount = price - deposit;
+            
+            // Monthly interest rate
+            const monthlyRate = rate / 12;
+            
+            // Number of payments
+            const numPayments = years * 12;
+            
+            // Calculate base monthly payment using loan formula
+            const baseMonthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                                      (Math.pow(1 + monthlyRate, numPayments) - 1);
+            
+            // Admin and initiation fees
+            const initiationFee = includeAdminFees ? 5875 : 0; // R5875 incl. VAT
+            const monthlyAdminFee = includeAdminFees ? 69 : 0;  // R69 per month
+            
+            const actualMonthlyPayment = baseMonthlyPayment + monthlyAdminFee;
+            
+            // Calculate total repayment and interest
+            const totalPayment = (actualMonthlyPayment * numPayments) + initiationFee;
+            const totalInterestAmount = totalPayment - loanAmount - (monthlyAdminFee * numPayments) - initiationFee;
+            
+            // Calculate required income (assuming 30% of gross income for housing)
+            const reqIncome = actualMonthlyPayment / 0.3;
+            
+            // Update result elements
+            monthlyRepayment.textContent = 'R' + actualMonthlyPayment.toLocaleString(undefined, {maximumFractionDigits: 0});
+            requiredIncome.textContent = 'R' + reqIncome.toLocaleString(undefined, {maximumFractionDigits: 0});
+            totalInterest.textContent = 'R' + totalInterestAmount.toLocaleString(undefined, {maximumFractionDigits: 0});
+            totalRepayment.textContent = 'R' + totalPayment.toLocaleString(undefined, {maximumFractionDigits: 0});
+            
+            // Update admin fee note if included
+            const adminFeeNote = document.querySelector('.result-note');
+            if (adminFeeNote) {
+                adminFeeNote.textContent = includeAdminFees ? 'Including R69 admin fee' : 'Excluding bank fees';
+            }
+            
+            // Generate amortization schedule
+            generateAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, monthlyAdminFee);
+            
+            // Update chart
+            updateChart(loanAmount, totalInterestAmount, (monthlyAdminFee * numPayments) + initiationFee);
+        }
+        
+        function generateAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, adminFee) {
+            amortizationBody.innerHTML = '';
+            
+            let balance = loanAmount;
+            let yearlyPrincipal = 0;
+            let yearlyInterest = 0;
+            let yearlyPayment = 0;
+            
+            for (let month = 1; month <= numPayments; month++) {
+                const interest = balance * monthlyRate;
+                const principal = baseMonthlyPayment - interest;
+                balance -= principal;
+                
+                yearlyPrincipal += principal;
+                yearlyInterest += interest;
+                yearlyPayment += baseMonthlyPayment + adminFee;
+                
+                // Create yearly summary rows
+                if (month % 12 === 0 || month === numPayments) {
+                    const year = Math.ceil(month / 12);
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${year}</td>
+                        <td>R${yearlyPayment.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                        <td>R${yearlyPrincipal.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                        <td>R${yearlyInterest.toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                        <td>R${Math.max(0, balance).toLocaleString(undefined, {maximumFractionDigits: 0})}</td>
+                    `;
+                    
+                    amortizationBody.appendChild(row);
+                    
+                    // Reset yearly counters
+                    yearlyPrincipal = 0;
+                    yearlyInterest = 0;
+                    yearlyPayment = 0;
+                }
+            }
+        }
+        
+        function updateChart(loanAmount, totalInterestAmount, totalFees) {
+            const ctx = document.getElementById('loanBreakdownChart').getContext('2d');
+            
+            if (loanBreakdownChart) {
+                loanBreakdownChart.destroy();
+            }
+            
+            loanBreakdownChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Principal', 'Total Interest', 'Fees'],
+                    datasets: [{
+                        data: [loanAmount, totalInterestAmount, totalFees],
+                        backgroundColor: [
+                            '#0070D1',
+                            '#FF6B6B',
+                            '#6BCB77'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw;
+                                    const percentage = context.parsed / context.dataset.data.reduce((a, b) => a + b, 0) * 100;
+                                    return `${label}: R${value.toLocaleString()} (${percentage.toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: 10
+                    }
+                }
+            });
+        }
+        
+        // Calculate button event
+        calculateBtn.addEventListener('click', calculateHomeLoan);
+        
+        // Reset button event
+        resetBtn.addEventListener('click', function() {
+            setTimeout(function() {
+                // Reset sliders to match input values
+                propertyPriceSlider.value = propertyPrice.value;
+                updatePropertyPriceValue();
+                
+                depositSlider.value = depositAmount.value;
+                updateDepositValue();
+                
+                interestRateSlider.value = interestRate.value;
+                updateInterestRateValue();
+                
+                loanTermSlider.value = loanTerm.value;
+                updateLoanTermValue();
+                
+                // Recalculate
+                calculateHomeLoan();
+            }, 100);
+        });
+        
+        // Show/hide amortization schedule
+        showAmortizationBtn.addEventListener('click', function() {
+            const isVisible = amortizationContainer.style.display === 'block';
+            amortizationContainer.style.display = isVisible ? 'none' : 'block';
+            showAmortizationBtn.textContent = isVisible ? 'View Amortization Schedule' : 'Hide Amortization Schedule';
+        });
+        
+        // Initialize calculator
+        window.addEventListener('load', function() {
+            // Initialize all range sliders
+            updatePropertyPr
