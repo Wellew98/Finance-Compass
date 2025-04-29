@@ -292,6 +292,8 @@
          .tool-card.budget .tool-card-header { background-color: var(--secondary); }
          .tool-card.loan .tool-card-header { background-color: #6C63FF; } /* Purple */
          .tool-card.vat .tool-card-header { background-color: #FF6B6B; } /* Coral */
+         .tool-card.retirement .tool-card-header { background-color: #FFC107; } /* Amber */
+         .tool-card.savings .tool-card-header { background-color: #9C27B0; } /* Deep Purple */
 
         .tool-card-icon {
             font-size: 2.5rem;
@@ -394,6 +396,7 @@
              flex-direction: column;
         }
 
+        <span class="update-date">April 27, 2025</span>
         .update-date {
              font-size: 0.85rem;
              color: var(--text-light);
@@ -401,6 +404,7 @@
              display: block;
         }
 
+        <h3 class="update-title">Confirmed: SA VAT Rate Remains 15%</h3>
         .update-title {
              font-size: 1.2rem;
              font-weight: 600;
@@ -409,6 +413,7 @@
              line-height: 1.4;
         }
 
+        <p class="update-excerpt">National Treasury confirms the proposed VAT increase for May 2025 has been cancelled. The standard VAT rate stays at 15%. Our VAT calculator reflects this.</p>
         .update-excerpt {
              color: var(--text-light);
              margin-bottom: 24px;
@@ -416,6 +421,9 @@
              font-size: 0.95rem;
         }
 
+        <div class="update-card-footer">
+             <a href="#" class="btn btn-outline btn-sm">Read More</a>
+        </div>
         .update-card-footer {
              padding: 0 24px 24px;
              margin-top: auto;
@@ -649,6 +657,11 @@
              }
          }
 
+         body.no-scroll {
+             overflow: hidden;
+         }
+
+
     </style>
 </head>
 <body>
@@ -662,7 +675,8 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item"><a href="/" class="nav-link active">Home</a></li> <li class="nav-item"><a href="#tools" class="nav-link">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="#tools" class="nav-link">Financial Tools</a></li>
                     <li class="nav-item"><a href="#about" class="nav-link">Why Us</a></li>
                     <li class="nav-item"><a href="#updates" class="nav-link">Updates</a></li>
                     </ul>
@@ -676,7 +690,8 @@
                 <h1 class="hero-title">Navigate Your SA Finances with Confidence</h1>
                 <p class="hero-subtitle">Free, easy-to-use financial calculators and planning tools, built specifically for South Africans. Take control today.</p>
                 <div class="hero-buttons">
-                    <a href="#tools" class="btn btn-primary">Explore Free Tools</a> <a href="#about" class="btn btn-outline">Learn More</a>
+                    <a href="#tools" class="btn btn-primary">Explore Free Tools</a>
+                    <a href="#about" class="btn btn-outline">Learn More</a>
                 </div>
             </div>
             </div>
@@ -739,25 +754,25 @@
                         <a href="vat-calculator.html" class="btn btn-secondary">Calculate VAT</a>
                     </div>
                 </div>
-                <div class="tool-card retirement" style="opacity: 0.7;"> <div class="tool-card-header" style="background-color: #FFC107;"> <div class="tool-card-icon"><i class="fas fa-piggy-bank"></i></div>
+                <div class="tool-card retirement"> <div class="tool-card-header" style="background-color: #FFC107;"> <div class="tool-card-icon"><i class="fas fa-piggy-bank"></i></div>
                          <h3 class="tool-card-title">Retirement Calculator</h3>
                      </div>
                      <div class="tool-card-body">
-                         <p class="tool-card-description">Project your retirement savings (RA/TFSA) and see if you're on track for your goals. (Coming Soon)</p>
+                         <p class="tool-card-description">Project your retirement savings (RA/TFSA) and see if you're on track for your goals.</p>
                      </div>
                      <div class="tool-card-footer">
-                         <button class="btn btn-secondary" disabled>Coming Soon</button>
+                         <a href="retirement-calculator.html" class="btn btn-secondary">Calculate Retirement</a>
                      </div>
                  </div>
-                 <div class="tool-card savings" style="opacity: 0.7;">
+                 <div class="tool-card savings">
                      <div class="tool-card-header" style="background-color: #9C27B0;"> <div class="tool-card-icon"><i class="fas fa-bullseye"></i></div>
                          <h3 class="tool-card-title">Savings Goal Planner</h3>
                      </div>
                      <div class="tool-card-body">
-                         <p class="tool-card-description">Define your savings goals (e.g., deposit, holiday) and calculate the required monthly contributions. (Coming Soon)</p>
+                         <p class="tool-card-description">Define your savings goals (e.g., deposit, holiday) and calculate the required monthly contributions.</p>
                      </div>
                      <div class="tool-card-footer">
-                         <button class="btn btn-secondary" disabled>Coming Soon</button>
+                         <a href="savings-goal-planner.html" class="btn btn-secondary">Plan Savings Goal</a>
                      </div>
                  </div>
             </div>
@@ -862,7 +877,8 @@
                         <li class="footer-link"><a href="#tools">Financial Tools</a></li>
                         <li class="footer-link"><a href="#about">Why Choose Us</a></li>
                         <li class="footer-link"><a href="#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
+                         <li class="footer-link"><a href="terms-privacy.html">Terms & Privacy</a></li>
+                        </ul>
                 </div>
 
                  <div class="footer-column calculators">
@@ -872,7 +888,9 @@
                         <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
                         <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
                         <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
+                        <li class="footer-link"><a href="retirement-calculator.html">Retirement Calculator</a></li>
+                        <li class="footer-link"><a href="savings-goal-planner.html">Savings Goal Planner</a></li>
+                    </ul>
                 </div>
 
                  <div class="footer-column contact">
@@ -907,6 +925,7 @@
             });
 
             // Close menu if a link is clicked (for single-page navigation)
+            // This specifically targets links starting with #, allowing other links to work normally
             navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     // Check if menu is active before closing
@@ -920,25 +939,12 @@
                          document.body.classList.remove('no-scroll');
                     }
                     // Smooth scroll handling (optional, browser support varies)
-                    const targetId = link.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        // Basic smooth scroll, more robust libraries exist
-                        // e.preventDefault(); // Prevent default jump
-                        // targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    // The default behavior for # links is usually handled by the browser
+                    // unless preventDefault() is called. We are not calling it here
+                    // for hash links, so default smooth scrolling should work.
                 });
             });
         }
-
-         // Add class to body to prevent scrolling when menu is open
-         // CSS for .no-scroll: body.no-scroll { overflow: hidden; }
-         // Add this CSS rule within the main <style> block
-         /*
-         body.no-scroll {
-             overflow: hidden;
-         }
-         */
 
 
         // --- Footer Year ---
@@ -949,32 +955,48 @@
 
         // --- Active Nav Link Highlighting (Basic Example) ---
         // This is a simple version, more robust solutions exist for complex routing
-        const navLinks = navMenu.querySelectorAll('.nav-link');
+        const navLinks = document.querySelectorAll('.nav-menu .nav-link');
         const currentPath = window.location.pathname; // Gets the path like "/" or "/sars-tax-calculator.html"
 
         navLinks.forEach(link => {
-            // Check if the link's href matches the current path
-            // For the homepage "/", check exactly or if it's the root link
-            if (link.getAttribute('href') === currentPath || (currentPath === '/' && link.getAttribute('href') === '/')) {
-                 // Remove active class from others first
-                 navLinks.forEach(l => l.classList.remove('active'));
-                 // Add active class to the matching link
+            const linkHref = link.getAttribute('href');
+
+            // Handle root path '/' and explicit '/' link
+            if (currentPath === '/' && (linkHref === '/' || linkHref === 'index.html')) {
+                 navLinks.forEach(l => l.classList.remove('active')); // Clear others
                  link.classList.add('active');
-            } else if (link.getAttribute('href').startsWith('#') && currentPath === '/') {
-                 // Handle hash links on the homepage - remove active from non-hash links
-                 if (!link.getAttribute('href') === '/') link.classList.remove('active');
-            } else {
+            }
+            // Handle other specific page links (e.g., /sars-tax-calculator.html)
+            else if (linkHref !== '/' && currentPath.endsWith(linkHref)) {
+                 navLinks.forEach(l => l.classList.remove('active')); // Clear others
+                 link.classList.add('active');
+            }
+             // Handle hash links on the homepage - only activate if on the homepage
+             else if (currentPath === '/' && linkHref.startsWith('#')) {
+                 // No specific action needed here for highlighting based on hash,
+                 // the browser handles scrolling. Highlighting is typically done
+                 // based on the current page path.
+             }
+             // Add highlighting for the terms-privacy page if needed in header nav
+             else if (linkHref === 'terms-privacy.html' && currentPath.endsWith('/terms-privacy.html')) {
+                  navLinks.forEach(l => l.classList.remove('active')); // Clear others
+                  link.classList.add('active');
+             }
+            else {
                  link.classList.remove('active'); // Ensure others are not active
             }
         });
-        // Ensure home is active if path is "/"
-        if (currentPath === '/') {
-             const homeLink = navMenu.querySelector('a[href="/"]');
-             if (homeLink) {
-                 navLinks.forEach(l => l.classList.remove('active')); // Clear others
-                 homeLink.classList.add('active');
-             }
-        }
+         // Ensure home is active if path is exactly "/" and no other link matched
+         if (currentPath === '/' && !document.querySelector('.nav-menu .nav-link.active')) {
+              const homeLink = document.querySelector('.nav-menu a[href="/"]');
+              if (homeLink) {
+                  homeLink.classList.add('active');
+              } else {
+                   // Fallback if the href="/" link isn't found, maybe highlight index.html if it exists
+                   const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
+                   if (indexLink) indexLink.classList.add('active');
+              }
+         }
 
 
     </script>
