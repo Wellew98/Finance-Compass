@@ -1334,8 +1334,7 @@
             propertyPriceSlider.value = Math.min(value, parseInt(propertyPriceSlider.max));
             updatePropertyPriceValue(); // Update slider and value display
         });
-         // Initial update on load
-         updatePropertyPriceValue();
+         // Initial update on load - This is now handled in window.onload
 
 
         // Deposit
@@ -1354,7 +1353,7 @@
         depositAmount.addEventListener('input', function() {
              // Basic validation for input field
              const propertyPriceVal = parseInt(propertyPrice.value) || 0;
-             const maxAllowedDeposit = Math.min(propertyPriceVal, parseInt(this.max)); // Deposit cannot exceed property price
+             const maxAllowedDeposit = Math.min(propertyPriceVal, parseInt(depositSlider.max)); // Use depositSlider.max as it's updated by property price
              if (this.value < parseInt(this.min) || this.value > maxAllowedDeposit) {
                  depositError.textContent = `Deposit must be between ${formatCurrency(this.min)} and ${formatCurrency(maxAllowedDeposit)}.`;
                  depositError.classList.add('active');
@@ -1369,8 +1368,7 @@
             depositSlider.value = Math.min(value, parseInt(depositSlider.max));
             updateDepositValue(); // Update slider and value display
         });
-        // Initial update on load
-        updateDepositValue();
+        // Initial update on load - This is now handled in window.onload
 
 
         // Interest Rate
@@ -1389,21 +1387,22 @@
         interestRate.addEventListener('input', function() {
              // Basic validation for input field
              if (this.value < parseFloat(this.min) || this.value > parseFloat(this.max)) {
-                 interestRateError.textContent = `Rate must be between ${this.min}% and ${this.max}%.`;
-                 interestRateError.classList.add('active');
-                 this.classList.add('invalid');
+                  interestRateError.textContent = `Rate must be between ${this.min}% and ${this.max}%.`;
+                  interestRateError.classList.add('active');
+                  interestRate.classList.add('invalid');
+                  isValid = false; // Set isValid to false here
              } else {
-                 interestRateError.textContent = '';
-                 interestRateError.classList.remove('active');
-                 this.classList.remove('invalid');
+                  interestRateError.textContent = '';
+                  interestRateError.classList.remove('active');
+                  interestRate.classList.remove('invalid');
              }
+
 
             const value = Math.max(parseFloat(this.value) || 0, parseFloat(interestRateSlider.min));
             interestRateSlider.value = Math.min(value, parseFloat(interestRateSlider.max));
             updateInterestRateValue(); // Update slider and value display
         });
-         // Initial update on load
-         updateInterestRateValue();
+         // Initial update on load - This is now handled in window.onload
 
 
         // Loan Term
@@ -1435,8 +1434,7 @@
             loanTermSlider.value = Math.min(value, parseInt(loanTermSlider.max));
             updateLoanTermValue(); // Update slider and value display
         });
-         // Initial update on load
-         updateLoanTermValue();
+         // Initial update on load - This is now handled in window.onload
 
 
         // --- Home Loan Calculator Logic ---
@@ -1480,8 +1478,10 @@
                  propertyPrice.classList.add('invalid');
                  isValid = false;
              }
-             if (isNaN(deposit) || deposit < parseFloat(depositAmount.min) || deposit > Math.min(price, parseFloat(depositAmount.max))) {
-                 depositError.textContent = `Please enter a valid deposit between ${formatCurrency(depositAmount.min)} and ${formatCurrency(Math.min(price, parseFloat(depositAmount.max)))}.`;
+             // Re-validate deposit based on current (potentially updated) property price
+             const maxAllowedDeposit = Math.min(price, parseFloat(depositSlider.max)); // Use depositSlider.max as it's updated by property price
+             if (isNaN(deposit) || deposit < parseFloat(depositAmount.min) || deposit > maxAllowedDeposit) {
+                 depositError.textContent = `Please enter a valid deposit between ${formatCurrency(depositAmount.min)} and ${formatCurrency(maxAllowedDeposit)}.`;
                  depositError.classList.add('active');
                  depositAmount.classList.add('invalid');
                  isValid = false;
@@ -1546,13 +1546,17 @@
             const totalPayment = (baseMonthlyPayment * numPayments) + totalFees; // Use base payment for total calculation
             const totalInterestAmount = totalPayment - loanAmount - totalFees; // Total payment minus principal and fees
 
+             // Handle potential negative interest if loanAmount is very small or zero
+             const finalTotalInterest = Math.max(0, totalInterestAmount);
+
+
             // Calculate required income (assuming 30% of gross income for housing)
             const reqIncome = actualMonthlyPayment / 0.3;
 
             // Update result elements
             monthlyRepayment.textContent = formatCurrency(actualMonthlyPayment);
             requiredIncome.textContent = formatCurrency(reqIncome);
-            totalInterest.textContent = formatCurrency(totalInterestAmount);
+            totalInterest.textContent = formatCurrency(finalTotalInterest); // Use finalTotalInterest
             totalRepayment.textContent = formatCurrency(totalPayment);
 
             // Update admin fee note if included
@@ -1564,7 +1568,7 @@
             generateAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, monthlyAdminFee);
 
             // Update chart
-            updateChart(loanAmount, totalInterestAmount, totalFees);
+            updateChart(loanAmount, finalTotalInterest, totalFees); // Use finalTotalInterest
         }
 
         function generateAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, adminFee) {
@@ -1682,19 +1686,9 @@
             setTimeout(function() {
                 // Reset sliders to match input values
                 updatePropertyPriceValue(); // This also updates deposit slider max and value
+                updateDepositValue(); // Explicitly update deposit value display
                 updateInterestRateValue();
                 updateLoanTermValue();
-
-                // Ensure deposit slider value is within the new max range after property price reset
-                 const propertyPriceVal = parseInt(propertyPrice.value) || 0;
-                 const maxDeposit = Math.min(propertyPriceVal * 0.5, 1000000);
-                 depositSlider.max = maxDeposit;
-                 if (parseInt(depositAmount.value) > maxDeposit) {
-                      depositAmount.value = maxDeposit;
-                 }
-                 depositSlider.value = depositAmount.value;
-                 updateDepositValue();
-
 
                 // Recalculate with reset values
                 calculateHomeLoan();
