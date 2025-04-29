@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Calculator | Financial Compass</title>
+    <meta name="description" content="Project your retirement savings and estimate your potential income in retirement with our South African retirement calculator.">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base Styles (Copied from previous files for consistency) --- */
+        :root {
+            --primary: #0070D1; /* Blue */
+            --primary-dark: #005bb1;
+            --secondary: #00BC8C; /* Teal/Green */
+            --secondary-dark: #009670;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #FFFFFF;
+            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --border: #E1E8ED;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 10px;
+            --error: #e74c3c;
+            --success: #2ecc71;
+             /* Chart Colors (Consistent with Loan Calculators) */
+            --chart-principal: #0070D1; /* Blue (Used for Total Value) */
+            --chart-interest: #FF6B6B; /* Coral (Used for Cumulative Contributions) */
+            --chart-fees: #6BCB77; /* Green */
+            --chart-balloon: #FFC107; /* Amber */
+             --chart-background: rgba(0, 112, 209, 0.1); /* Light primary for area fill */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent; /* Added for consistent height with outline */
+            text-align: center;
+            font-size: 1rem; /* Ensure consistent font size */
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+         .btn:disabled {
+             opacity: 0.5;
+             cursor: not-allowed;
+         }
+
+
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0; /* Adjust as needed */
+            height: 73px; /* Explicit height for menu positioning */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+             color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Position slightly below text */
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px; /* Easier to tap */
+        }
+
+        /* --- Calculator Section --- */
+        .calculator-section {
+            padding: 60px 0;
+            background-color: var(--background-alt);
+        }
+
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .calculator-form {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+        }
+
+        .form-control.invalid {
+             border-color: var(--error);
+        }
+
+        /* Input group styling */
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-addon {
+            padding: 12px 16px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: var(--radius) 0 0 var(--radius);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+         .input-group-addon.suffix {
+             border-radius: 0 var(--radius) var(--radius) 0;
+             border-left: none;
+             border-right: 1px solid var(--border); /* Add right border */
+         }
+
+        .input-group .form-control {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+         /* Adjust input padding when using suffix addon */
+         .input-group .form-control[type="number"] {
+             padding-right: 12px; /* Default padding */
+         }
+         .input-group .form-control + .input-group-addon.suffix {
+            padding-left: 12px; /* Add padding back if suffix follows */
+         }
+
+
+        .form-message {
+            display: none;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--error);
+        }
+         .form-message.active {
+             display: block;
+         }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+
+        /* Results section */
+        .calculator-results {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+            display: none; /* Hide results initially */
+        }
+
+        .results-header {
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .results-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Stack results vertically */
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .result-item {
+            background-color: var(--background-alt);
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between; /* Space out label and value */
+            align-items: center;
+        }
+
+        .result-label {
+            font-size: 1rem; /* Slightly larger font for labels */
+            font-weight: 500;
+            color: var(--text); /* Use text color for clarity */
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary); /* Highlight primary results */
+        }
+
+        .result-note {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            position: relative;
+            margin-top: 24px;
+            height: 350px; /* Adjusted height for line chart */
+            width: 100%; /* Ensure it takes full width */
+             display: flex; /* Use flexbox to center canvas */
+             justify-content: center; /* Center horizontally */
+             align-items: center; /* Center vertically */
+        }
+         .chart-container canvas {
+             max-width: 100%; /* Prevent canvas from overflowing */
+             max-height: 100%; /* Prevent canvas from overflowing */
+         }
+
+         .chart-title {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 1rem;
+            font-size: 1.2rem; /* Slightly larger title for line chart */
+        }
+
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 60px 0;
+            background-color: var(--background);
+        }
+
+        .accordion {
+            margin-top: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            background-color: var(--background);
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--background-alt);
+        }
+
+        .accordion-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-content-inner {
+            padding: 0 24px 24px;
+            color: var(--text-light);
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: var(--background-alt);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* Sufficiently large value */
+            padding: 0 24px 24px; /* Apply padding when active */
+        }
+
+        /* Calculator Tips */
+        .tip-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0, 112, 209, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+        }
+
+        .tip-title i {
+            margin-right: 10px;
+        }
+
+        .tip-content {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .tip-content ul {
+            margin-top: 10px;
+            padding-left: 25px;
+        }
+
+        .tip-content li {
+            margin-bottom: 5px;
+        }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1e293b;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 64px 0 32px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column.about .footer-logo {
+             color: white;
+             font-size: 1.6rem;
+             margin-bottom: 16px;
+             display: inline-flex; /* Align icon and text */
+             align-items: center;
+        }
+        .footer-column.about .footer-logo i {
+             color: var(--primary);
+             margin-right: 10px;
+        }
+
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0; /* Remove default padding */
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 32px;
+            margin-top: 16px; /* Add margin above bottom line */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 73px; /* Match header height */
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--background);
+                width: 100%;
+                height: calc(100vh - 73px);
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0; /* Add padding top/bottom */
+                overflow-y: auto;
+                z-index: 999; /* Ensure it's below header but above content */
+             }
+
+             .nav-menu.active {
+                left: 0;
+             }
+
+             .nav-item {
+                margin: 0;
+                width: 100%;
+             }
+             .nav-link {
+                 display: block;
+                 padding: 16px 30px; /* Increase padding */
+                 text-align: left; /* Align text left */
+                 border-bottom: 1px solid var(--border);
+                 font-size: 1.1rem; /* Slightly larger font */
+             }
+             .nav-link:hover {
+                 background-color: var(--background-alt);
+             }
+              .nav-link::after {
+                 display: none; /* Hide underline on mobile */
+             }
+             /* Style last nav item without border */
+             .nav-item:last-child .nav-link {
+                 border-bottom: none;
+             }
+
+             .mobile-menu-btn {
+                 display: block;
+             }
+
+             .calculator-container {
+                grid-template-columns: 1fr;
+             }
+        }
+
+        @media (max-width: 768px) {
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+            }
+
+            .footer-column.about .footer-logo {
+                 justify-content: center; /* Center logo items */
+            }
+
+            .footer-social {
+                 justify-content: center;
+            }
+
+            .footer-links {
+                 text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 12px 0; /* Reduce header padding */
+                height: 65px; /* Adjust height */
+            }
+
+            .nav-menu {
+                top: 65px; /* Match new header height */
+                height: calc(100vh - 65px);
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .logo i {
+                font-size: 1.6rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .result-value {
+                font-size: 1.3rem;
+            }
+        }
+
+        body.no-scroll {
+             overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo"> <i class="fas fa-compass"></i> Financial<span>Compass</span>
+            </a>
+
+            <nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="/#tools" class="nav-link active">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="calculator-section">
+            <div class="container">
+                <h1 class="section-title">Retirement Calculator</h1>
+                <p class="section-subtitle">Project your retirement savings and estimate potential income.</p>
+
+                <div class="calculator-container">
+                    <div class="calculator-form">
+                        <form id="retirementCalculatorForm">
+                            <div class="form-group">
+                                <label for="currentAge" class="form-label">Your Current Age</label>
+                                <input type="number" id="currentAge" class="form-control" value="30" min="18" max="65" required>
+                                <span class="form-message" id="currentAgeError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="retirementAge" class="form-label">Your Planned Retirement Age</label>
+                                <input type="number" id="retirementAge" class="form-control" value="60" min="50" max="75" required>
+                                 <span class="form-message" id="retirementAgeError"></span>
+                            </div>
+
+                             <div class="form-group">
+                                 <label for="currentSavings" class="form-label">Current Retirement Savings</label>
+                                 <div class="input-group">
+                                     <span class="input-group-addon">R</span>
+                                     <input type="number" id="currentSavings" class="form-control" value="50000" min="0" step="1000" required>
+                                 </div>
+                                  <span class="form-message" id="currentSavingsError"></span>
+                             </div>
+
+                             <div class="form-group">
+                                 <label for="monthlyContribution" class="form-label">Current Monthly Contribution</label>
+                                  <div class="input-group">
+                                     <span class="input-group-addon">R</span>
+                                     <input type="number" id="monthlyContribution" class="form-control" value="1500" min="0" step="100" required>
+                                  </div>
+                                   <span class="form-message" id="monthlyContributionError"></span>
+                             </div>
+
+                             <div class="form-group">
+                                 <label for="salaryIncreaseRate" class="form-label">Expected Annual Salary Increase</label>
+                                  <div class="input-group">
+                                     <input type="number" id="salaryIncreaseRate" class="form-control" value="5" min="0" max="10" step="0.1" required>
+                                      <span class="input-group-addon suffix">% p.a.</span>
+                                  </div>
+                                   <span class="form-message" id="salaryIncreaseRateError"></span>
+                             </div>
+
+                             <div class="form-group">
+                                 <label for="growthRatePre" class="form-label">Expected Annual Investment Growth (Pre-Retirement)</label>
+                                  <div class="input-group">
+                                     <input type="number" id="growthRatePre" class="form-control" value="8" min="0" max="15" step="0.1" required>
+                                      <span class="input-group-addon suffix">% p.a.</span>
+                                  </div>
+                                   <span class="form-message" id="growthRatePreError"></span>
+                             </div>
+
+                              <div class="form-group">
+                                 <label for="inflationRate" class="form-label">Expected Annual Inflation Rate</label>
+                                  <div class="input-group">
+                                     <input type="number" id="inflationRate" class="form-control" value="5" min="0" max="10" step="0.1" required>
+                                      <span class="input-group-addon suffix">% p.a.</span>
+                                  </div>
+                                   <span class="form-message" id="inflationRateError"></span>
+                             </div>
+
+                              <div class="form-group">
+                                 <label for="growthRatePost" class="form-label">Expected Annual Investment Growth (Post-Retirement)</label>
+                                  <div class="input-group">
+                                     <input type="number" id="growthRatePost" class="form-control" value="5" min="0" max="10" step="0.1" required>
+                                      <span class="input-group-addon suffix">% p.a.</span>
+                                  </div>
+                                   <span class="form-message" id="growthRatePostError"></span>
+                             </div>
+
+
+                            <div class="action-buttons">
+                                <button type="button" id="retirementCalculateBtn" class="btn btn-primary">Project Retirement</button>
+                                <button type="reset" id="retirementResetBtn" class="btn btn-outline">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="calculator-results" id="retirementResultsSection">
+                        <div class="results-header">
+                            <h3 class="results-title">Your Retirement Projection</h3>
+                            <p class="results-subtitle">Estimates based on your inputs and assumed growth/inflation.</p>
+                        </div>
+
+                        <div class="results-summary">
+                            <div class="result-item">
+                                <span class="result-label">Projected Savings at Retirement:</span>
+                                <span class="result-value" id="projectedSavings">R0.00</span>
+                                <div class="result-note">In future Rands at retirement age</div>
+                            </div>
+                            <div class="result-item">
+                               <span class="result-label">Projected Monthly Income (Year 1 Retirement):</span>
+                               <span class="result-value" id="projectedMonthlyIncome">R0.00</span>
+                                <div class="result-note">Estimated sustainable income (before tax)</div>
+                           </div>
+                             <div class="result-item">
+                                <span class="result-label">Cumulative Contributions:</span>
+                                <span class="result-value" id="totalContributions">R0.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total Investment Growth:</span>
+                                <span class="result-value" id="totalGrowth">R0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="visualization-container">
+                             <h4 class="chart-title">Projected Retirement Fund Growth</h4>
+                            <div class="chart-container">
+                                <canvas id="retirementGrowthChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="tip-box">
+                        <h4 class="tip-title"><i class="fas fa-piggy-bank"></i> Retirement Planning Tips in SA</h4>
+                        <div class="tip-content">
+                            <p>Key considerations for retirement in South Africa:</p>
+                            <ul>
+                                <li><strong>Start Early:</strong> Compound growth is powerful. The earlier you start, the less you may need to contribute later.</li>
+                                <li><strong>Employer Contributions:</strong> Maximise contributions from your employer, especially if they match your contributions.</li>
+                                <li><strong>Tax Benefits:</strong> Utilise tax-advantaged savings vehicles like Retirement Annuities (RAs) and Provident/Pension Funds. Contributions are generally tax deductible up to certain limits.</li>
+                                <li><strong>Inflation:</strong> Understand that inflation erodes purchasing power. Your retirement savings need to grow *faster* than inflation.</li>
+                                 <li><strong>Review Regularly:</strong> Revisit your retirement plan and contributions annually, especially after salary increases or changes in life circumstances.</li>
+                                  <li><strong>Seek Advice:</strong> Consider consulting a financial advisor for personalised guidance.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+            </div>
+        </section>
+
+         <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Common questions about retirement planning in South Africa</p>
+
+                <div class="accordion" id="retirementFAQ">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">How much do I need to retire comfortably in South Africa?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>There's no single answer, as it depends on your desired lifestyle, expenses, and other income sources in retirement. A common rule of thumb is aiming for savings that can provide an annual income of 70-80% of your final pre-retirement income, adjusted for inflation. However, a detailed budget of expected retirement expenses is more accurate. This calculator provides an estimate based on projected savings.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What is compound growth?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Compound growth (or compound interest) is when your investments earn returns not only on the initial amount but also on the accumulated returns from previous periods. This creates a snowball effect, accelerating wealth accumulation over time. It's a key factor in long-term savings like retirement.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What is a 'safe withdrawal rate' in retirement?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>The 'safe withdrawal rate' is the percentage of your retirement savings you can withdraw each year without running out of money over a typical retirement period (e.g., 30 years). A commonly cited starting point is 4% per year, adjusted annually for inflation. However, this rate can vary based on market conditions, your investment mix, and the length of your retirement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column about">
+                    <a href="/" class="logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
+                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Home</a></li>
+                        <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
+                </div>
+
+                 <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
+                </div>
+
+                 <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                    </div>
+
+            </div> <div class="footer-bottom">
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const body = document.body;
+
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = navMenu.classList.toggle('active');
+                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+                body.classList.toggle('no-scroll', isExpanded);
+            });
+
+            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                         }
+                         body.classList.remove('no-scroll');
+                    }
+                });
+            });
+             // Close menu when clicking outside (basic implementation)
+             document.addEventListener('click', (e) => {
+                 if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                     navMenu.classList.remove('active');
+                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                     const icon = mobileMenuBtn.querySelector('i');
+                     if (icon) {
+                         icon.className = 'fas fa-bars';
+                     }
+                     body.classList.remove('no-scroll');
+                 }
+             });
+        }
+
+        // --- Footer Year ---
+        const currentYearSpan = document.getElementById('currentYear');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // --- Accordion Functionality ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                item.classList.toggle('active');
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // --- Helper Functions ---
+        function formatCurrency(amount) {
+            // Ensure amount is a number before formatting
+            const numericAmount = parseFloat(amount);
+            if (isNaN(numericAmount)) {
+                return 'R0.00'; // Return default if not a valid number
+            }
+            return 'R' + numericAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function formatPercentage(rate) {
+             const numericRate = parseFloat(rate);
+             if (isNaN(numericRate)) {
+                 return '0.00%';
+             }
+            return numericRate.toFixed(2) + '%';
+        }
+
+
+        // --- Get CSS Chart Colors ---
+        // Fetch the computed styles from the root element once
+        const style = getComputedStyle(document.documentElement);
+        const chartPrincipalColor = style.getPropertyValue('--chart-principal').trim(); // Blue for Total Value
+        const chartInterestColor = style.getPropertyValue('--chart-interest').trim(); // Coral for Contributions
+        const chartBackgroundColor = style.getPropertyValue('--chart-background').trim(); // Light blue for fill
+
+
+        // --- Retirement Calculator Logic ---
+        const retirementCalculatorForm = document.getElementById('retirementCalculatorForm');
+        const currentAgeInput = document.getElementById('currentAge');
+        const retirementAgeInput = document.getElementById('retirementAge');
+        const currentSavingsInput = document.getElementById('currentSavings');
+        const monthlyContributionInput = document.getElementById('monthlyContribution');
+        const salaryIncreaseRateInput = document.getElementById('salaryIncreaseRate');
+        const growthRatePreInput = document.getElementById('growthRatePre');
+        const inflationRateInput = document.getElementById('inflationRate');
+        const growthRatePostInput = document.getElementById('growthRatePost');
+        const retirementCalculateBtn = document.getElementById('retirementCalculateBtn');
+        const retirementResetBtn = document.getElementById('retirementResetBtn');
+        const retirementResultsSection = document.getElementById('retirementResultsSection');
+
+        const projectedSavingsEl = document.getElementById('projectedSavings');
+        const projectedMonthlyIncomeEl = document.getElementById('projectedMonthlyIncome');
+        const totalContributionsEl = document.getElementById('totalContributions');
+        const totalGrowthEl = document.getElementById('totalGrowth');
+        const retirementGrowthCanvas = document.getElementById('retirementGrowthChart');
+
+        // Error message elements
+        const currentAgeError = document.getElementById('currentAgeError');
+        const retirementAgeError = document.getElementById('retirementAgeError');
+        const currentSavingsError = document.getElementById('currentSavingsError');
+        const monthlyContributionError = document.getElementById('monthlyContributionError');
+        const salaryIncreaseRateError = document.getElementById('salaryIncreaseRateError');
+        const growthRatePreError = document.getElementById('growthRatePreError');
+        const inflationRateError = document.getElementById('inflationRateError');
+        const growthRatePostError = document.getElementById('growthRatePostError');
+
+
+        let retirementGrowthChart = null; // To hold the chart instance
+
+
+        function calculateRetirement() {
+             // Clear previous errors
+             document.querySelectorAll('.form-message').forEach(msg => {
+                 msg.textContent = '';
+                 msg.classList.remove('active');
+             });
+              document.querySelectorAll('.form-control').forEach(input => {
+                  input.classList.remove('invalid');
+              });
+
+
+            // Get input values
+            const currentAge = currentAgeInput ? parseInt(currentAgeInput.value) : NaN;
+            const retirementAge = retirementAgeInput ? parseInt(retirementAgeInput.value) : NaN;
+            let currentSavings = currentSavingsInput ? parseFloat(currentSavingsInput.value) || 0 : NaN;
+            let monthlyContribution = monthlyContributionInput ? parseFloat(monthlyContributionInput.value) || 0 : NaN;
+            const salaryIncreaseRate = salaryIncreaseRateInput ? parseFloat(salaryIncreaseRateInput.value) / 100 : NaN;
+            const growthRatePre = growthRatePreInput ? parseFloat(growthRatePreInput.value) / 100 : NaN;
+            const inflationRate = inflationRateInput ? parseFloat(inflationRateInput.value) / 100 : NaN;
+            const growthRatePost = growthRatePostInput ? parseFloat(growthRatePostInput.value) / 100 : NaN;
+
+
+            // Input Validation
+             let isValid = true;
+             if (isNaN(currentAge) || currentAge < (currentAgeInput ? parseInt(currentAgeInput.min) : 0) || currentAge > (currentAgeInput ? parseInt(currentAgeInput.max) : Infinity)) {
+                 if(currentAgeError) {
+                     currentAgeError.textContent = `Please enter a valid age between ${currentAgeInput ? currentAgeInput.min : 0} and ${currentAgeInput ? currentAgeInput.max : 0}.`;
+                     currentAgeError.classList.add('active');
+                 }
+                 if(currentAgeInput) currentAgeInput.classList.add('invalid');
+                 isValid = false;
+             }
+            if (isNaN(retirementAge) || retirementAge <= currentAge || retirementAge > (retirementAgeInput ? parseInt(retirementAgeInput.max) : Infinity)) {
+                 if(retirementAgeError) {
+                     retirementAgeError.textContent = `Please enter a retirement age older than your current age and up to ${retirementAgeInput ? retirementAgeInput.max : Infinity}.`;
+                     retirementAgeError.classList.add('active');
+                 }
+                 if(retirementAgeInput) retirementAgeInput.classList.add('invalid');
+                 isValid = false;
+             }
+             if (isNaN(currentSavings) || currentSavings < 0) {
+                  if(currentSavingsError) {
+                      currentSavingsError.textContent = 'Please enter a valid positive number for current savings.';
+                      currentSavingsError.classList.add('active');
+                  }
+                  if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
+                  isValid = false;
+             }
+              if (isNaN(monthlyContribution) || monthlyContribution < 0) {
+                   if(monthlyContributionError) {
+                       monthlyContributionError.textContent = 'Please enter a valid positive number for monthly contribution.';
+                       monthlyContributionError.classList.add('active');
+                   }
+                   if(monthlyContributionInput) monthlyContributionInput.classList.add('invalid');
+                   isValid = false;
+              }
+             if (isNaN(salaryIncreaseRate) || salaryIncreaseRate < 0 || salaryIncreaseRate > 1) { // Rates as decimals
+                  if(salaryIncreaseRateError) {
+                      salaryIncreaseRateError.textContent = 'Please enter a valid annual salary increase rate (e.g., 5 for 5%).';
+                      salaryIncreaseRateError.classList.add('active');
+                  }
+                  if(salaryIncreaseRateInput) salaryIncreaseRateInput.classList.add('invalid');
+                  isValid = false;
+             }
+              if (isNaN(growthRatePre) || growthRatePre < 0 || growthRatePre > 1) { // Rates as decimals
+                   if(growthRatePreError) {
+                       growthRatePreError.textContent = 'Please enter a valid investment growth rate (e.g., 8 for 8%).';
+                       growthRatePreError.classList.add('active');
+                   }
+                   if(growthRatePreInput) growthRatePreInput.classList.add('invalid');
+                   isValid = false;
+              }
+              if (isNaN(inflationRate) || inflationRate < 0 || inflationRate > 1) { // Rates as decimals
+                   if(inflationRateError) {
+                       inflationRateError.textContent = 'Please enter a valid inflation rate (e.g., 5 for 5%).';
+                       inflationRateError.classList.add('active');
+                   }
+                   if(inflationRateInput) inflationRateInput.classList.add('invalid');
+                   isValid = false;
+              }
+              if (isNaN(growthRatePost) || growthRatePost < 0 || growthRatePost > 1) { // Rates as decimals
+                   if(growthRatePostError) {
+                       growthRatePostError.textContent = 'Please enter a valid post-retirement growth rate (e.g., 5 for 5%).';
+                       growthRatePostError.classList.add('active');
+                   }
+                   if(growthRatePostInput) growthRatePostInput.classList.add('invalid');
+                   isValid = false;
+              }
+
+
+            if (!isValid) {
+                clearRetirementResults(); // Clear results and hide section on error
+                return;
+            }
+
+            const yearsToRetirement = retirementAge - currentAge;
+            let totalContributions = 0;
+            let fundValue = currentSavings;
+
+            const ageLabels = [currentAge];
+            const fundValueData = [currentSavings];
+            const contributionsData = [currentSavings]; // Start contributions data with initial savings
+
+
+            // --- Projection Loop (Year by Year) ---
+            for (let year = 1; year <= yearsToRetirement; year++) {
+                // Calculate contributions for the current year based on the *previous* year's monthly contribution
+                let annualContributionThisYear = monthlyContribution * 12;
+                totalContributions += annualContributionThisYear;
+
+                // Add annual contribution to the fund value
+                fundValue += annualContributionThisYear;
+
+                // Apply annual growth rate to the fund value
+                fundValue *= (1 + growthRatePre);
+
+                // Apply salary increase to the monthly contribution for the *next* year
+                monthlyContribution *= (1 + salaryIncreaseRate);
+
+                 // Store data for the chart
+                ageLabels.push(currentAge + year);
+                fundValueData.push(fundValue);
+                contributionsData.push(totalContributions + currentSavings); // Cumulative contributions + initial savings
+
+            }
+
+            const projectedSavings = fundValue;
+
+            // --- Estimate Monthly Income in Retirement ---
+            // Using a simplified 4% withdrawal rate adjusted for expected growth vs inflation post-retirement
+            // A very basic estimate - this is complex in reality.
+            const realGrowthRatePost = (1 + growthRatePost) / (1 + inflationRate) - 1;
+            const safeWithdrawalRate = 0.04; // A common rule of thumb, adjust if needed
+
+            let estimatedAnnualIncome = projectedSavings * safeWithdrawalRate;
+
+             // Adjust annual income for inflation from retirement age to today's terms for display clarity
+             // This makes the projected income comparable to today's cost of living
+             const inflationFactor = Math.pow(1 + inflationRate, yearsToRetirement);
+             const estimatedAnnualIncomeToday = estimatedAnnualIncome / inflationFactor;
+
+
+            const estimatedMonthlyIncome = estimatedAnnualIncomeToday / 12; // Show income in today's Rands
+
+            // Update result elements
+            if(projectedSavingsEl) projectedSavingsEl.textContent = formatCurrency(projectedSavings);
+            if(projectedMonthlyIncomeEl) projectedMonthlyIncomeEl.textContent = formatCurrency(estimatedMonthlyIncome);
+            if(totalContributionsEl) totalContributionsEl.textContent = formatCurrency(totalContributions);
+            if(totalGrowthEl) totalGrowthEl.textContent = formatCurrency(projectedSavings - currentSavings - totalContributions); // Growth = Final Savings - Initial Savings - Total Contributions
+
+            // Show results section
+            if(retirementResultsSection) retirementResultsSection.style.display = 'block';
+
+            // Update chart
+            updateRetirementGrowthChart(ageLabels, fundValueData, contributionsData);
+
+             // Optional: Scroll to results
+             if(retirementResultsSection) {
+                 retirementResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+             }
+
+        }
+
+        function clearRetirementResults() {
+            // Clear result elements
+            if(projectedSavingsEl) projectedSavingsEl.textContent = 'R0.00';
+            if(projectedMonthlyIncomeEl) projectedMonthlyIncomeEl.textContent = 'R0.00';
+            if(totalContributionsEl) totalContributionsEl.textContent = 'R0.00';
+            if(totalGrowthEl) totalGrowthEl.textContent = 'R0.00';
+
+
+            // Hide results section
+            if(retirementResultsSection) retirementResultsSection.style.display = 'none';
+
+            // Destroy chart
+            if (retirementGrowthChart) {
+               retirementGrowthChart.destroy();
+               retirementGrowthChart = null; // Clear the reference
+            }
+             // Clear canvas explicitly if chart was destroyed
+            if (retirementGrowthCanvas) {
+                 const ctx = retirementGrowthCanvas.getContext('2d');
+                 ctx.clearRect(0, 0, retirementGrowthCanvas.width, retirementGrowthCanvas.height);
+             }
+        }
+
+         // Function to update the Retirement Growth Line Chart
+         function updateRetirementGrowthChart(ages, fundValues, cumulativeContributions) {
+             if (!retirementGrowthCanvas) return; // Ensure canvas element exists
+            const ctx = retirementGrowthCanvas.getContext('2d');
+
+            // Destroy the previous chart instance if it exists
+            if (retirementGrowthChart) {
+                retirementGrowthChart.destroy();
+            }
+
+             // Create the new Chart.js instance
+             retirementGrowthChart = new Chart(ctx, {
+                 type: 'line', // Use 'line' for the chart type
+                 data: {
+                     labels: ages, // Ages on the X-axis
+                     datasets: [
+                          {
+                            label: 'Total Fund Value',
+                            data: fundValues, // Fund value over time
+                            borderColor: chartPrincipalColor, // Blue line
+                            backgroundColor: chartBackgroundColor, // Light blue fill below the line
+                            fill: true, // Fill area below the line
+                            tension: 0.1, // Smooth the line
+                            pointRadius: 3, // Reduce point size
+                            pointHoverRadius: 5
+                          },
+                         {
+                             label: 'Cumulative Contributions',
+                             data: cumulativeContributions, // Contributions over time
+                             borderColor: chartInterestColor, // Coral line
+                             backgroundColor: 'transparent', // No fill below this line
+                             fill: false,
+                             tension: 0.1,
+                             pointRadius: 3,
+                             pointHoverRadius: 5
+                         }
+                     ]
+                 },
+                 options: {
+                     responsive: true,
+                     maintainAspectRatio: false, // Allow chart to fit container size
+                     plugins: {
+                          legend: {
+                              position: 'top', // Position legend above the chart
+                              labels: {
+                                  boxWidth: 12,
+                                  padding: 15
+                              }
+                          },
+                          tooltip: {
+                              callbacks: {
+                                  // Custom tooltip to show currency and age
+                                  label: function(context) {
+                                      const label = context.dataset.label || '';
+                                      const value = context.raw; // The data point value
+                                      const age = context.label; // The X-axis label (Age)
+                                      return `${label} (Age ${age}): ${formatCurrency(value)}`;
+                                  }
+                              }
+                          }
+                     },
+                     scales: {
+                         x: {
+                             title: {
+                                 display: true,
+                                 text: 'Age (Years)'
+                             },
+                             // Ensure ticks are integers for age
+                              ticks: {
+                                   callback: function(value, index, values) {
+                                       if (Math.floor(value) === value) { // Only show integer ages
+                                           return value;
+                                       }
+                                   },
+                                  autoSkip: true, // Allow Chart.js to skip ticks if too dense
+                                  maxTicksLimit: 10 // Limit the number of ticks
+                              }
+                         },
+                         y: {
+                             title: {
+                                 display: true,
+                                 text: 'Fund Value (R)'
+                             },
+                              ticks: {
+                                   callback: function(value, index, values) {
+                                       // Format Y-axis labels as currency (e.g., R1M, R500K)
+                                       if (value >= 1000000) {
+                                           return 'R' + (value / 1000000).toFixed(1) + 'M';
+                                       } else if (value >= 1000) {
+                                           return 'R' + (value / 1000).toFixed(0) + 'K';
+                                       }
+                                       return formatCurrency(value); // Fallback for smaller values
+                                   }
+                              }
+                         }
+                     },
+                     layout: {
+                         padding: 10 // Add some padding around the chart
+                     }
+                 }
+             });
+              retirementGrowthCanvas.chart = retirementGrowthChart; // Store chart instance
+         }
+
+
+        // Event Listeners
+        if (retirementCalculateBtn) retirementCalculateBtn.addEventListener('click', calculateRetirement);
+        if (retirementResetBtn) {
+            retirementResetBtn.addEventListener('click', function() {
+                // Use a timeout to allow form.reset() to complete before clearing results
+                setTimeout(function() {
+                    clearRetirementResults();
+                     // Clear validation messages and invalid classes
+                     document.querySelectorAll('.form-message').forEach(msg => {
+                         msg.textContent = '';
+                         msg.classList.remove('active');
+                     });
+                      document.querySelectorAll('.form-control').forEach(input => {
+                          input.classList.remove('invalid');
+                      });
+                }, 50); // Short delay
+            });
+        }
+
+         // Optional: Recalculate on Enter key in any input field within the form
+         if (retirementCalculatorForm) {
+             retirementCalculatorForm.addEventListener('keypress', function(event) {
+                 if (event.key === 'Enter') {
+                     event.preventDefault(); // Prevent form submission
+                     calculateRetirement();
+                 }
+             });
+         }
+
+
+        // --- Initial Load Logic ---
+        window.addEventListener('load', function() {
+             // On initial load, clear results and hide the results section
+            clearRetirementResults();
+
+             // Clear any existing validation messages
+             document.querySelectorAll('.form-message').forEach(msg => {
+                 msg.textContent = '';
+                 msg.classList.remove('active');
+             });
+              document.querySelectorAll('.form-control').forEach(input => {
+                  input.classList.remove('invalid');
+              });
+
+
+            // --- Active Nav Link Highlighting (Update for retirement-calculator.html) ---
+            const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+            const currentPath = window.location.pathname;
+
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                // Check if the current path ends with the link's href (handles index.html, sars-tax-calculator.html, etc.)
+                // Also handle the case where the href is just '/' for the home page
+                if (currentPath.endsWith(linkHref) && linkHref !== '/') {
+                     navLinks.forEach(l => l.classList.remove('active'));
+                     link.classList.add('active');
+                }
+                 // Special handling for the root '/' link if the current path is exactly '/' or 'index.html'
+                else if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
+                     navLinks.forEach(l => l.classList.remove('active'));
+                     link.classList.add('active');
+                }
+                // Highlight the 'Financial Tools' link when on any calculator page
+                else if (currentPath.includes('-calculator.html') && linkHref === '/#tools') {
+                      navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
+                      link.classList.add('active');
+                }
+                 // Handle hash links on the homepage - only activate if on the homepage
+                else if (currentPath === '/' && linkHref.startsWith('#')) {
+                     // No specific action needed for highlighting based on hash on load
+                     // The '/#tools' case above handles the link to this page
+                }
+                 // For retirement-calculator.html specifically, ensure the Financial Tools link is active if not already
+                 if (currentPath.endsWith('/retirement-calculator.html') && linkHref === '/#tools') {
+                     // Ensure this link is active if we are on the Retirement page
+                      navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
+                     link.classList.add('active');
+                 }
+            });
+             // Ensure home is active if path is exactly "/" and no other link matched (and no hash)
+             // This is a fallback, the logic above should handle most cases
+             if (currentPath === '/' && window.location.hash === '' && !document.querySelector('.nav-menu .nav-link.active')) {
+                  const homeLink = document.querySelector('.nav-menu a[href="/"]');
+                  if (homeLink) {
+                      homeLink.classList.add('active');
+                  } else {
+                       const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
+                       if (indexLink) indexLink.classList.add('active');
+                  }
+             }
+        });
+
+
+    </script>
+</body>
+</html>
