@@ -1,0 +1,2811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Calculators | Financial Compass</title>
+    <meta name="description" content="Calculate repayments for home loans, vehicle finance, and personal loans in South Africa with our free online tools.">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Base Styles (Copied from previous files for consistency) --- */
+        :root {
+            --primary: #0070D1; /* Blue */
+            --primary-dark: #005bb1;
+            --secondary: #00BC8C; /* Teal/Green */
+            --secondary-dark: #009670;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #FFFFFF;
+            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --border: #E1E8ED;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --radius: 10px;
+            --error: #e74c3c;
+            --success: #2ecc71;
+             /* Chart Colors */
+            --chart-principal: #0070D1; /* Blue */
+            --chart-interest: #FF6B6B; /* Coral */
+            --chart-fees: #6BCB77; /* Green */
+            --chart-balloon: #FFC107; /* Amber */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--background);
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent; /* Added for consistent height with outline */
+            text-align: center;
+            font-size: 1rem; /* Ensure consistent font size */
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+         .btn:disabled {
+             opacity: 0.5;
+             cursor: not-allowed;
+         }
+
+
+        /* --- Header --- */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0; /* Adjust as needed */
+            height: 73px; /* Explicit height for menu positioning */
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo i {
+            color: var(--primary);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+             color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 28px;
+        }
+
+        .nav-link {
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 4px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Position slightly below text */
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+             width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px; /* Easier to tap */
+        }
+
+        /* --- Calculator Section --- */
+        .calculator-section {
+            padding: 60px 0;
+            background-color: var(--background-alt);
+        }
+
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .calculator-form {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+        }
+
+        .form-control.invalid {
+             border-color: var(--error);
+        }
+
+        /* Range slider styling */
+        .range-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e1e8ed;
+            outline: none;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .range-slider::-webkit-slider-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s ease;
+            border: none;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .range-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        /* Show range value on hover/focus of the slider or the input */
+        .range-slider:hover + .range-value,
+        .range-slider:focus + .range-value,
+        .form-control:focus + .range-container .range-value {
+            opacity: 1;
+        }
+
+
+        /* Results section */
+        .calculator-results {
+            background-color: var(--background);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 18px var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .results-header {
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .results-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .result-item {
+            background-color: var(--background-alt);
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .result-note {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            position: relative;
+            margin-top: 24px;
+            height: 250px; /* Fixed height for chart container */
+            width: 100%; /* Ensure it takes full width */
+            display: flex; /* Use flexbox to center canvas */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+         .chart-container canvas {
+             max-width: 100%; /* Prevent canvas from overflowing */
+             max-height: 100%; /* Prevent canvas from overflowing */
+         }
+
+
+        .amortization-toggle {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .amortization-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .amortization-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .amortization-table th,
+        .amortization-table td {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .amortization-table th {
+            background-color: var(--background-alt);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            text-align: center; /* Center table headers */
+        }
+
+         .amortization-table td {
+             text-align: center; /* Center table data */
+         }
+
+        .amortization-table tbody tr:hover {
+            background-color: rgba(0, 112, 209, 0.05);
+        }
+
+        /* Additional form component styles */
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-addon {
+            padding: 12px 16px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--border);
+            border-right: none;
+            border-radius: var(--radius) 0 0 var(--radius);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .input-group .form-control {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .form-message {
+            display: none;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--error);
+        }
+         .form-message.active {
+             display: block;
+         }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .toggle-label {
+            margin-right: 12px;
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-text {
+            margin-left: 12px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+         /* Specific styling for Personal Loan inputs from original file */
+         .calculator-content#personal-loan-calculator-content .input-field-wrapper span { /* For R or % symbols */
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 500;
+            pointer-events: none; /* Allow clicking through the symbol */
+            font-size: 1rem;
+        }
+
+         .calculator-content#personal-loan-calculator-content .input-field {
+            width: 100%;
+            padding: 12px 12px 12px 35px; /* Padding for symbol */
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-size: 1rem;
+            -moz-appearance: textfield; /* For Firefox */
+        }
+         .calculator-content#personal-loan-calculator-content .input-field.interest,
+         .calculator-content#personal-loan-calculator-content .input-field.term {
+            padding-left: 12px; /* No symbol needed initially */
+             padding-right: 35px; /* Space for % or months/years symbol */
+         }
+         .calculator-content#personal-loan-calculator-content .input-field-wrapper span.suffix { /* For % or months/years */
+            left: auto;
+            right: 12px;
+         }
+         .calculator-content#personal-loan-calculator-content .result-value.monthly-repayment { /* Highlight monthly repayment */
+             font-size: 1.5rem;
+             color: var(--secondary);
+             font-weight: 700;
+        }
+         .calculator-content#personal-loan-calculator-content .results-summary {
+            margin-bottom: 2rem;
+        }
+        .calculator-content#personal-loan-calculator-content .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .calculator-content#personal-loan-calculator-content .result-item:last-child {
+            border-bottom: none;
+        }
+        .calculator-content#personal-loan-calculator-content .result-label {
+            color: var(--text-light);
+        }
+        .calculator-content#personal-loan-calculator-content .result-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+         .calculator-content#personal-loan-calculator-content .chart-title {
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+
+        /* --- Tab Navigation for Calculators --- */
+        .loan-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .loan-tabs::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+
+        .loan-tab-link {
+            padding: 12px 20px;
+            white-space: nowrap;
+            color: var(--text);
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .loan-tab-link.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .loan-tab-link:hover:not(.active) {
+            color: var(--primary-dark);
+            border-bottom-color: var(--border);
+        }
+
+        /* --- Calculator Sections --- */
+        .calculator-content {
+            display: none; /* Hide all calculator content by default */
+        }
+
+        .calculator-content.active {
+            display: block; /* Show the active calculator content */
+        }
+
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 60px 0;
+            background-color: var(--background);
+        }
+
+        .accordion {
+            margin-top: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            background-color: var(--background);
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--background-alt);
+        }
+
+        .accordion-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .accordion-content-inner {
+            padding: 0 24px 24px;
+            color: var(--text-light);
+        }
+
+        .accordion-item.active .accordion-header {
+            background-color: var(--background-alt);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* Sufficiently large value */
+            padding: 0 24px 24px; /* Apply padding when active */
+        }
+
+        /* Calculator Tips */
+        .tip-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(0, 112, 209, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+        }
+
+        .tip-title i {
+            margin-right: 10px;
+        }
+
+        .tip-content {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .tip-content ul {
+            margin-top: 10px;
+            padding-left: 25px;
+        }
+
+        .tip-content li {
+            margin-bottom: 5px;
+        }
+
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1e293b;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 64px 0 32px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-column.about .footer-logo {
+             color: white;
+             font-size: 1.6rem;
+             margin-bottom: 16px;
+             display: inline-flex; /* Align icon and text */
+             align-items: center;
+        }
+        .footer-column.about .footer-logo i {
+             color: var(--primary);
+             margin-right: 10px;
+        }
+
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .footer-social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0; /* Remove default padding */
+        }
+
+        .footer-link {
+            margin-bottom: 12px;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 32px;
+            margin-top: 16px; /* Add margin above bottom line */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 73px; /* Match header height */
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--background);
+                width: 100%;
+                height: calc(100vh - 73px);
+                transition: left 0.3s ease-in-out;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0; /* Add padding top/bottom */
+                overflow-y: auto;
+                z-index: 999; /* Ensure it's below header but above content */
+             }
+
+             .nav-menu.active {
+                left: 0;
+             }
+
+             .nav-item {
+                margin: 0;
+                width: 100%;
+             }
+             .nav-link {
+                 display: block;
+                 padding: 16px 30px; /* Increase padding */
+                 text-align: left; /* Align text left */
+                 border-bottom: 1px solid var(--border);
+                 font-size: 1.1rem; /* Slightly larger font */
+             }
+             .nav-link:hover {
+                 background-color: var(--background-alt);
+             }
+              .nav-link::after {
+                 display: none; /* Hide underline on mobile */
+             }
+             /* Style last nav item without border */
+             .nav-item:last-child .nav-link {
+                 border-bottom: none;
+             }
+
+             .mobile-menu-btn {
+                 display: block;
+             }
+
+             .calculator-container {
+                grid-template-columns: 1fr;
+             }
+        }
+
+        @media (max-width: 768px) {
+            .results-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+            }
+
+            .footer-column.about .footer-logo {
+                 justify-content: center; /* Center logo items */
+            }
+
+            .footer-social {
+                 justify-content: center;
+            }
+
+            .footer-links {
+                 text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 12px 0; /* Reduce header padding */
+                height: 65px; /* Adjust height */
+            }
+
+            .nav-menu {
+                top: 65px; /* Match new header height */
+                height: calc(100vh - 65px);
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .logo i {
+                font-size: 1.6rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .result-value {
+                font-size: 1.3rem;
+            }
+        }
+
+        body.no-scroll {
+             overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="/" class="logo"> <i class="fas fa-compass"></i> Financial<span>Compass</span>
+            </a>
+
+            <nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu" id="navMenu">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="/#tools" class="nav-link active">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
+                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="calculator-section">
+            <div class="container">
+                <h1 class="section-title">Loan Calculators</h1>
+                <p class="section-subtitle">Calculate repayments for different types of loans, including home loans, vehicle finance, and personal loans.</p>
+
+                <div class="loan-tabs">
+                    <div class="loan-tab-link active" data-calculator="home-loan">Home Loan</div>
+                    <div class="loan-tab-link" data-calculator="vehicle-finance">Vehicle Finance</div>
+                    <div class="loan-tab-link" data-calculator="personal-loan">Personal Loan</div>
+                </div>
+
+                <div class="calculator-content active" id="home-loan-calculator-content">
+                    <div class="calculator-container">
+                        <div class="calculator-form">
+                            <form id="homeLoanForm">
+                                <div class="form-group">
+                                    <label for="homePropertyPrice" class="form-label">Property Purchase Price</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">R</span>
+                                        <input type="number" id="homePropertyPrice" class="form-control" value="1500000" min="100000" max="20000000" required>
+                                    </div>
+                                    <span class="form-message" id="homePropertyPriceError"></span>
+                                    <div class="range-container">
+                                        <input type="range" class="range-slider" id="homePropertyPriceSlider" min="100000" max="5000000" step="50000" value="1500000">
+                                        <span class="range-value" id="homePropertyPriceValue">R 1,500,000</span>
+                                        <div class="range-labels">
+                                            <span>R100K</span>
+                                            <span>R5M</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="homeDepositAmount" class="form-label">Deposit Amount</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">R</span>
+                                        <input type="number" id="homeDepositAmount" class="form-control" value="150000" min="0" required>
+                                    </div>
+                                    <span class="form-message" id="homeDepositError"></span>
+                                    <div class="range-container">
+                                        <input type="range" class="range-slider" id="homeDepositSlider" min="0" max="500000" step="10000" value="150000">
+                                        <span class="range-value" id="homeDepositValue">R 150,000</span>
+                                        <div class="range-labels">
+                                            <span>R0</span>
+                                            <span>R500K</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="homeInterestRate" class="form-label">Interest Rate</label>
+                                    <div class="input-group">
+                                        <input type="number" id="homeInterestRate" class="form-control" value="11.75" min="5" max="20" step="0.25" required>
+                                        <span class="input-group-addon">% p.a.</span>
+                                    </div>
+                                    <span class="form-message" id="homeInterestRateError"></span>
+                                    <div class="range-container">
+                                        <input type="range" class="range-slider" id="homeInterestRateSlider" min="5" max="20" step="0.25" value="11.75">
+                                        <span class="range-value" id="homeInterestRateValue">11.75%</span>
+                                        <div class="range-labels">
+                                            <span>5%</span>
+                                            <span>20%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="homeLoanTerm" class="form-label">Loan Term</label>
+                                    <div class="input-group">
+                                        <input type="number" id="homeLoanTerm" class="form-control" value="20" min="5" max="30" required>
+                                        <span class="input-group-addon">Years</span>
+                                    </div>
+                                    <span class="form-message" id="homeLoanTermError"></span>
+                                    <div class="range-container">
+                                        <input type="range" class="range-slider" id="homeLoanTermSlider" min="5" max="30" step="1" value="20">
+                                        <span class="range-value" id="homeLoanTermValue">20 Years</span>
+                                        <div class="range-labels">
+                                            <span>5 Years</span>
+                                            <span>30 Years</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="toggle-container">
+                                    <label class="toggle-label">Include bond fees</label>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="homeIncludeFees" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span class="toggle-text">Bank initiation & monthly admin fees</span>
+                                </div>
+
+                                <div class="action-buttons">
+                                    <button type="button" id="homeCalculateBtn" class="btn btn-primary">Calculate Repayments</button>
+                                    <button type="reset" id="homeResetBtn" class="btn btn-outline">Reset Inputs</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="calculator-results">
+                            <div class="results-header">
+                                <h3 class="results-title">Your Home Loan Calculation</h3>
+                                <p class="results-subtitle">Based on current SA interest rates</p>
+                            </div>
+
+                            <div class="results-summary">
+                                <div class="result-item">
+                                    <div class="result-label">Monthly Repayment</div>
+                                    <div class="result-value" id="homeMonthlyRepayment">R0</div>
+                                    <div class="result-note" id="homeAdminFeeNote">Including R69 admin fee</div>
+                                </div>
+
+                                <div class="result-item">
+                                    <div class="result-label">Required Income</div>
+                                    <div class="result-value" id="homeRequiredIncome">R0</div>
+                                    <div class="result-note">At 30% debt-to-income ratio</div>
+                                </div>
+
+                                <div class="result-item">
+                                    <div class="result-label">Total Interest</div>
+                                    <div class="result-value" id="homeTotalInterest">R0</div>
+                                    <div class="result-note">Over the full loan term</div>
+                                </div>
+
+                                <div class="result-item">
+                                    <div class="result-label">Total Repayment</div>
+                                    <div class="result-value" id="homeTotalRepayment">R0</div>
+                                    <div class="result-note">Loan amount + interest + fees</div>
+                                </div>
+                            </div>
+
+                            <div class="chart-container">
+                                <canvas id="homeLoanBreakdownChart"></canvas>
+                            </div>
+
+                            <div class="amortization-toggle">
+                                <button type="button" id="homeShowAmortizationBtn" class="btn btn-outline">View Amortization Schedule</button>
+                            </div>
+
+                            <div class="amortization-container">
+                                <table class="amortization-table" id="homeAmortizationTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Payment</th>
+                                            <th>Principal</th>
+                                            <th>Interest</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="homeAmortizationBody">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Smart Home Loan Tips</h4>
+                        <div class="tip-content">
+                            <p>Make your home loan work harder for you with these South African-specific tips:</p>
+                            <ul>
+                                <li><strong>Higher deposit:</strong> Aim for at least 10-20% deposit to secure better interest rates and reduce monthly payments.</li>
+                                <li><strong>Bond originator:</strong> Consider using a bond originator who can negotiate better rates across multiple banks.</li>
+                                <li><strong>Extra payments:</strong> Even R500 extra monthly can save hundreds of thousands in interest and reduce your loan term by years.</li>
+                                <li><strong>Rate negotiations:</strong> You can renegotiate your interest rate every 12-24 months, especially if your credit score has improved.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-content" id="vehicle-finance-calculator-content">
+                     <div class="calculator-container">
+                         <div class="calculator-form">
+                             <form id="vehicleFinanceForm">
+                                 <div class="form-group">
+                                     <label for="vehiclePrice" class="form-label">Vehicle Price</label>
+                                     <div class="input-group">
+                                         <span class="input-group-addon">R</span>
+                                         <input type="number" id="vehiclePrice" class="form-control" value="300000" min="50000" max="2000000" required>
+                                     </div>
+                                      <span class="form-message" id="vehiclePriceError"></span>
+                                      <div class="range-container">
+                                          <input type="range" class="range-slider" id="vehiclePriceSlider" min="50000" max="1000000" step="10000" value="300000">
+                                          <span class="range-value" id="vehiclePriceValue">R 300,000</span>
+                                          <div class="range-labels">
+                                              <span>R50K</span>
+                                              <span>R1M</span>
+                                          </div>
+                                      </div>
+                                 </div>
+
+                                  <div class="form-group">
+                                     <label for="vehicleDeposit" class="form-label">Deposit Amount</label>
+                                     <div class="input-group">
+                                         <span class="input-group-addon">R</span>
+                                         <input type="number" id="vehicleDeposit" class="form-control" value="30000" min="0" required>
+                                     </div>
+                                      <span class="form-message" id="vehicleDepositError"></span>
+                                      <div class="range-container">
+                                          <input type="range" class="range-slider" id="vehicleDepositSlider" min="0" max="200000" step="5000" value="30000">
+                                          <span class="range-value" id="vehicleDepositValue">R 30,000</span>
+                                          <div class="range-labels">
+                                              <span>R0</span>
+                                              <span>R200K</span>
+                                          </div>
+                                      </div>
+                                 </div>
+
+                                  <div class="form-group">
+                                     <label for="vehicleInterestRate" class="form-label">Interest Rate</label>
+                                     <div class="input-group">
+                                         <input type="number" id="vehicleInterestRate" class="form-control" value="13.75" min="5" max="25" step="0.25" required>
+                                         <span class="input-group-addon">% p.a.</span>
+                                     </div>
+                                      <span class="form-message" id="vehicleInterestRateError"></span>
+                                      <div class="range-container">
+                                          <input type="range" class="range-slider" id="vehicleInterestRateSlider" min="5" max="25" step="0.25" value="13.75">
+                                          <span class="range-value" id="vehicleInterestRateValue">13.75%</span>
+                                          <div class="range-labels">
+                                              <span>5%</span>
+                                              <span>25%</span>
+                                          </div>
+                                      </div>
+                                 </div>
+
+                                  <div class="form-group">
+                                     <label for="vehicleLoanTerm" class="form-label">Loan Term</label>
+                                     <div class="input-group">
+                                         <input type="number" id="vehicleLoanTerm" class="form-control" value="72" min="12" max="84" required>
+                                         <span class="input-group-addon">Months</span>
+                                     </div>
+                                      <span class="form-message" id="vehicleLoanTermError"></span>
+                                      <div class="range-container">
+                                          <input type="range" class="range-slider" id="vehicleLoanTermSlider" min="12" max="84" step="12" value="72">
+                                          <span class="range-value" id="vehicleLoanTermValue">72 Months</span>
+                                          <div class="range-labels">
+                                              <span>12 Months</span>
+                                              <span>84 Months</span>
+                                          </div>
+                                      </div>
+                                 </div>
+
+                                  <div class="form-group">
+                                     <label for="vehicleBalloon" class="form-label">Balloon Payment</label>
+                                     <div class="input-group">
+                                         <span class="input-group-addon">R</span>
+                                         <input type="number" id="vehicleBalloon" class="form-control" value="0" min="0" required>
+                                     </div>
+                                      <span class="form-message" id="vehicleBalloonError"></span>
+                                      <div class="range-container">
+                                          <input type="range" class="range-slider" id="vehicleBalloonSlider" min="0" max="200000" step="5000" value="0">
+                                          <span class="range-value" id="vehicleBalloonValue">R 0</span>
+                                          <div class="range-labels">
+                                              <span>R0</span>
+                                              <span>R200K</span>
+                                          </div>
+                                      </div>
+                                 </div>
+
+
+                                  <div class="action-buttons">
+                                     <button type="button" id="vehicleCalculateBtn" class="btn btn-primary">Calculate Repayments</button>
+                                     <button type="reset" id="vehicleResetBtn" class="btn btn-outline">Reset Inputs</button>
+                                 </div>
+                             </form>
+                         </div>
+                         <div class="calculator-results">
+                             <div class="results-header">
+                                 <h3 class="results-title">Your Vehicle Finance Calculation</h3>
+                                 <p class="results-subtitle">Estimate your monthly car payments</p>
+                             </div>
+
+                             <div class="results-summary">
+                                 <div class="result-item">
+                                     <div class="result-label">Monthly Repayment</div>
+                                     <div class="result-value" id="vehicleMonthlyRepayment">R0</div>
+                                 </div>
+
+                                 <div class="result-item">
+                                     <div class="result-label">Total Interest</div>
+                                     <div class="result-value" id="vehicleTotalInterest">R0</div>
+                                 </div>
+
+                                 <div class="result-item">
+                                     <div class="result-label">Total Repayment (Excl. Balloon)</div>
+                                     <div class="result-value" id="vehicleTotalRepaymentExclBalloon">R0</div>
+                                 </div>
+                                  <div class="result-item">
+                                     <div class="result-label">Total Repayment (Incl. Balloon)</div>
+                                     <div class="result-value" id="vehicleTotalRepaymentInclBalloon">R0</div>
+                                 </div>
+                             </div>
+
+                            <div class="chart-container">
+                                <canvas id="vehicleLoanBreakdownChart"></canvas>
+                            </div>
+                         </div>
+                     </div>
+                     <div class="tip-box">
+                        <h4 class="tip-title"><i class="fas fa-car"></i> Vehicle Finance Tips</h4>
+                        <div class="tip-content">
+                            <p>Tips for vehicle finance in South Africa:</p>
+                            <ul>
+                                <li>Consider the total cost, including insurance and maintenance.</li>
+                                <li>A larger deposit reduces your loan amount and monthly payments.</li>
+                                <li>Shorter loan terms mean higher monthly payments but less total interest.</li>
+                                <li>Understand balloon payments and their impact on the final cost.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-content" id="personal-loan-calculator-content">
+                     <div class="calculator-container">
+                         <div class="calculator-form">
+                             <form id="personalLoanForm">
+                                 <div class="form-group">
+                                     <label for="personalLoanAmount" class="form-label">Loan Amount</label>
+                                     <div class="input-group">
+                                         <span class="input-group-addon">R</span>
+                                         <input type="number" id="personalLoanAmount" class="form-control" placeholder="e.g., 50000" required min="1000" step="100">
+                                     </div>
+                                      <span class="form-message" id="personalLoanAmountError"></span>
+                                 </div>
+                                 <div class="form-group">
+                                     <label for="personalInterestRate" class="form-label">Annual Interest Rate</label>
+                                      <div class="input-group">
+                                         <input type="number" id="personalInterestRate" class="form-control" placeholder="e.g., 18.5" required min="0.1" max="50" step="0.01">
+                                          <span class="input-group-addon">% p.a.</span>
+                                     </div>
+                                      <span class="form-message" id="personalInterestRateError"></span>
+                                 </div>
+                                 <div class="form-group">
+                                     <label for="personalLoanTerm" class="form-label">Loan Term (Months)</label>
+                                      <div class="input-group">
+                                         <input type="number" id="personalLoanTerm" class="form-control" placeholder="e.g., 60" required min="6" max="84" step="1">
+                                          <span class="input-group-addon">Months</span>
+                                     </div>
+                                      <span class="form-message" id="personalLoanTermError"></span>
+                                 </div>
+                                 <div class="action-buttons">
+                                     <button type="button" id="personalCalculateBtn" class="btn btn-primary">Calculate Repayments</button>
+                                     <button type="reset" id="personalResetBtn" class="btn btn-outline">Reset Inputs</button>
+                                 </div>
+                             </form>
+                         </div>
+
+                         <div class="calculator-results" id="personalResultsSection">
+                             <div class="results-header">
+                                 <h3 class="results-title">Your Personal Loan Calculation</h3>
+                                 <p class="results-subtitle">Estimate your monthly payments</p>
+                             </div>
+                              <div class="results-summary">
+                                  <div class="result-item">
+                                      <span class="result-label">Monthly Repayment:</span>
+                                      <span class="result-value" id="personalMonthlyRepayment">R0.00</span>
+                                  </div>
+                                  <div class="result-item">
+                                     <span class="result-label">Total Principal Paid:</span>
+                                     <span class="result-value" id="personalTotalPrincipal">R0.00</span>
+                                 </div>
+                                  <div class="result-item">
+                                      <span class="result-label">Total Interest Paid:</span>
+                                      <span class="result-value" id="personalTotalInterest">R0.00</span>
+                                  </div>
+                                   <div class="result-item">
+                                      <span class="result-label">Total Repayment:</span>
+                                      <span class="result-value" id="personalTotalRepayment">R0.00</span>
+                                  </div>
+                              </div>
+
+                             <div class="visualization-container">
+                                  <h4 class="chart-title">Total Repayment Breakdown</h4>
+                                 <div class="chart-container">
+                                     <canvas id="personalLoanChart"></canvas>
+                                 </div>
+                              </div>
+                         </div>
+                     </div>
+                     <div class="tip-box">
+                        <h4 class="tip-title"><i class="fas fa-credit-card"></i> Personal Loan Tips</h4>
+                        <div class="tip-content">
+                            <p>Tips for personal loans in South Africa:</p>
+                            <ul>
+                                <li>Compare interest rates and fees from different lenders.</li>
+                                <li>Only borrow what you need and can comfortably repay.</li>
+                                <li>Understand the total cost of the loan over its term.</li>
+                                <li>Avoid taking out personal loans for non-essential purchases.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Common questions about loans in South Africa</p>
+
+                <div class="accordion" id="loanFAQ">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What is the difference between a secured and unsecured loan?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>A secured loan requires you to pledge an asset (like a house or car) as collateral. If you fail to repay the loan, the lender can seize the asset. Secured loans typically have lower interest rates because they are less risky for the lender (e.g., Home Loans, Vehicle Finance). An unsecured loan does not require collateral and is based solely on your creditworthiness. These typically have higher interest rates due to the increased risk for the lender (e.g., Personal Loans).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">How does my credit score affect my loan application?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Your credit score is a crucial factor. A higher credit score indicates a lower risk to lenders, making you more likely to be approved for a loan and potentially qualifying you for a lower interest rate. A lower score might result in rejection or a higher interest rate.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What is the prime interest rate in South Africa?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>The prime interest rate is the benchmark rate at which banks lend money to their most creditworthy customers. It is influenced by the South African Reserve Bank's repo rate. Many variable-rate loans, like home loans and some vehicle finance, are linked to the prime rate (e.g., prime + 1%). Changes in the prime rate directly impact the monthly repayments on these loans.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What is a balloon payment in vehicle finance?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>A balloon payment is a lump sum that is due at the end of a vehicle finance loan term. Including a balloon payment reduces your monthly installments during the loan period but means you will owe a significant amount at the end. You will typically need to pay this amount in full, refinance it, or trade in the vehicle.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column about">
+                    <a href="/" class="footer-logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
+                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <div class="footer-social">
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column links">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="/">Home</a></li>
+                        <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
+                </div>
+
+                 <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
+                </div>
+
+                 <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                    </div>
+
+            </div> <div class="footer-bottom">
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        const body = document.body;
+
+        if (mobileMenuBtn && navMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isExpanded = navMenu.classList.toggle('active');
+                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
+                const icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                }
+                body.classList.toggle('no-scroll', isExpanded);
+            });
+
+            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                         }
+                         body.classList.remove('no-scroll');
+                    }
+                });
+            });
+             // Close menu when clicking outside (basic implementation)
+             document.addEventListener('click', (e) => {
+                 if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                     navMenu.classList.remove('active');
+                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                     const icon = mobileMenuBtn.querySelector('i');
+                     if (icon) {
+                         icon.className = 'fas fa-bars';
+                     }
+                     body.classList.remove('no-scroll');
+                 }
+             });
+        }
+
+        // --- Footer Year ---
+        const currentYearSpan = document.getElementById('currentYear');
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+
+        // --- Accordion Functionality ---
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                item.classList.toggle('active');
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // --- Tab Switching Logic ---
+        const tabLinks = document.querySelectorAll('.loan-tab-link');
+        const calculatorContents = document.querySelectorAll('.calculator-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const targetCalculatorId = link.getAttribute('data-calculator'); // 'home-loan', 'vehicle-finance', 'personal-loan'
+                const targetContentId = targetCalculatorId + '-calculator-content'; // ID of the content div
+
+                // Remove 'active' class from all tab links and calculator contents
+                tabLinks.forEach(tab => tab.classList.remove('active'));
+                calculatorContents.forEach(content => content.classList.remove('active'));
+
+                // Add 'active' class to the clicked tab link and its corresponding content
+                link.classList.add('active');
+                const activeContent = document.getElementById(targetContentId);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                }
+
+                // --- Initialize/Run Calculation for the Active Tab ---
+                // Call the initialization function specific to the active calculator.
+                // Clear previous results before initializing the new calculator
+                clearCalculatorResults();
+
+                if (targetCalculatorId === 'home-loan') {
+                    initializeHomeLoanCalculator();
+                } else if (targetCalculatorId === 'vehicle-finance') {
+                     initializeVehicleFinanceCalculator();
+                 } else if (targetCalculatorId === 'personal-loan') {
+                     initializePersonalLoanCalculator();
+                 }
+
+            });
+        });
+
+        // Helper function to clear results when switching tabs (optional but good practice)
+        function clearCalculatorResults() {
+            // Find the results elements within the currently active calculator content
+            const activeContent = document.querySelector('.calculator-content.active');
+            if (activeContent) {
+                 // Clear common result elements using attribute selectors for flexibility
+                 activeContent.querySelectorAll('[id$="MonthlyRepayment"]').forEach(el => el.textContent = 'R0.00'); // Ensure currency format
+                 activeContent.querySelectorAll('[id$="RequiredIncome"]').forEach(el => el.textContent = 'R0.00');
+                 activeContent.querySelectorAll('[id$="TotalInterest"]').forEach(el => el.textContent = 'R0.00');
+                 activeContent.querySelectorAll('[id$="TotalRepayment"]').forEach(el => el.textContent = 'R0.00');
+                 activeContent.querySelectorAll('[id$="TotalRepaymentExclBalloon"]').forEach(el => el.textContent = 'R0.00'); // For vehicle finance
+                 activeContent.querySelectorAll('[id$="TotalRepaymentInclBalloon"]').forEach(el => el.textContent = 'R0.00'); // For vehicle finance
+                 activeContent.querySelectorAll('[id$="TotalPrincipal"]').forEach(el => el.textContent = 'R0.00'); // For personal loan
+                 activeContent.querySelectorAll('.result-item .result-note').forEach(el => el.textContent = ''); // Clear notes
+
+                 // Hide amortization table if it exists
+                 const amortizationContainer = activeContent.querySelector('.amortization-container');
+                 const showAmortizationBtn = activeContent.querySelector('[id$="ShowAmortizationBtn"]');
+                 if (amortizationContainer) amortizationContainer.style.display = 'none';
+                 if (showAmortizationBtn) showAmortizationBtn.textContent = 'View Amortization Schedule';
+
+                 // Clear amortization body
+                 const amortizationBody = activeContent.querySelector('[id$="AmortizationBody"]');
+                 if (amortizationBody) amortizationBody.innerHTML = '';
+
+
+                 // Destroy the chart if it exists for the previous calculator
+                 const canvas = activeContent.querySelector('canvas');
+                 if (canvas && canvas.chart) {
+                     canvas.chart.destroy();
+                     canvas.chart = null; // Clear the reference
+                 }
+                 // Hide personal loan results section if it exists
+                 const personalResultsSection = activeContent.querySelector('#personalResultsSection');
+                 if (personalResultsSection) {
+                     personalResultsSection.style.display = 'none';
+                 }
+             } else {
+                 // If no active content found, clear all potential result elements on the page
+                 document.querySelectorAll('[id$="MonthlyRepayment"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('[id$="RequiredIncome"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('[id$="TotalInterest"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('[id$="TotalRepayment"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('[id$="TotalRepaymentExclBalloon"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('[id$="TotalRepaymentInclBalloon"]').forEach(el => el.textContent = 'R00.00');
+                 document.querySelectorAll('[id$="TotalPrincipal"]').forEach(el => el.textContent = 'R0.00');
+                 document.querySelectorAll('.result-item .result-note').forEach(el => el.textContent = '');
+
+                 document.querySelectorAll('.amortization-container').forEach(el => el.style.display = 'none');
+                 document.querySelectorAll('[id$="ShowAmortizationBtn"]').forEach(el => el.textContent = 'View Amortization Schedule');
+                 document.querySelectorAll('[id$="AmortizationBody"]').forEach(el => el.innerHTML = '');
+
+                 document.querySelectorAll('canvas').forEach(canvas => {
+                     if (canvas.chart) {
+                         canvas.chart.destroy();
+                         canvas.chart = null;
+                     }
+                 });
+                  document.querySelectorAll('#personalResultsSection').forEach(el => el.style.display = 'none');
+
+             }
+        }
+
+
+        // --- Helper Functions ---
+        function formatCurrency(amount) {
+            // Ensure amount is a number before formatting
+            const numericAmount = parseFloat(amount);
+            if (isNaN(numericAmount)) {
+                return 'R0.00'; // Return default if not a valid number
+            }
+            return 'R' + numericAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function formatPercentage(rate) {
+             const numericRate = parseFloat(rate);
+             if (isNaN(numericRate)) {
+                 return '0.00%';
+             }
+            return numericRate.toFixed(2) + '%';
+        }
+
+        function formatMonths(months) {
+             const numericMonths = parseInt(months);
+             if (isNaN(numericMonths)) return '0 Months';
+             return numericMonths === 1 ? '1 Month' : numericMonths + ' Months';
+        }
+
+        function formatYears(years) {
+             const numericYears = parseInt(years);
+             if (isNaN(numericYears)) return '0 Years';
+             return numericYears === 1 ? '1 Year' : numericYears + ' Years';
+        }
+
+        // --- Get CSS Chart Colors ---
+        // Fetch the computed styles from the root element once
+        const style = getComputedStyle(document.documentElement);
+        const chartPrincipalColor = style.getPropertyValue('--chart-principal').trim();
+        const chartInterestColor = style.getPropertyValue('--chart-interest').trim();
+        const chartFeesColor = style.getPropertyValue('--chart-fees').trim();
+        const chartBalloonColor = style.getPropertyValue('--chart-balloon').trim();
+
+
+        // --- Home Loan Calculator Logic ---
+        // Get Home Loan specific elements using unique IDs
+        const homeLoanForm = document.getElementById('homeLoanForm');
+        const homePropertyPrice = document.getElementById('homePropertyPrice');
+        const homePropertyPriceSlider = document.getElementById('homePropertyPriceSlider');
+        const homePropertyPriceValue = document.getElementById('homePropertyPriceValue');
+        const homePropertyPriceError = document.getElementById('homePropertyPriceError');
+
+        const homeDepositAmount = document.getElementById('homeDepositAmount');
+        const homeDepositSlider = document.getElementById('homeDepositSlider');
+        const homeDepositValue = document.getElementById('homeDepositValue');
+        const homeDepositError = document.getElementById('homeDepositError');
+
+        const homeInterestRate = document.getElementById('homeInterestRate');
+        const homeInterestRateSlider = document.getElementById('homeInterestRateSlider');
+        const homeInterestRateValue = document.getElementById('homeInterestRateValue');
+        const homeInterestRateError = document.getElementById('homeInterestRateError');
+
+        const homeLoanTerm = document.getElementById('homeLoanTerm');
+        const homeLoanTermSlider = document.getElementById('homeLoanTermSlider');
+        const homeLoanTermValue = document.getElementById('homeLoanTermValue');
+        const homeLoanTermError = document.getElementById('homeLoanTermError');
+
+        const homeIncludeFees = document.getElementById('homeIncludeFees');
+        const homeCalculateBtn = document.getElementById('homeCalculateBtn');
+        const homeResetBtn = document.getElementById('homeResetBtn');
+        const homeMonthlyRepayment = document.getElementById('homeMonthlyRepayment');
+        const homeRequiredIncome = document.getElementById('homeRequiredIncome');
+        const homeTotalInterest = document.getElementById('homeTotalInterest');
+        const homeTotalRepayment = document.getElementById('homeTotalRepayment');
+        const homeShowAmortizationBtn = document.getElementById('homeShowAmortizationBtn');
+        const homeAmortizationContainer = document.querySelector('#home-loan-calculator-content .amortization-container'); // Scope to home loan content div
+        const homeAmortizationBody = document.querySelector('#home-loan-calculator-content #homeAmortizationBody'); // Scope to home loan content div
+        const homeAdminFeeNote = document.querySelector('#home-loan-calculator-content .result-item .result-note'); // Scope to home loan content div
+        const homeLoanBreakdownCanvas = document.querySelector('#home-loan-calculator-content #homeLoanBreakdownChart'); // Get the canvas element
+
+        let homeLoanBreakdownChart = null; // Initialize chart variable to null
+
+        // Home Loan Specific Update Functions for Sliders/Inputs
+        function updateHomePropertyPriceValue() {
+            if (!homePropertyPrice || !homePropertyPriceSlider || !homePropertyPriceValue) return;
+            const value = parseInt(homePropertyPriceSlider.value);
+            homePropertyPrice.value = value;
+            homePropertyPriceValue.textContent = formatCurrency(value);
+
+            // Update deposit slider max value based on property price (Max 50% of price or R1M)
+            const maxDeposit = Math.min(value * 0.5, 1000000);
+            if (homeDepositSlider) {
+                homeDepositSlider.max = maxDeposit;
+                // Ensure current deposit value doesn't exceed new max
+                if (homeDepositAmount && parseInt(homeDepositAmount.value) > maxDeposit) {
+                     homeDepositAmount.value = maxDeposit;
+                }
+                if (homeDepositAmount && homeDepositSlider) homeDepositSlider.value = homeDepositAmount.value; // Keep slider in sync
+                if (homeDepositAmount) updateHomeDepositValue(); // Update deposit display
+            }
+        }
+
+        function updateHomeDepositValue() {
+             if (!homeDepositAmount || !homeDepositSlider || !homeDepositValue) return;
+            const value = parseInt(homeDepositSlider.value);
+            homeDepositAmount.value = value;
+            homeDepositValue.textContent = formatCurrency(value);
+        }
+
+        function updateHomeInterestRateValue() {
+             if (!homeInterestRate || !homeInterestRateSlider || !homeInterestRateValue) return;
+            const value = parseFloat(homeInterestRateSlider.value);
+            homeInterestRate.value = value;
+            homeInterestRateValue.textContent = formatPercentage(value);
+        }
+
+        function updateHomeLoanTermValue() {
+             if (!homeLoanTerm || !homeLoanTermSlider || !homeLoanTermValue) return;
+            const value = parseInt(homeLoanTermSlider.value);
+            homeLoanTerm.value = value;
+            homeLoanTermValue.textContent = formatYears(value);
+        }
+
+        // Home Loan Calculation Logic
+        function calculateHomeLoan() {
+             // Clear previous errors for Home Loan form
+             if (homeLoanForm) {
+                 homeLoanForm.querySelectorAll('.form-message').forEach(msg => {
+                     msg.textContent = '';
+                     msg.classList.remove('active');
+                 });
+                  homeLoanForm.querySelectorAll('.form-control').forEach(input => {
+                      input.classList.remove('invalid');
+                  });
+             } else {
+                 console.error("Home Loan form not found.");
+                 return; // Exit if form is not found
+             }
+
+            // Get input values - Add checks if elements exist
+            const price = homePropertyPrice ? parseFloat(homePropertyPrice.value) : NaN;
+            const deposit = homeDepositAmount ? parseFloat(homeDepositAmount.value) || 0 : NaN;
+            const rate = homeInterestRate ? parseFloat(homeInterestRate.value) : NaN;
+            const years = homeLoanTerm ? parseInt(homeLoanTerm.value) : NaN;
+            const includeAdminFees = homeIncludeFees ? homeIncludeFees.checked : true;
+
+            // Input Validation (Scoped to Home Loan form)
+             let isValid = true;
+             if (isNaN(price) || price < (homePropertyPrice ? parseFloat(homePropertyPrice.min) : 0) || price > (homePropertyPrice ? parseFloat(homePropertyPrice.max) : Infinity)) {
+                 if(homePropertyPriceError) {
+                     homePropertyPriceError.textContent = `Please enter a valid property price between ${formatCurrency(homePropertyPrice ? homePropertyPrice.min : 0)} and ${formatCurrency(homePropertyPrice ? homePropertyPrice.max : 0)}.`;
+                     homePropertyPriceError.classList.add('active');
+                 }
+                 if(homePropertyPrice) homePropertyPrice.classList.add('invalid');
+                 isValid = false;
+             }
+             const maxAllowedDeposit = homeDepositSlider ? parseFloat(homeDepositSlider.max) : 0; // Use slider max for validation
+             if (isNaN(deposit) || deposit < (homeDepositAmount ? parseFloat(homeDepositAmount.min) : 0) || deposit > maxAllowedDeposit) {
+                 if(homeDepositError) {
+                     homeDepositError.textContent = `Please enter a valid deposit between ${formatCurrency(homeDepositAmount ? homeDepositAmount.min : 0)} and ${formatCurrency(maxAllowedDeposit)}.`;
+                     homeDepositError.classList.add('active');
+                 }
+                 if(homeDepositAmount) homeDepositAmount.classList.add('invalid');
+                 isValid = false;
+             }
+             if (isNaN(rate) || rate < (homeInterestRate ? parseFloat(homeInterestRate.min) : 0) || rate > (homeInterestRate ? parseFloat(homeInterestRate.max) : Infinity)) {
+                  if(homeInterestRateError) {
+                      homeInterestRateError.textContent = `Please enter a valid interest rate between ${homeInterestRate ? homeInterestRate.min : 0}% and ${homeInterestRate ? homeInterestRate.max : 0}%.`;
+                      homeInterestRateError.classList.add('active');
+                  }
+                  if(homeInterestRate) homeInterestRate.classList.add('invalid');
+                  isValid = false;
+             }
+             if (isNaN(years) || years < (homeLoanTerm ? parseInt(homeLoanTerm.min) : 0) || years > (homeLoanTerm ? parseInt(homeLoanTerm.max) : Infinity)) {
+                 if(homeLoanTermError) {
+                     homeLoanTermError.textContent = `Please enter a valid loan term between ${homeLoanTerm ? homeLoanTerm.min : 0} and ${homeLoanTerm ? homeLoanTerm.max : 0} years.`;
+                     homeLoanTermError.classList.add('active');
+                 }
+                 if(homeLoanTerm) homeLoanTerm.classList.add('invalid');
+                 isValid = false;
+             }
+
+             if (!isValid) {
+                 // Clear Home Loan results if inputs are invalid
+                 if(homeMonthlyRepayment) homeMonthlyRepayment.textContent = 'R0.00';
+                 if(homeRequiredIncome) homeRequiredIncome.textContent = 'R0.00';
+                 if(homeTotalInterest) homeTotalInterest.textContent = 'R0.00';
+                 if(homeTotalRepayment) homeTotalRepayment.textContent = 'R0.00';
+                 if (homeLoanBreakdownChart) {
+                     homeLoanBreakdownChart.destroy();
+                     homeLoanBreakdownChart = null;
+                 }
+                 if(homeAmortizationBody) homeAmortizationBody.innerHTML = '';
+                 if(homeAmortizationContainer) homeAmortizationContainer.style.display = 'none';
+                 if(homeShowAmortizationBtn) homeShowAmortizationBtn.textContent = 'View Amortization Schedule';
+                 if (homeAdminFeeNote) homeAdminFeeNote.textContent = 'Enter valid inputs to calculate';
+                 return;
+             }
+
+            const loanAmount = price - deposit;
+            const annualRateDecimal = rate / 100;
+            const monthlyRate = annualRateDecimal / 12;
+            const numPayments = years * 12;
+
+            let baseMonthlyPayment; // Payment excluding admin fee
+            if (monthlyRate === 0) {
+                 // Should not happen with typical interest rates, but handle for completeness
+                 baseMonthlyPayment = loanAmount / numPayments;
+            } else {
+                 baseMonthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+                                      (Math.pow(1 + monthlyRate, numPayments) - 1);
+            }
+
+            const initiationFee = includeAdminFees ? 6037.50 : 0; // Example SA initiation fee
+            const monthlyAdminFee = includeAdminFees ? 69 : 0; // Example SA monthly admin fee
+
+            const actualMonthlyPayment = baseMonthlyPayment + monthlyAdminFee;
+
+            // Total repayment includes principal, interest, and all fees over the term
+            const totalPayment = (actualMonthlyPayment * numPayments) + initiationFee;
+
+            // Total interest is the total paid minus the loan principal and the total fees
+            const totalFees = (monthlyAdminFee * numPayments) + initiationFee;
+            const totalInterestAmount = totalPayment - loanAmount - totalFees;
+            const finalTotalInterest = Math.max(0, totalInterestAmount); // Ensure interest is not negative
+
+            // Required income based on 30% debt-to-income ratio
+            const reqIncome = actualMonthlyPayment / 0.3;
+
+            // Update result elements - Add checks if elements exist
+            if(homeMonthlyRepayment) homeMonthlyRepayment.textContent = formatCurrency(actualMonthlyPayment);
+            if(homeRequiredIncome) homeRequiredIncome.textContent = formatCurrency(reqIncome);
+            if(homeTotalInterest) homeTotalInterest.textContent = formatCurrency(finalTotalInterest);
+            if(homeTotalRepayment) homeTotalRepayment.textContent = formatCurrency(totalPayment);
+
+            if (homeAdminFeeNote) {
+                homeAdminFeeNote.textContent = includeAdminFees ? 'Including fees' : 'Excluding bank fees';
+            }
+
+            // Generate and display amortization schedule
+            generateHomeAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, monthlyAdminFee);
+
+            // Update chart with calculated values
+            updateHomeLoanChart(loanAmount, finalTotalInterest, totalFees);
+        }
+
+        // Function to generate and display the amortization schedule
+        function generateHomeAmortizationSchedule(loanAmount, monthlyRate, numPayments, baseMonthlyPayment, adminFee) {
+            if (!homeAmortizationBody) return;
+            homeAmortizationBody.innerHTML = ''; // Clear previous schedule
+
+            let balance = loanAmount;
+            let yearlyPrincipal = 0;
+            let yearlyInterest = 0;
+            let yearlyPayment = 0;
+
+            for (let month = 1; month <= numPayments; month++) {
+                // Calculate interest for the current month
+                const interest = balance * monthlyRate;
+                // Calculate principal paid this month (total payment minus interest)
+                const principal = baseMonthlyPayment - interest;
+                // Reduce the balance by the principal paid
+                balance -= principal;
+
+                // Accumulate yearly totals
+                yearlyPrincipal += principal;
+                yearlyInterest += interest;
+                yearlyPayment += baseMonthlyPayment + adminFee; // Include admin fee in yearly payment total
+
+                // Ensure balance doesn't go below zero due to floating point inaccuracies
+                if (balance < 0) balance = 0;
+
+                // Add a row to the table at the end of each year or at the end of the loan term
+                if (month % 12 === 0 || month === numPayments) {
+                    const year = Math.ceil(month / 12);
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${year}</td>
+                        <td>${formatCurrency(yearlyPayment)}</td>
+                        <td>${formatCurrency(yearlyPrincipal)}</td>
+                        <td>${formatCurrency(yearlyInterest)}</td>
+                        <td>${formatCurrency(balance)}</td>
+                    `;
+
+                    homeAmortizationBody.appendChild(row);
+
+                    // Reset yearly accumulators for the next year
+                    yearlyPrincipal = 0;
+                    yearlyInterest = 0;
+                    yearlyPayment = 0;
+                }
+            }
+        }
+
+        // Function to update the Home Loan pie chart
+        function updateHomeLoanChart(loanAmount, totalInterestAmount, totalFees) {
+             if (!homeLoanBreakdownCanvas) return; // Ensure canvas element exists
+            const ctx = homeLoanBreakdownCanvas.getContext('2d');
+
+            // Destroy the previous chart instance if it exists
+            if (homeLoanBreakdownChart) {
+                homeLoanBreakdownChart.destroy();
+            }
+
+            // Prepare data for the chart
+            const chartData = [];
+            const labels = [];
+            const backgroundColors = [];
+
+            // Only add data segments if their value is greater than 0
+            if (loanAmount > 0) {
+                chartData.push(loanAmount);
+                labels.push('Principal');
+                // Use the fetched CSS variable color
+                backgroundColors.push(chartPrincipalColor);
+            }
+            if (totalInterestAmount > 0) {
+                chartData.push(totalInterestAmount);
+                labels.push('Total Interest');
+                 // Use the fetched CSS variable color
+                backgroundColors.push(chartInterestColor);
+            }
+            if (totalFees > 0) {
+                chartData.push(totalFees);
+                labels.push('Fees');
+                 // Use the fetched CSS variable color
+                backgroundColors.push(chartFeesColor);
+            }
+
+            // Create the new Chart.js instance
+            homeLoanBreakdownChart = new Chart(ctx, {
+                type: 'pie', // Use 'pie' for the chart type
+                data: {
+                    labels: labels, // Use the filtered labels
+                    datasets: [{
+                        data: chartData, // Use the filtered chartData
+                        backgroundColor: backgroundColors, // Use the filtered backgroundColors
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Allow chart to fit container size
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // Position legend below the chart
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                // Custom tooltip to show currency and percentage
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? (value / total * 100) : 0;
+                                    return `${label}: ${formatCurrency(value)} (${percentage.toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: 10 // Add some padding around the chart
+                    }
+                }
+            });
+             homeLoanBreakdownCanvas.chart = homeLoanBreakdownChart; // Store chart instance on the canvas element for easy access
+        }
+
+        // Home Loan Event Listeners (Add checks if elements exist)
+        if (homePropertyPriceSlider) homePropertyPriceSlider.addEventListener('input', updateHomePropertyPriceValue);
+        if (homePropertyPrice) homePropertyPrice.addEventListener('input', updateHomePropertyPriceValue);
+        if (homeDepositSlider) homeDepositSlider.addEventListener('input', updateHomeDepositValue);
+        if (homeDepositAmount) homeDepositAmount.addEventListener('input', updateHomeDepositValue);
+        if (homeInterestRateSlider) homeInterestRateSlider.addEventListener('input', updateHomeInterestRateValue);
+        if (homeInterestRate) homeInterestRate.addEventListener('input', updateHomeInterestRateValue);
+        if (homeLoanTermSlider) homeLoanTermSlider.addEventListener('input', updateHomeLoanTermValue);
+        if (homeLoanTerm) homeLoanTerm.addEventListener('input', updateHomeLoanTermValue);
+        if (homeCalculateBtn) homeCalculateBtn.addEventListener('click', calculateHomeLoan);
+        if (homeResetBtn) homeResetBtn.addEventListener('click', function() {
+             // Use a timeout to allow form.reset() to complete before updating
+             setTimeout(function() {
+                 // Update slider/input displays to reset values
+                 if (homePropertyPrice && homePropertyPriceSlider) updateHomePropertyPriceValue();
+                 if (homeDepositAmount && homeDepositSlider) updateHomeDepositValue();
+                 if (homeInterestRate && homeInterestRateSlider) updateHomeInterestRateValue();
+                 if (homeLoanTerm && homeLoanTermSlider) updateHomeLoanTermValue();
+
+                 // Recalculate with reset values
+                 calculateHomeLoan();
+
+                  // Hide amortization section and reset button text
+                  if (homeAmortizationContainer) homeAmortizationContainer.style.display = 'none';
+                  if (homeShowAmortizationBtn) homeShowAmortizationBtn.textContent = 'View Amortization Schedule';
+
+                  // Clear validation messages and invalid classes
+                  document.querySelectorAll('#homeLoanForm .form-message').forEach(msg => {
+                      msg.textContent = '';
+                      msg.classList.remove('active');
+                  });
+                  document.querySelectorAll('#homeLoanForm .form-control').forEach(input => {
+                      input.classList.remove('invalid');
+                  });
+
+             }, 50); // Short delay
+         });
+
+        // Toggle Amortization Schedule visibility
+        if (homeShowAmortizationBtn) homeShowAmortizationBtn.addEventListener('click', function() {
+            if (homeAmortizationContainer) {
+                const isVisible = homeAmortizationContainer.style.display === 'block';
+                homeAmortizationContainer.style.display = isVisible ? 'none' : 'block';
+                homeShowAmortizationBtn.textContent = isVisible ? 'View Amortization Schedule' : 'Hide Amortization Schedule';
+            }
+        });
+
+
+        // --- Initialization Function for Home Loan Calculator ---
+        function initializeHomeLoanCalculator() {
+             console.log("Initializing Home Loan Calculator");
+             // Ensure elements are available before adding listeners or updating values
+             // These updates are already handled by the event listeners, but calling them
+             // ensures the initial display matches the default input values.
+             if (homePropertyPrice && homePropertyPriceSlider) updateHomePropertyPriceValue();
+             if (homeDepositAmount && homeDepositSlider) updateHomeDepositValue();
+             if (homeInterestRate && homeInterestRateSlider) updateHomeInterestRateValue();
+             if (homeLoanTerm && homeLoanTermSlider) updateHomeLoanTermValue();
+
+             // Perform the initial calculation with default values
+             calculateHomeLoan();
+        }
+
+
+        // --- Vehicle Finance Calculator Logic ---
+        // Get Vehicle Finance specific elements using unique IDs
+        const vehicleFinanceForm = document.getElementById('vehicleFinanceForm');
+        const vehiclePrice = document.getElementById('vehiclePrice');
+        const vehiclePriceSlider = document.getElementById('vehiclePriceSlider');
+        const vehiclePriceValue = document.getElementById('vehiclePriceValue');
+        const vehiclePriceError = document.getElementById('vehiclePriceError');
+
+        const vehicleDeposit = document.getElementById('vehicleDeposit');
+        const vehicleDepositSlider = document.getElementById('vehicleDepositSlider');
+        const vehicleDepositValue = document.getElementById('vehicleDepositValue');
+        const vehicleDepositError = document.getElementById('vehicleDepositError');
+
+        const vehicleInterestRate = document.getElementById('vehicleInterestRate');
+        const vehicleInterestRateSlider = document.getElementById('vehicleInterestRateSlider');
+        const vehicleInterestRateValue = document.getElementById('vehicleInterestRateValue');
+        const vehicleInterestRateError = document.getElementById('vehicleInterestRateError');
+
+        const vehicleLoanTerm = document.getElementById('vehicleLoanTerm');
+        const vehicleLoanTermSlider = document.getElementById('vehicleLoanTermSlider');
+        const vehicleLoanTermValue = document.getElementById('vehicleLoanTermValue');
+        const vehicleLoanTermError = document.getElementById('vehicleLoanTermError');
+
+        const vehicleBalloon = document.getElementById('vehicleBalloon');
+        const vehicleBalloonSlider = document.getElementById('vehicleBalloonSlider');
+        const vehicleBalloonValue = document.getElementById('vehicleBalloonValue');
+        const vehicleBalloonError = document.getElementById('vehicleBalloonError');
+
+        const vehicleCalculateBtn = document.getElementById('vehicleCalculateBtn');
+        const vehicleResetBtn = document.getElementById('vehicleResetBtn');
+        const vehicleMonthlyRepayment = document.getElementById('vehicleMonthlyRepayment');
+        const vehicleTotalInterest = document.getElementById('vehicleTotalInterest');
+        const vehicleTotalRepaymentExclBalloon = document.getElementById('vehicleTotalRepaymentExclBalloon');
+        const vehicleTotalRepaymentInclBalloon = document.getElementById('vehicleTotalRepaymentInclBalloon');
+        const vehicleLoanBreakdownCanvas = document.querySelector('#vehicle-finance-calculator-content #vehicleLoanBreakdownChart');
+
+        let vehicleLoanBreakdownChart = null; // Initialize chart variable to null
+
+
+        // Vehicle Finance Specific Update Functions for Sliders/Inputs
+        function updateVehiclePriceValue() {
+            if (!vehiclePrice || !vehiclePriceSlider || !vehiclePriceValue) return;
+            const value = parseInt(vehiclePriceSlider.value);
+            vehiclePrice.value = value;
+            vehiclePriceValue.textContent = formatCurrency(value);
+
+            // Update deposit and balloon slider max based on vehicle price
+            const maxDeposit = Math.min(value * 0.5, 200000); // Max 50% of price or R200K (example cap)
+            if (vehicleDepositSlider) {
+                vehicleDepositSlider.max = maxDeposit;
+                 if (vehicleDeposit && parseInt(vehicleDeposit.value) > maxDeposit) {
+                     vehicleDeposit.value = maxDeposit;
+                 }
+                 if (vehicleDeposit && vehicleDepositSlider) vehicleDepositSlider.value = vehicleDeposit.value;
+                 if (vehicleDeposit) updateVehicleDepositValue();
+            }
+
+            const maxBalloon = Math.min(value * 0.5, 200000); // Max 50% of price or R200K (example cap)
+            if (vehicleBalloonSlider) {
+                vehicleBalloonSlider.max = maxBalloon;
+                 if (vehicleBalloon && parseInt(vehicleBalloon.value) > maxBalloon) {
+                     vehicleBalloon.value = maxBalloon;
+                 }
+                 if (vehicleBalloon && vehicleBalloonSlider) vehicleBalloonSlider.value = vehicleBalloon.value;
+                 if (vehicleBalloon) updateVehicleBalloonValue();
+            }
+        }
+
+        function updateVehicleDepositValue() {
+             if (!vehicleDeposit || !vehicleDepositSlider || !vehicleDepositValue) return;
+            const value = parseInt(vehicleDepositSlider.value);
+            vehicleDeposit.value = value;
+            vehicleDepositValue.textContent = formatCurrency(value);
+        }
+
+        function updateVehicleInterestRateValue() {
+            if (!vehicleInterestRate || !vehicleInterestRateSlider || !vehicleInterestRateValue) return;
+            const value = parseFloat(vehicleInterestRateSlider.value);
+            vehicleInterestRate.value = value;
+            vehicleInterestRateValue.textContent = formatPercentage(value);
+        }
+
+        function updateVehicleLoanTermValue() {
+            if (!vehicleLoanTerm || !vehicleLoanTermSlider || !vehicleLoanTermValue) return;
+            const value = parseInt(vehicleLoanTermSlider.value);
+            vehicleLoanTerm.value = value;
+            vehicleLoanTermValue.textContent = formatMonths(value);
+        }
+
+         function updateVehicleBalloonValue() {
+             if (!vehicleBalloon || !vehicleBalloonSlider || !vehicleBalloonValue) return;
+            const value = parseInt(vehicleBalloonSlider.value);
+            vehicleBalloon.value = value;
+            vehicleBalloonValue.textContent = formatCurrency(value);
+        }
+
+
+        // Vehicle Finance Calculation Logic
+        function calculateVehicleFinance() {
+             // Clear previous errors for Vehicle Finance form
+             if (vehicleFinanceForm) {
+                 vehicleFinanceForm.querySelectorAll('.form-message').forEach(msg => {
+                     msg.textContent = '';
+                     msg.classList.remove('active');
+                 });
+                  vehicleFinanceForm.querySelectorAll('.form-control').forEach(input => {
+                      input.classList.remove('invalid');
+                  });
+             } else {
+                 console.error("Vehicle Finance form not found.");
+                 return;
+             }
+
+            // Get input values - Add checks if elements exist
+            const price = vehiclePrice ? parseFloat(vehiclePrice.value) : NaN;
+            const deposit = vehicleDeposit ? parseFloat(vehicleDeposit.value) || 0 : NaN;
+            const rate = vehicleInterestRate ? parseFloat(vehicleInterestRate.value) : NaN;
+            const termMonths = vehicleLoanTerm ? parseInt(vehicleLoanTerm.value) : NaN;
+            const balloon = vehicleBalloon ? parseFloat(vehicleBalloon.value) || 0 : NaN;
+
+            // Input Validation
+            let isValid = true;
+             if (isNaN(price) || price < (vehiclePrice ? parseFloat(vehiclePrice.min) : 0) || price > (vehiclePrice ? parseFloat(vehiclePrice.max) : Infinity)) {
+                 if(vehiclePriceError) {
+                     vehiclePriceError.textContent = `Please enter a valid vehicle price between ${formatCurrency(vehiclePrice ? vehiclePrice.min : 0)} and ${formatCurrency(vehiclePrice ? vehiclePrice.max : 0)}.`;
+                     vehiclePriceError.classList.add('active');
+                 }
+                 if(vehiclePrice) vehiclePrice.classList.add('invalid');
+                 isValid = false;
+             }
+             const maxAllowedDeposit = vehicleDepositSlider ? parseFloat(vehicleDepositSlider.max) : 0; // Use slider max for validation
+             if (isNaN(deposit) || deposit < (vehicleDeposit ? parseFloat(vehicleDeposit.min) : 0) || deposit > maxAllowedDeposit) {
+                 if(vehicleDepositError) {
+                     vehicleDepositError.textContent = `Please enter a valid deposit between ${formatCurrency(vehicleDeposit ? vehicleDeposit.min : 0)} and ${formatCurrency(maxAllowedDeposit)}.`;
+                     vehicleDepositError.classList.add('active');
+                 }
+                 if(vehicleDeposit) vehicleDeposit.classList.add('invalid');
+                 isValid = false;
+             }
+             if (isNaN(rate) || rate < (vehicleInterestRate ? parseFloat(vehicleInterestRate.min) : 0) || rate > (vehicleInterestRate ? parseFloat(vehicleInterestRate.max) : Infinity)) {
+                  if(vehicleInterestRateError) {
+                      vehicleInterestRateError.textContent = `Please enter a valid interest rate between ${vehicleInterestRate ? vehicleInterestRate.min : 0}% and ${vehicleInterestRate ? vehicleInterestRate.max : 0}%.`;
+                      vehicleInterestRateError.classList.add('active');
+                  }
+                  if(vehicleInterestRate) vehicleInterestRate.classList.add('invalid');
+                  isValid = false;
+             }
+             if (isNaN(termMonths) || termMonths < (vehicleLoanTerm ? parseInt(vehicleLoanTerm.min) : 0) || termMonths > (vehicleLoanTerm ? parseInt(vehicleLoanTerm.max) : Infinity)) {
+                 if(vehicleLoanTermError) {
+                     vehicleLoanTermError.textContent = `Please enter a valid loan term between ${vehicleLoanTerm ? vehicleLoanTerm.min : 0} and ${vehicleLoanTerm ? vehicleLoanTerm.max : 0} months.`;
+                     vehicleLoanTermError.classList.add('active');
+                 }
+                 if(vehicleLoanTerm) vehicleLoanTerm.classList.add('invalid');
+                 isValid = false;
+             }
+             const maxAllowedBalloon = vehicleBalloonSlider ? parseFloat(vehicleBalloonSlider.max) : 0; // Use slider max for validation
+             // Also ensure balloon is not more than the loan amount (price - deposit)
+             const effectiveMaxBalloon = Math.min(maxAllowedBalloon, price - deposit);
+
+             if (isNaN(balloon) || balloon < (vehicleBalloon ? parseFloat(vehicleBalloon.min) : 0) || balloon > effectiveMaxBalloon) {
+                 if(vehicleBalloonError) {
+                     vehicleBalloonError.textContent = `Please enter a valid balloon payment between ${formatCurrency(vehicleBalloon ? vehicleBalloon.min : 0)} and ${formatCurrency(effectiveMaxBalloon)}.`;
+                     vehicleBalloonError.classList.add('active');
+                 }
+                 if(vehicleBalloon) vehicleBalloon.classList.add('invalid');
+                 isValid = false;
+             }
+
+
+            if (!isValid) {
+                 // Clear Vehicle Finance results if inputs are invalid
+                 if(vehicleMonthlyRepayment) vehicleMonthlyRepayment.textContent = 'R0.00';
+                 if(vehicleTotalInterest) vehicleTotalInterest.textContent = 'R0.00';
+                 if(vehicleTotalRepaymentExclBalloon) vehicleTotalRepaymentExclBalloon.textContent = 'R0.00';
+                 if(vehicleTotalRepaymentInclBalloon) vehicleTotalRepaymentInclBalloon.textContent = 'R0.00';
+                 if (vehicleLoanBreakdownChart) {
+                     vehicleLoanBreakdownChart.destroy();
+                     vehicleLoanBreakdownChart = null;
+                 }
+                 return;
+             }
+
+
+            const loanAmount = price - deposit;
+            const annualRateDecimal = rate / 100;
+            const monthlyRate = annualRateDecimal / 12;
+
+            // Calculate monthly payment with balloon payment
+            // M = [ P - B / (1 + i)^n ] * [ i(1 + i)^n ] / [ (1 + i)^n – 1]
+            // M = Monthly Payment, P = Principal Loan Amount, B = Balloon Payment, i = Monthly Interest Rate, n = Number of Payments
+            let monthlyPayment;
+             if (monthlyRate === 0) {
+                 // Handle 0 interest rate case (shouldn't happen with min rate 5%)
+                 monthlyPayment = (loanAmount - balloon) / termMonths;
+             } else {
+                 const termFactor = Math.pow(1 + monthlyRate, termMonths);
+                 // Ensure termFactor is not 1 to avoid division by zero if termMonths is 0
+                 if (termFactor === 1 && termMonths > 0) { // Check for termMonths > 0 to avoid infinite loop/NaN
+                     // This case implies monthlyRate is effectively 0, fallback to simple division
+                     monthlyPayment = (loanAmount - balloon) / termMonths;
+                 } else if (termFactor === 1 && termMonths === 0) {
+                     monthlyPayment = loanAmount - balloon; // Pay difference upfront if term is 0
+                 }
+                 else {
+                     monthlyPayment = (loanAmount - balloon / termFactor) * (monthlyRate * termFactor) / (termFactor - 1);
+                 }
+             }
+
+
+            const totalPaidExclBalloon = monthlyPayment * termMonths;
+            const totalPaidInclBalloon = totalPaidExclBalloon + balloon;
+            // Total interest is the total amount paid minus the initial loan amount
+            const totalInterest = totalPaidInclBalloon - loanAmount;
+             const finalTotalInterest = Math.max(0, totalInterest); // Ensure interest is not negative
+
+            // Update result elements - Add checks if elements exist
+            if(vehicleMonthlyRepayment) vehicleMonthlyRepayment.textContent = formatCurrency(monthlyPayment);
+            if(vehicleTotalInterest) vehicleTotalInterest.textContent = formatCurrency(finalTotalInterest);
+            if(vehicleTotalRepaymentExclBalloon) vehicleTotalRepaymentExclBalloon.textContent = formatCurrency(totalPaidExclBalloon);
+            if(vehicleTotalRepaymentInclBalloon) vehicleTotalRepaymentInclBalloon.textContent = formatCurrency(totalPaidInclBalloon);
+
+            // Update chart with calculated values
+            updateVehicleLoanChart(loanAmount, finalTotalInterest, balloon);
+        }
+
+         // Function to update the Vehicle Finance pie chart
+         function updateVehicleLoanChart(loanAmount, totalInterestAmount, balloon) {
+             if (!vehicleLoanBreakdownCanvas) return; // Ensure canvas element exists
+            const ctx = vehicleLoanBreakdownCanvas.getContext('2d');
+
+            // Destroy the previous chart instance if it exists
+            if (vehicleLoanBreakdownChart) {
+                vehicleLoanBreakdownChart.destroy();
+            }
+
+            // Prepare data for the chart
+            const chartData = [];
+            const labels = [];
+            const backgroundColors = [];
+
+            // Only add data segments if their value is greater than 0
+            if (loanAmount > 0) {
+                chartData.push(loanAmount);
+                labels.push('Principal');
+                // Use the fetched CSS variable color
+                backgroundColors.push(chartPrincipalColor);
+            }
+            if (totalInterestAmount > 0) {
+                chartData.push(totalInterestAmount);
+                labels.push('Total Interest');
+                 // Use the fetched CSS variable color
+                backgroundColors.push(chartInterestColor);
+            }
+             // Only add balloon if it's greater than 0
+            if (balloon > 0) {
+                chartData.push(balloon);
+                labels.push('Balloon Payment');
+                 // Use the fetched CSS variable color
+                backgroundColors.push(chartBalloonColor);
+            }
+
+            // Create the new Chart.js instance
+            vehicleLoanBreakdownChart = new Chart(ctx, {
+                type: 'pie', // Use 'pie' for the chart type
+                data: {
+                    labels: labels, // Use the filtered labels
+                    datasets: [{
+                        data: chartData, // Use the filtered chartData
+                        backgroundColor: backgroundColors, // Use the filtered backgroundColors
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Allow chart to fit container size
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // Position legend below the chart
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                // Custom tooltip to show currency and percentage
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = total > 0 ? (value / total * 100) : 0;
+                                    return `${label}: ${formatCurrency(value)} (${percentage.toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: 10 // Add some padding around the chart
+                    }
+                }
+            });
+             vehicleLoanBreakdownCanvas.chart = vehicleLoanBreakdownChart; // Store chart instance
+        }
+
+
+        // Vehicle Finance Event Listeners
+        if (vehiclePriceSlider) vehiclePriceSlider.addEventListener('input', updateVehiclePriceValue);
+        if (vehiclePrice) vehiclePrice.addEventListener('input', updateVehiclePriceValue);
+        if (vehicleDepositSlider) vehicleDepositSlider.addEventListener('input', updateVehicleDepositValue);
+        if (vehicleDeposit) vehicleDeposit.addEventListener('input', updateVehicleDepositValue);
+        if (vehicleInterestRateSlider) vehicleInterestRateSlider.addEventListener('input', updateVehicleInterestRateValue);
+        if (vehicleInterestRate) vehicleInterestRate.addEventListener('input', updateVehicleInterestRateValue);
+        if (vehicleLoanTermSlider) vehicleLoanTermSlider.addEventListener('input', updateVehicleLoanTermValue);
+        if (vehicleLoanTerm) vehicleLoanTerm.addEventListener('input', updateVehicleLoanTermValue);
+        if (vehicleBalloonSlider) vehicleBalloonSlider.addEventListener('input', updateVehicleBalloonValue);
+        if (vehicleBalloon) vehicleBalloon.addEventListener('input', updateVehicleBalloonValue);
+
+        if (vehicleCalculateBtn) vehicleCalculateBtn.addEventListener('click', calculateVehicleFinance);
+        if (vehicleResetBtn) vehicleResetBtn.addEventListener('click', function() {
+             // Use a timeout to allow form.reset() to complete before updating
+             setTimeout(function() {
+                 // Update slider/input displays to reset values
+                 if (vehiclePrice && vehiclePriceSlider) updateVehiclePriceValue();
+                 if (vehicleDeposit && vehicleDepositSlider) updateVehicleDepositValue();
+                 if (vehicleInterestRate && vehicleInterestRateSlider) updateVehicleInterestRateValue();
+                 if (vehicleLoanTerm && vehicleLoanTermSlider) updateVehicleLoanTermValue();
+                 if (vehicleBalloon && vehicleBalloonSlider) updateVehicleBalloonValue();
+
+                 // Recalculate with reset values
+                 calculateVehicleFinance();
+
+                  // Clear validation messages and invalid classes
+                  document.querySelectorAll('#vehicleFinanceForm .form-message').forEach(msg => {
+                      msg.textContent = '';
+                      msg.classList.remove('active');
+                  });
+                  document.querySelectorAll('#vehicleFinanceForm .form-control').forEach(input => {
+                      input.classList.remove('invalid');
+                  });
+
+             }, 50); // Short delay
+         });
+
+
+        // --- Initialization Function for Vehicle Finance Calculator ---
+        function initializeVehicleFinanceCalculator() {
+             console.log("Initializing Vehicle Finance Calculator");
+             // Ensure elements are available before adding listeners or updating values
+             // These updates are already handled by the event listeners, but calling them
+             // ensures the initial display matches the default input values.
+             if (vehiclePrice && vehiclePriceSlider) updateVehiclePriceValue();
+             if (vehicleDeposit && vehicleDepositSlider) updateVehicleDepositValue();
+             if (vehicleInterestRate && vehicleInterestRateSlider) updateVehicleInterestRateValue();
+             if (vehicleLoanTerm && vehicleLoanTermSlider) updateVehicleLoanTermValue();
+             if (vehicleBalloon && vehicleBalloonSlider) updateVehicleBalloonValue();
+
+             // Perform the initial calculation with default values
+             calculateVehicleFinance();
+
+             // Hide amortization section if it exists for this calculator (it doesn't in Vehicle Finance)
+             const amortizationContainer = document.querySelector('#vehicle-finance-calculator-content .amortization-container');
+             if (amortizationContainer) amortizationContainer.style.display = 'none';
+        }
+
+
+        // --- Personal Loan Calculator Logic ---
+        // Get Personal Loan specific elements using unique IDs
+        const personalLoanForm = document.getElementById('personalLoanForm');
+        const personalLoanAmount = document.getElementById('personalLoanAmount');
+        const personalInterestRate = document.getElementById('personalInterestRate');
+        const personalLoanTerm = document.getElementById('personalLoanTerm');
+        const personalCalculateBtn = document.getElementById('personalCalculateBtn');
+        const personalResultsSection = document.getElementById('personalResultsSection'); // The results div
+        const personalMonthlyRepaymentEl = document.getElementById('personalMonthlyRepayment');
+        const personalTotalPrincipalEl = document.getElementById('personalTotalPrincipal');
+        const personalTotalInterestEl = document.getElementById('personalTotalInterest');
+        const personalTotalRepaymentEl = document.getElementById('personalTotalRepayment');
+        const personalLoanChartCanvas = document.getElementById('personalLoanChart');
+
+        let personalLoanChart = null; // To hold the chart instance
+
+        // Personal Loan Calculation Logic
+        function calculatePersonalLoan() {
+            // Clear previous errors for Personal Loan form
+             if (personalLoanForm) {
+                 personalLoanForm.querySelectorAll('.form-message').forEach(msg => {
+                     msg.textContent = '';
+                     msg.classList.remove('active');
+                 });
+                  personalLoanForm.querySelectorAll('.form-control').forEach(input => {
+                       input.classList.remove('invalid');
+                   });
+             } else {
+                 console.error("Personal Loan form not found.");
+                 return;
+             }
+
+            // Get input values - Add checks if elements exist
+            const loanAmount = personalLoanAmount ? parseFloat(personalLoanAmount.value) : NaN;
+            const annualInterestRate = personalInterestRate ? parseFloat(personalInterestRate.value) : NaN;
+            const loanTermMonths = personalLoanTerm ? parseInt(personalLoanTerm.value) : NaN;
+
+            // Input Validation
+            let isValid = true;
+             if (isNaN(loanAmount) || loanAmount < (personalLoanAmount ? parseFloat(personalLoanAmount.min) : 0) || loanAmount > (personalLoanAmount ? parseFloat(personalLoanAmount.max) : Infinity)) {
+                 const errorEl = document.getElementById('personalLoanAmountError');
+                 if(errorEl) {
+                     errorEl.textContent = `Please enter a valid loan amount between ${formatCurrency(personalLoanAmount ? personalLoanAmount.min : 0)} and ${formatCurrency(personalLoanAmount ? personalLoanAmount.max : 0)}.`;
+                     errorEl.classList.add('active');
+                 }
+                 if(personalLoanAmount) personalLoanAmount.classList.add('invalid');
+                 isValid = false;
+             }
+             if (isNaN(annualInterestRate) || annualInterestRate < (personalInterestRate ? parseFloat(personalInterestRate.min) : 0) || annualInterestRate > (personalInterestRate ? parseFloat(personalInterestRate.max) : Infinity)) {
+                  const errorEl = document.getElementById('personalInterestRateError');
+                  if(errorEl) {
+                      errorEl.textContent = `Please enter a valid interest rate between ${personalInterestRate ? personalInterestRate.min : 0}% and ${personalInterestRate ? personalInterestRate.max : 0}%.`;
+                      errorEl.classList.add('active');
+                  }
+                  if(personalInterestRate) personalInterestRate.classList.add('invalid');
+                  isValid = false;
+             }
+             if (isNaN(loanTermMonths) || loanTermMonths < (personalLoanTerm ? parseInt(personalLoanTerm.min) : 0) || loanTermMonths > (personalLoanTerm ? parseInt(personalLoanTerm.max) : Infinity)) {
+                 const errorEl = document.getElementById('personalLoanTermError');
+                 if(errorEl) {
+                     errorEl.textContent = `Please enter a valid loan term between ${personalLoanTerm ? personalLoanTerm.min : 0} and ${personalLoanTerm ? personalLoanTerm.max : 0} months.`;
+                     errorEl.classList.add('active');
+                 }
+                 if(personalLoanTerm) personalLoanTerm.classList.add('invalid');
+                 isValid = false;
+             }
+
+
+            if (!isValid) {
+                 // Clear Personal Loan results if inputs are invalid
+                 if(personalMonthlyRepaymentEl) personalMonthlyRepaymentEl.textContent = 'R0.00';
+                 if(personalTotalPrincipalEl) personalTotalPrincipalEl.textContent = 'R0.00';
+                 if(personalTotalInterestEl) personalTotalInterestEl.textContent = 'R0.00';
+                 if(personalTotalRepaymentEl) personalTotalRepaymentEl.textContent = 'R0.00';
+                 if (personalLoanChart) {
+                     personalLoanChart.destroy();
+                     personalLoanChart = null;
+                 }
+                 if(personalResultsSection) personalResultsSection.style.display = 'none'; // Hide results section
+                 return;
+             }
+
+
+            // --- Calculation ---
+            const monthlyInterestRate = (annualInterestRate / 100) / 12;
+            const numberOfPayments = loanTermMonths;
+
+            // Monthly Repayment Formula (Amortization)
+            // M = P [ i(1 + i)^n ] / [ (1 + i)^n – 1]
+            let monthlyRepayment;
+             if (monthlyInterestRate === 0) {
+                 // Handle 0 interest rate case (unlikely for personal loans, but for robustness)
+                 monthlyRepayment = loanAmount / numberOfPayments;
+             } else {
+                 const termFactor = Math.pow(1 + monthlyInterestRate, numberOfPayments);
+                  // Ensure termFactor is not 1 to avoid division by zero if numberOfPayments is 0
+                 if (termFactor === 1 && numberOfPayments > 0) { // Check for numberOfPayments > 0
+                      monthlyRepayment = loanAmount / numberOfPayments;
+                 } else if (termFactor === 1 && numberOfPayments === 0) {
+                      monthlyRepayment = loanAmount; // Pay full amount upfront if term is 0
+                 }
+                 else {
+                     monthlyRepayment = loanAmount * (monthlyInterestRate * termFactor) / (termFactor - 1);
+                 }
+             }
+
+
+            const totalRepayment = monthlyRepayment * numberOfPayments;
+            // Total interest is the total amount paid minus the initial loan amount (principal)
+            const totalInterest = totalRepayment - loanAmount;
+             const finalTotalInterest = Math.max(0, totalInterest); // Ensure interest is not negative
+
+
+            // --- Display Results ---
+            // Add checks if elements exist before updating textContent
+            if(personalMonthlyRepaymentEl) personalMonthlyRepaymentEl.textContent = formatCurrency(monthlyRepayment);
+            if(personalTotalPrincipalEl) personalTotalPrincipalEl.textContent = formatCurrency(loanAmount); // Principal is just the loan amount
+            if(personalTotalInterestEl) personalTotalInterestEl.textContent = formatCurrency(finalTotalInterest);
+            if(personalTotalRepaymentEl) personalTotalRepaymentEl.textContent = formatCurrency(totalRepayment);
+
+            if(personalResultsSection) personalResultsSection.style.display = 'block'; // Show results section
+
+            // --- Update Chart ---
+            updatePersonalLoanChart(loanAmount, finalTotalInterest);
+
+             // Optional: Scroll to results (scoped to the personal loan results section)
+             const personalResultsDiv = document.querySelector('#personal-loan-calculator-content .calculator-results');
+             if(personalResultsDiv) {
+                 personalResultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+             }
+        }
+
+        // --- Function to Update Personal Loan Chart ---
+        function updatePersonalLoanChart(principal, interest) {
+             if (!personalLoanChartCanvas) return; // Ensure canvas element exists
+            const ctx = personalLoanChartCanvas.getContext('2d');
+
+            // Prepare data for the chart
+            const chartData = [];
+            const labels = [];
+            const backgroundColors = [];
+
+             // Only add data segments if their value is greater than 0
+             if (principal > 0) {
+                chartData.push(principal);
+                labels.push('Total Principal Paid');
+                // Use the fetched CSS variable color
+                backgroundColors.push(chartPrincipalColor);
+             }
+             if (interest > 0) {
+                chartData.push(interest);
+                labels.push('Total Interest Paid');
+                // Use the fetched CSS variable color
+                backgroundColors.push(chartInterestColor);
+             }
+
+
+            // Destroy the previous chart instance if it exists
+            if (personalLoanChart) {
+                personalLoanChart.destroy();
+            }
+
+            // Create new chart only if there is data to display
+            if (chartData.length > 0) {
+                 personalLoanChart = new Chart(ctx, {
+                     type: 'doughnut', // Doughnut or Pie chart
+                     data: {
+                         labels: labels, // Use filtered labels
+                         datasets: [{
+                             label: 'Repayment Breakdown',
+                             data: chartData, // Use filtered data
+                             backgroundColor: backgroundColors, // Use filtered colors
+                             borderColor: [
+                                 chartPrincipalColor, // Use fetched color
+                                 chartInterestColor // Use fetched color
+                             ],
+                             borderWidth: 1
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false, // Allow chart to fit container size
+                         plugins: {
+                              legend: {
+                                  position: 'bottom', // Position legend below the chart
+                                  labels: { padding: 15 }
+                              },
+                              title: { display: false }, // Title is in HTML H4 tag
+                              tooltip: {
+                                  callbacks: {
+                                      // Custom tooltip to show currency and percentage
+                                      label: function(context) {
+                                          const dataset = context.dataset;
+                                          const total = dataset.data.reduce((acc, value) => acc + value, 0);
+                                          const currentValue = dataset.data[context.dataIndex];
+                                          const percentage = total ? Math.round((currentValue / total) * 100) : 0;
+                                          let label = context.label || '';
+                                          if (label) { label += ': '; }
+                                          label += formatCurrency(currentValue) + ` (${percentage}%)`;
+                                          return label;
+                                      }
+                                  }
+                              }
+                         }
+                     }
+                 });
+                 personalLoanChartCanvas.chart = personalLoanChart; // Store chart instance
+            } else {
+                // If no data, ensure the canvas is clear (destroying handles this, but being explicit)
+                 if (personalLoanChartCanvas) {
+                     const ctx = personalLoanChartCanvas.getContext('2d');
+                     ctx.clearRect(0, 0, personalLoanChartCanvas.width, personalLoanChartCanvas.height);
+                 }
+            }
+        }
+
+        // Personal Loan Event Listeners
+         // Use click event on the button instead of submit on the form
+        if (personalCalculateBtn) personalCalculateBtn.addEventListener('click', calculatePersonalLoan);
+         // Add reset button functionality for personal loan
+         const personalResetBtn = document.getElementById('personalResetBtn');
+         if (personalResetBtn) {
+             personalResetBtn.addEventListener('click', function() {
+                  // Reset form inputs to their default values (set in HTML)
+                  if (personalLoanForm) personalLoanForm.reset();
+                  // Clear results and hide results section
+                  clearCalculatorResults();
+             });
+         }
+
+
+        // --- Initialization Function for Personal Loan Calculator ---
+        function initializePersonalLoanCalculator() {
+             console.log("Initializing Personal Loan Calculator");
+             // No sliders to update initially for Personal Loan based on the provided HTML
+             // But we should clear previous results and hide the results section
+             if(personalResultsSection) personalResultsSection.style.display = 'none';
+             if(personalLoanChart) {
+                 personalLoanChart.destroy(); // Destroy previous chart instance
+                 personalLoanChart = null; // Clear the reference
+             }
+
+
+             // Clear any existing validation messages on initialization
+             if (personalLoanForm) {
+                  personalLoanForm.querySelectorAll('.form-message').forEach(msg => {
+                      msg.textContent = '';
+                      msg.classList.remove('active');
+                  });
+                   personalLoanForm.querySelectorAll('.form-control').forEach(input => {
+                       input.classList.remove('invalid');
+                   });
+             }
+
+             // Optionally run a calculation with default values if inputs have values
+             // Check if the elements exist and have values before calculating
+             // This ensures the chart and results are shown on initial load if default values are set.
+             if (personalLoanAmount && personalLoanAmount.value && personalInterestRate && personalInterestRate.value && personalLoanTerm && personalLoanTerm.value) {
+                 calculatePersonalLoan();
+             }
+              // Hide amortization section if it exists for this calculator (it doesn't in Personal Loan)
+             const amortizationContainer = document.querySelector('#personal-loan-calculator-content .amortization-container');
+             if (amortizationContainer) amortizationContainer.style.display = 'none';
+        }
+
+
+        // --- Initial Load Logic ---
+        window.addEventListener('load', function() {
+            // Determine which tab should be active on load (e.g., from URL hash or default)
+            // Check the URL hash first
+            const hash = window.location.hash.substring(1); // Get hash without the #
+            let initialTab = 'home-loan'; // Default tab
+
+            if (hash && document.querySelector(`.loan-tab-link[data-calculator="${hash}"]`)) {
+                 initialTab = hash; // Use hash if it matches a valid tab
+            }
+
+            // Find and activate the initial tab link and content
+            const initialTabLink = document.querySelector(`.loan-tab-link[data-calculator="${initialTab}"]`);
+            const initialCalculatorContent = document.getElementById(initialTab + '-calculator-content');
+
+            // Deactivate all tabs and content first
+            tabLinks.forEach(tab => tab.classList.remove('active'));
+            calculatorContents.forEach(content => content.classList.remove('active'));
+
+
+            if (initialTabLink && initialCalculatorContent) {
+                 initialTabLink.classList.add('active');
+                 initialCalculatorContent.classList.add('active');
+
+                 // Call the initialization function for the initial tab
+                 if (initialTab === 'home-loan') {
+                     initializeHomeLoanCalculator();
+                 } else if (initialTab === 'vehicle-finance') {
+                     initializeVehicleFinanceCalculator();
+                 } else if (initialTab === 'personal-loan') {
+                     initializePersonalLoanCalculator();
+                 }
+            } else {
+                 // Fallback to Home Loan if initial tab not found (e.g., invalid hash)
+                 const defaultTabLink = document.querySelector('.loan-tab-link[data-calculator="home-loan"]');
+                 const defaultContent = document.getElementById('home-loan-calculator-content');
+                 if (defaultTabLink && defaultContent) {
+                      defaultTabLink.classList.add('active');
+                      defaultContent.classList.add('active');
+                      initializeHomeLoanCalculator();
+                 }
+            }
+
+
+             // --- Active Nav Link Highlighting (Update for loan-calculators.html) ---
+             const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+             const currentPath = window.location.pathname;
+
+             navLinks.forEach(link => {
+                 const linkHref = link.getAttribute('href');
+                 // Check if the current path ends with the link's href (handles index.html, sars-tax-calculator.html, etc.)
+                 // Also handle the case where the href is just '/' for the home page
+                 if (currentPath.endsWith(linkHref) && linkHref !== '/') {
+                      navLinks.forEach(l => l.classList.remove('active'));
+                      link.classList.add('active');
+                 }
+                  // Special handling for the root '/' link if the current path is exactly '/' or 'index.html'
+                 else if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
+                      navLinks.forEach(l => l.classList.remove('active'));
+                      link.classList.add('active');
+                 }
+                 // Highlight the 'Financial Tools' link when on loan-calculators.html or other calculator pages
+                 else if (currentPath.includes('-calculator.html') && linkHref === '/#tools') {
+                       navLinks.forEach(l => l.classList.remove('active'));
+                       link.classList.add('active');
+                 }
+                  // Handle hash links on the homepage - only activate if on the homepage
+                 else if (currentPath === '/' && linkHref.startsWith('#')) {
+                      // No specific action needed for highlighting based on hash on load
+                      // The '/#tools' case above handles the link to this page
+                 }
+                 // For loan-calculators.html specifically, ensure the Financial Tools link is active
+                 if (currentPath.endsWith('/loan-calculators.html') && linkHref === '/#tools') {
+                     navLinks.forEach(l => l.classList.remove('active'));
+                     link.classList.add('active');
+                 }
+             });
+              // Ensure home is active if path is exactly "/" and no other link matched (and no hash)
+              // This is a fallback, the logic above should handle most cases
+              if (currentPath === '/' && window.location.hash === '' && !document.querySelector('.nav-menu .nav-link.active')) {
+                   const homeLink = document.querySelector('.nav-menu a[href="/"]');
+                   if (homeLink) {
+                       homeLink.classList.add('active');
+                   } else {
+                        const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
+                        if (indexLink) indexLink.classList.add('active');
+                   }
+              }
+        });
+
+
+    </script>
+</body>
+</html>
