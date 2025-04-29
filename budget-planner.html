@@ -1590,56 +1590,63 @@
 
 
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                 <div class="footer-column about">
-                    <a href="/" class="footer-logo">
-                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
-                    </a>
-                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
-                    <div class="footer-social">
-                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column about">
+                <a href="/" class="footer-logo">
+                    <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                </a>
+                <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                <div class="footer-social">
+                    <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
-
-                <div class="footer-column links">
-                    <h3 class="footer-heading">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="index.html">Home</a></li>
-                        <li class="footer-link"><a href="index.html#tools">Financial Tools</a></li>
-                        <li class="footer-link"><a href="index.html#about">Why Choose Us</a></li>
-                        <li class="footer-link"><a href="index.html#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="#">Privacy Policy</a></li> <li class="footer-link"><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-
-                 <div class="footer-column calculators">
-                    <h3 class="footer-heading">Calculators</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
-                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
-                        <li class="footer-link"><a href="#">Loan Calculators</a></li>
-                        <li class="footer-link"><a href="#">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="#">Retirement Calculator</a></li>
-                        <li class="footer-link"><a href="#">Savings Goal Planner</a></li>
-                    </ul>
-                </div>
-
-                 <div class="footer-column contact">
-                    <h3 class="footer-heading">Disclaimer</h3>
-                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
-                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
-                    </p>
-                    </div>
-
             </div>
-            <div class="footer-bottom">
-                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+
+            <div class="footer-column links">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="/">Home</a></li>
+                    <li class="footer-link"><a href="#tools">Financial Tools</a></li>
+                    <li class="footer-link"><a href="#about">Why Choose Us</a></li>
+                    <li class="footer-link"><a href="#updates">Latest Updates</a></li>
+                     <li class="footer-link"><a href="terms-privacy.html">Terms & Privacy</a></li>
+                    </ul>
             </div>
+
+             <div class="footer-column calculators">
+                <h3 class="footer-heading">Calculators</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                    <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
+                    <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
+                    <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
+                    <li class="footer-link"><a href="retirement-calculator.html">Retirement Calculator</a></li>
+                    <li class="footer-link"><a href="savings-goal-planner.html">Savings Goal Planner</a></li>
+                </ul>
+            </div>
+
+             <div class="footer-column contact">
+                <h3 class="footer-heading">Disclaimer</h3>
+                 <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                    Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                </p>
+                </div>
+
+        </div> <div class="footer-bottom">
+            &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
         </div>
-    </footer>
+    </div>
+</footer>
+
+<script>
+    // --- Footer Year ---
+    const currentYearSpan = document.getElementById('currentYear');
+    if (currentYearSpan) {
+        currentYearSpan.textContent = new Date().getFullYear();
+    }
+</script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
