@@ -13,8 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Chart.js for visualizations -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
@@ -121,7 +120,7 @@
             background-color: var(--accent-dark);
             box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
         }
-        
+
         .btn-outline {
             background-color: transparent;
             border: 2px solid var(--primary);
@@ -453,6 +452,109 @@
             margin-top: 24px;
         }
 
+        /* Monthly/Annual Toggle (for Results) */
+        .period-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .period-toggle label {
+            padding: 8px 15px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            user-select: none; /* Prevent text selection */
+        }
+
+        .period-toggle label:first-of-type {
+            border-radius: var(--radius) 0 0 var(--radius);
+            border-right: none; /* Remove border between labels */
+        }
+
+        .period-toggle label:last-of-type {
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .period-toggle input[type="radio"] {
+            display: none; /* Hide the actual radio button */
+        }
+
+        .period-toggle input[type="radio"]:checked + label {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+         /* Monthly/Annual Toggle (for Income Input) */
+         .income-period-toggle {
+             display: flex;
+             margin-bottom: 10px; /* Space between toggle and input */
+         }
+
+         .income-period-toggle label {
+             flex-grow: 1; /* Make labels fill space */
+             text-align: center;
+             padding: 8px 10px;
+             background-color: var(--background-alt);
+             border: 1px solid var(--border);
+             cursor: pointer;
+             font-weight: 500;
+             transition: all 0.3s ease;
+             user-select: none;
+         }
+
+         .income-period-toggle label:first-of-type {
+             border-radius: var(--radius) 0 0 var(--radius);
+             border-right: none;
+         }
+
+         .income-period-toggle label:last-of-type {
+             border-radius: 0 var(--radius) var(--radius) 0;
+         }
+
+         .income-period-toggle input[type="radio"] {
+             display: none;
+         }
+
+         .income-period-toggle input[type="radio"]:checked + label {
+             background-color: var(--secondary); /* Use secondary color for input toggle */
+             color: white;
+             border-color: var(--secondary);
+         }
+
+
+        /* Tax Saving Strategies Section */
+        .strategies-section {
+             background-color: var(--background-alt); /* Add background for separation */
+        }
+
+        .strategies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .strategy-card .card-padding {
+            padding: 20px;
+        }
+
+        .strategy-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .strategy-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+
         /* --- Header --- */
         header {
             background-color: var(--background);
@@ -682,7 +784,7 @@
             .calculator-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .nav-menu {
                 position: fixed;
                 top: 73px;
@@ -706,7 +808,7 @@
                 margin: 0;
                 width: 100%;
              }
-             
+
              .nav-link {
                  display: block;
                  padding: 16px 30px;
@@ -714,15 +816,15 @@
                  border-bottom: 1px solid var(--border);
                  font-size: 1.1rem;
              }
-             
+
              .nav-link:hover {
                  background-color: var(--background-alt);
              }
-             
+
              .nav-link::after {
                  display: none;
              }
-             
+
              .nav-item:last-child .nav-link {
                  border-bottom: none;
              }
@@ -730,48 +832,48 @@
              .mobile-menu-btn {
                  display: block;
              }
-        }
+         }
 
         @media (max-width: 768px) {
             .section {
                 padding: 40px 0;
             }
-            
+
             .page-header {
                 padding: 30px 0;
             }
-            
+
             .page-title {
                 font-size: 2rem;
             }
-            
+
             .section-title {
                 font-size: 1.75rem;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
-            
+
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-            
+
             .footer-column {
                  display: flex;
                  flex-direction: column;
                  align-items: center;
             }
-            
+
             .footer-column.about .footer-logo {
                  justify-content: center;
             }
-            
+
             .footer-social {
                  justify-content: center;
             }
-            
+
             .footer-links {
                  text-align: center;
             }
@@ -781,37 +883,41 @@
             .page-title {
                 font-size: 1.75rem;
             }
-            
+
             .page-description {
                 font-size: 1rem;
             }
-            
+
             .result-total {
                 font-size: 2rem;
             }
-            
+
             .header-container {
                 padding: 12px 0;
                 height: 65px;
             }
-            
+
             .nav-menu {
                 top: 65px;
                 height: calc(100vh - 65px);
             }
-            
+
             .logo {
                 font-size: 1.4rem;
             }
-            
+
             .logo i {
                 font-size: 1.6rem;
             }
-            
+
             .btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
+             .income-period-toggle label {
+                 padding: 8px 5px; /* Adjust padding for smaller screens */
+                 font-size: 0.9rem;
+             }
         }
     </style>
 </head>
@@ -828,7 +934,7 @@
                 </button>
                 <ul class="nav-menu" id="navMenu">
                     <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/#tools" class="nav-link">Financial Tools</a></li>
+                    <li class="nav-item"><a href="/#tools" class="nav-link active">Financial Tools</a></li>
                     <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
                     <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
                 </ul>
@@ -859,10 +965,10 @@
             <div class="calculator-container">
                 <div class="calculator-form card card-padding">
                     <h2 class="result-heading">Enter Your Details</h2>
-                    
+
                     <form id="taxCalculatorForm">
                         <div class="form-group">
-                            <label class="form-label">Your Age
+                            <label class="form-label" for="ageSelect">Your Age
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle tooltip-icon"></i>
                                     <span class="tooltip-text">Your age at the end of the tax year (28 February 2026)</span>
@@ -874,23 +980,28 @@
                                 <option value="75plus">75 and over</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label class="form-label">Annual Income (Before Tax)
+                            <label class="form-label" for="incomeInput">Income (Before Tax)
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle tooltip-icon"></i>
-                                    <span class="tooltip-text">Total taxable income before any deductions</span>
+                                    <span class="tooltip-text" id="incomeTooltipText">Enter your total monthly income before any deductions</span>
                                 </span>
                             </label>
+                             <div class="income-period-toggle">
+                                <input type="radio" id="incomePeriodMonthly" name="incomePeriod" value="monthly" checked>
+                                <label for="incomePeriodMonthly">Monthly</label>
+                                <input type="radio" id="incomePeriodAnnual" name="incomePeriod" value="annual">
+                                <label for="incomePeriodAnnual">Annual</label>
+                            </div>
                             <div class="input-group">
                                 <span class="currency-symbol">R</span>
-                                <input type="number" class="form-input" id="annualIncome" placeholder="0.00" min="0" step="1000">
+                                <input type="number" class="form-input" id="incomeInput" placeholder="0.00" min="0" step="100">
                             </div>
                         </div>
-                        
-                        <!-- Retirement Fund Contributions Section -->
+
                         <div class="form-group">
-                            <label class="form-label">Annual Retirement Fund Contributions
+                            <label class="form-label" for="retirementContributions">Annual Retirement Fund Contributions
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle tooltip-icon"></i>
                                     <span class="tooltip-text">Total annual contributions to pension, provident, or retirement annuity funds</span>
@@ -898,21 +1009,20 @@
                             </label>
                             <div class="input-group">
                                 <span class="currency-symbol">R</span>
-                                <input type="number" class="form-input" id="retirementContributions" placeholder="0.00" min="0" step="1000">
+                                <input type="number" class="form-input" id="retirementContributions" placeholder="0.00" min="0" step="100">
                             </div>
                         </div>
-                        
-                        <!-- Medical Expenses Section -->
+
                         <div class="form-group">
                             <label class="form-label">Do you belong to a medical aid scheme?</label>
                             <div class="checkbox-container">
                                 <input type="checkbox" id="hasMedicalAid">
                                 <label for="hasMedicalAid">Yes, I am a member of a medical scheme</label>
                             </div>
-                            
+
                             <div id="medicalAidSection" style="display: none;">
                                 <div class="form-group">
-                                    <label class="form-label">Number of dependents (including yourself)
+                                    <label class="form-label" for="medicalDependents">Number of dependents (including yourself)
                                         <span class="tooltip">
                                             <i class="fas fa-info-circle tooltip-icon"></i>
                                             <span class="tooltip-text">Total number of people covered by your medical aid</span>
@@ -920,9 +1030,9 @@
                                     </label>
                                     <input type="number" class="form-input" id="medicalDependents" placeholder="1" min="1" value="1">
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <label class="form-label">Monthly Medical Aid Contributions
+                                    <label class="form-label" for="monthlyMedicalContributions">Monthly Medical Aid Contributions
                                         <span class="tooltip">
                                             <i class="fas fa-info-circle tooltip-icon"></i>
                                             <span class="tooltip-text">Your monthly contributions to your medical aid scheme</span>
@@ -930,14 +1040,12 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="currency-symbol">R</span>
-                                        <input type="number" class="form-input" id="monthlyMedicalContributions" placeholder="0.00" min="0">
+                                        <input type="number" class="form-input" id="monthlyMedicalContributions" placeholder="0.00" min="0" step="10">
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    <label class="form-label">Annual Medical Expenses Not Covered by Medical Aid
-                                        <span class="tooltip">
-                                            <i class="fas fa-info-circle tooltip-icon"></i><label class="form-label">Annual Medical Expenses Not Covered by Medical Aid
+                                    <label class="form-label" for="annualMedicalExpenses">Annual Medical Expenses Not Covered by Medical Aid
                                         <span class="tooltip">
                                             <i class="fas fa-info-circle tooltip-icon"></i>
                                             <span class="tooltip-text">Medical expenses paid out of pocket that were not reimbursed by your medical aid</span>
@@ -945,32 +1053,41 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="currency-symbol">R</span>
-                                        <input type="number" class="form-input" id="annualMedicalExpenses" placeholder="0.00" min="0">
+                                        <input type="number" class="form-input" id="annualMedicalExpenses" placeholder="0.00" min="0" step="10">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="action-buttons">
                             <button type="button" id="calculateBtn" class="btn btn-primary btn-full">Calculate Tax</button>
                             <button type="reset" id="resetBtn" class="btn btn-outline btn-full">Reset</button>
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="calculator-results card card-padding">
+                    <h2 class="result-heading">Tax Calculation Result</h2>
+
+                    <div class="period-toggle">
+                        <input type="radio" id="periodAnnual" name="period" value="annual" checked>
+                        <label for="periodAnnual">Annual</label>
+                        <input type="radio" id="periodMonthly" name="period" value="monthly">
+                        <label for="periodMonthly">Monthly</label>
+                    </div>
+
                     <div class="result-summary">
                         <div class="result-total" id="totalTaxResult">R0.00</div>
-                        <div class="result-detail">Annual Tax Liability</div>
+                        <div class="result-detail" id="resultPeriodLabel">Annual Tax Liability</div>
                     </div>
-                    
+
                     <h3 class="result-heading">Tax Breakdown</h3>
                     <div class="result-row">
-                        <div class="result-label">Taxable Income:</div>
+                        <div class="result-label">Taxable Income (Annual):</div>
                         <div class="result-value" id="taxableIncomeResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Income Tax:</div>
+                        <div class="result-label">Income Tax (before rebates):</div>
                         <div class="result-value" id="incomeTaxResult">R0.00</div>
                     </div>
                     <div class="result-row">
@@ -986,18 +1103,18 @@
                         <div class="result-value" id="medicalCreditsResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Tax Payable:</div>
+                        <div class="result-label">Tax Payable (Annual):</div>
                         <div class="result-value" id="taxPayableResult">R0.00</div>
                     </div>
-                    <div class="result-row">
-                        <div class="result-label">Monthly Tax:</div>
-                        <div class="result-value" id="monthlyTaxResult">R0.00</div>
+                     <div class="result-row">
+                        <div class="result-label">Monthly Tax Payable:</div>
+                        <div class="result-value" id="monthlyTaxBreakdownResult">R0.00</div>
                     </div>
-                    
+
                     <div class="chart-container">
                         <canvas id="taxBreakdownChart"></canvas>
                     </div>
-                    
+
                     <h3 class="result-heading">Your Tax Bracket</h3>
                     <table class="tax-bracket-table" id="taxBracketTable">
                         <thead>
@@ -1007,20 +1124,65 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Tax bracket rows will be added dynamically with JavaScript -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- FAQ Section -->
+
+    <section class="section strategies-section" id="tax-strategies">
+        <div class="container">
+            <h2 class="section-title">Optimise Your Tax: Key Strategies</h2>
+            <p class="section-subtitle">Explore legitimate ways to potentially reduce your tax liability in South Africa.</p>
+
+            <div class="strategies-grid">
+                <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Maximise Retirement Contributions</h3>
+                        <p class="strategy-description">Contributions to approved Retirement Annuities (RAs), pension, or provident funds are tax-deductible up to certain limits. Increasing these contributions can lower your taxable income.</p>
+                    </div>
+                </div>
+                <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Utilise Medical Expense Deductions</h3>
+                        <p class="strategy-description">Beyond the fixed medical scheme fees tax credit, you may claim additional tax credits for qualifying out-of-pocket medical expenses above a certain threshold, especially if you are over 65 or have a disability.</p>
+                    </div>
+                </div>
+                <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Donate to Approved Charities</h3>
+                        <p class="strategy-description">Donations made to Public Benefit Organisations (PBOs) approved by SARS are tax-deductible, up to a limit of 10% of your taxable income (before the donation deduction). Ensure you receive a Section 18A certificate.</p>
+                    </div>
+                </div>
+                 <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Explore Tax-Free Savings Accounts (TFSAs)</h3>
+                        <p class="strategy-description">While contributions are not tax-deductible, growth (interest, dividends, capital gains) within a TFSA is completely tax-free. Withdrawals are also tax-free. This is a powerful tool for long-term savings.</p>
+                    </div>
+                </div>
+                 <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Understand Allowable Business Expenses (if applicable)</h3>
+                        <p class="strategy-description">If you earn income from a trade (e.g., rental income, freelance work), ensure you claim all legitimate business expenses incurred in the production of that income. Keep accurate records.</p>
+                    </div>
+                </div>
+                 <div class="strategy-card card">
+                    <div class="card-padding">
+                        <h3 class="strategy-title">Claim Travel Expenses (under specific conditions)</h3>
+                        <p class="strategy-description">If you receive a travel allowance or use a company car and your duties require you to travel for work, you may be able to claim a deduction for business travel expenses. Detailed logbooks are essential.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <section class="section faq-section">
         <div class="container">
             <h2 class="section-title">Frequently Asked Questions</h2>
             <p class="section-subtitle">Get answers to common questions about South African personal income tax.</p>
-            
+
             <div id="faqContainer">
                 <div class="faq-item">
                     <div class="faq-question">
@@ -1031,7 +1193,7 @@
                         <p>The South African tax year runs from 1 March to the last day of February the following year. For example, the 2025/2026 tax year runs from 1 March 2025 to 28 February 2026.</p>
                     </div>
                 </div>
-                
+
                 <div class="faq-item">
                     <div class="faq-question">
                         What are tax rebates?
@@ -1046,7 +1208,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="faq-item">
                     <div class="faq-question">
                         How are medical tax credits calculated?
@@ -1056,12 +1218,12 @@
                         <p>Medical tax credits consist of two components:</p>
                         <ol>
                             <li>Medical Scheme Fees Tax Credit (MTC): A fixed monthly amount for the taxpayer and their dependents who are members of a medical scheme.</li>
-                            <li>Additional Medical Expenses Tax Credit: A percentage of qualifying out-of-pocket medical expenses that weren't covered by your medical aid.</li>
+                            <li>Additional Medical Expenses Tax Credit: A percentage of qualifying out-of-pocket medical expenses that weren't reimbursed by your medical aid.</li>
                         </ol>
                         <p>The calculation varies based on your age and whether you or any of your dependents have a disability.</p>
                     </div>
                 </div>
-                
+
                 <div class="faq-item">
                     <div class="faq-question">
                         What retirement contributions are tax-deductible?
@@ -1076,7 +1238,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="faq-item">
                     <div class="faq-question">
                         When is the deadline for tax returns in South Africa?
@@ -1100,62 +1262,51 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column about">
-                    <div class="footer-logo">
-                        <i class="fas fa-compass"></i> FinancialCompass
-                    </div>
+                    <a href="/" class="footer-logo">
+                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                    </a>
                     <p class="footer-description">
-                        Providing South Africans with easy-to-use financial calculators and tools to navigate their financial journey with confidence.
+                        Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.
                     </p>
                     <div class="footer-social">
-                        <a href="#" class="footer-social-link">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="footer-social-link">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="footer-social-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="footer-social-link">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
+                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
-                <div class="footer-column">
-                    <h3 class="footer-heading">Financial Tools</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link"><a href="/sars-tax-calculator.html">Income Tax Calculator</a></li>
-                        <li class="footer-link"><a href="/bond-calculator.html">Bond Calculator</a></li>
-                        <li class="footer-link"><a href="/investment-calculator.html">Investment Calculator</a></li>
-                        <li class="footer-link"><a href="/retirement-calculator.html">Retirement Calculator</a></li>
-                        <li class="footer-link"><a href="/budget-planner.html">Budget Planner</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
+
+                <div class="footer-column links">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="/#about">About Us</a></li>
-                        <li class="footer-link"><a href="/contact.html">Contact Us</a></li>
-                        <li class="footer-link"><a href="/privacy-policy.html">Privacy Policy</a></li>
-                        <li class="footer-link"><a href="/terms-of-use.html">Terms of Use</a></li>
-                    </ul>
+                        <li class="footer-link"><a href="/">Home</a></li>
+                        <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a href="/terms-privacy.html">Terms & Privacy</a></li>
+                        </ul>
                 </div>
-                
-                <div class="footer-column">
-                    <h3 class="footer-heading">Resources</h3>
+
+                 <div class="footer-column calculators">
+                    <h3 class="footer-heading">Calculators</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="/blog.html">Financial Blog</a></li>
-                        <li class="footer-link"><a href="/guides.html">Financial Guides</a></li>
-                        <li class="footer-link"><a href="/glossary.html">Financial Glossary</a></li>
-                        <li class="footer-link"><a href="https://www.sars.gov.za/" target="_blank" rel="noopener">SARS Official Site</a></li>
+                        <li class="footer-link"><a href="/sars-tax-calculator.html">SARS Tax Calculator</a></li>
+                        <li class="footer-link"><a href="/budget-planner.html">Budget Planner</a></li>
+                        <li class="footer-link"><a href="/loan-calculators.html">Loan Calculators</a></li>
+                        <li class="footer-link"><a href="/vat-calculator.html">VAT Calculator</a></li>
+                        <li class="footer-link"><a href="/retirement-calculator.html">Retirement Calculator</a></li>
+                        <li class="footer-link"><a href="/savings-goal-planner.html">Savings Goal Planner</a></li>
                     </ul>
                 </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>© 2025 Financial Compass. All rights reserved. | Disclaimer: Calculations are for informational purposes only.</p>
+
+                 <div class="footer-column contact">
+                    <h3 class="footer-heading">Disclaimer</h3>
+                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                    </p>
+                    </div>
+
+            </div> <div class="footer-bottom">
+                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
             </div>
         </div>
     </footer>
@@ -1237,18 +1388,33 @@
             }
         };
 
+        let currentTaxPayableAnnual = 0; // Variable to store the calculated annual tax payable
+
         // Mobile menu functionality
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navMenu = document.getElementById('navMenu');
-            
+
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', function() {
                     navMenu.classList.toggle('active');
                     const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
                     mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
                     mobileMenuBtn.innerHTML = isExpanded ? '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
+                     // Add/Remove class to body to prevent scrolling when menu is open
+                     document.body.classList.toggle('no-scroll', !isExpanded);
                 });
+                 // Close menu if a link is clicked (for single-page navigation)
+                 navMenu.querySelectorAll('a').forEach(link => {
+                     link.addEventListener('click', () => {
+                         if (navMenu.classList.contains('active')) {
+                             navMenu.classList.remove('active');
+                             mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                             mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                             document.body.classList.remove('no-scroll');
+                         }
+                     });
+                 });
             }
 
             // FAQ functionality
@@ -1268,14 +1434,17 @@
                     taxYearBtns.forEach(b => b.classList.remove('active'));
                     // Add active class to clicked button
                     this.classList.add('active');
-                    
+
                     // Update tax year info and calculations
                     const selectedYear = this.getAttribute('data-year');
                     updateTaxYearInfo(selectedYear);
-                    
-                    // Recalculate tax if form has values
-                    if (document.getElementById('annualIncome').value) {
+
+                    // Recalculate tax if income input has a value
+                    if (document.getElementById('incomeInput').value) {
                         calculateTax();
+                    } else {
+                         // If no income, just update the tax bracket table for the new year
+                         updateTaxBracketTable(0);
                     }
                 });
             });
@@ -1283,9 +1452,15 @@
             // Medical aid checkbox toggle
             const hasMedicalAid = document.getElementById('hasMedicalAid');
             const medicalAidSection = document.getElementById('medicalAidSection');
-            
+
             hasMedicalAid.addEventListener('change', function() {
                 medicalAidSection.style.display = this.checked ? 'block' : 'none';
+                 // Clear medical aid inputs if checkbox is unchecked
+                 if (!this.checked) {
+                     document.getElementById('medicalDependents').value = '1';
+                     document.getElementById('monthlyMedicalContributions').value = '';
+                     document.getElementById('annualMedicalExpenses').value = '';
+                 }
             });
 
             // Calculate button functionality
@@ -1295,6 +1470,15 @@
             // Reset button functionality
             const resetBtn = document.getElementById('resetBtn');
             resetBtn.addEventListener('click', function() {
+                // Reset form fields manually if needed (though type="reset" does most)
+                document.getElementById('ageSelect').value = 'under65';
+                document.getElementById('incomeInput').value = '';
+                document.getElementById('retirementContributions').value = '';
+                document.getElementById('hasMedicalAid').checked = false;
+                document.getElementById('medicalDependents').value = '1';
+                document.getElementById('monthlyMedicalContributions').value = '';
+                document.getElementById('annualMedicalExpenses').value = '';
+
                 // Reset results
                 document.getElementById('totalTaxResult').textContent = 'R0.00';
                 document.getElementById('taxableIncomeResult').textContent = 'R0.00';
@@ -1303,38 +1487,124 @@
                 document.getElementById('ageRebateResult').textContent = 'R0.00';
                 document.getElementById('medicalCreditsResult').textContent = 'R0.00';
                 document.getElementById('taxPayableResult').textContent = 'R0.00';
-                document.getElementById('monthlyTaxResult').textContent = 'R0.00';
-                
+                document.getElementById('monthlyTaxBreakdownResult').textContent = 'R0.00'; // Reset monthly breakdown too
+
+                // Reset the period toggle to Annual (for results)
+                document.getElementById('periodAnnual').checked = true;
+                document.getElementById('resultPeriodLabel').textContent = 'Annual Tax Liability';
+
+                 // Reset the period toggle to Monthly (for input)
+                 document.getElementById('incomePeriodMonthly').checked = true;
+                 updateIncomeInputLabel('monthly'); // Update label and tooltip
+
+
                 // Reset the chart
                 if (window.taxChart) {
                     window.taxChart.destroy();
                 }
-                
+
                 // Reset medical aid section visibility
                 document.getElementById('medicalAidSection').style.display = 'none';
-                
-                // Update tax bracket table
+
+                // Update tax bracket table for 0 income
                 updateTaxBracketTable(0);
+
+                // Reset the stored annual tax payable
+                currentTaxPayableAnnual = 0;
             });
 
-            // Initialize tax year info
+            // Period Toggle functionality (for Results)
+            const periodRadios = document.querySelectorAll('input[name="period"]');
+            periodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateResultDisplay(this.value);
+                });
+            });
+
+            // Income Period Toggle functionality (for Input)
+            const incomePeriodRadios = document.querySelectorAll('input[name="incomePeriod"]');
+            const incomeInputLabel = document.querySelector('label[for="incomeInput"]');
+            const incomeTooltipText = document.getElementById('incomeTooltipText');
+
+            incomePeriodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    updateIncomeInputLabel(this.value);
+                });
+            });
+
+            // Function to update the income input label and tooltip
+            function updateIncomeInputLabel(period) {
+                if (period === 'monthly') {
+                    incomeInputLabel.innerHTML = `Income (Before Tax)
+                        <span class="tooltip">
+                            <i class="fas fa-info-circle tooltip-icon"></i>
+                            <span class="tooltip-text" id="incomeTooltipText">Enter your total monthly income before any deductions</span>
+                        </span>`;
+                    document.getElementById('incomeInput').step = "100"; // Smaller step for monthly
+                } else { // annual
+                     incomeInputLabel.innerHTML = `Income (Before Tax)
+                        <span class="tooltip">
+                            <i class="fas fa-info-circle tooltip-icon"></i>
+                            <span class="tooltip-text" id="incomeTooltipText">Enter your total annual income before any deductions</span>
+                        </span>`;
+                     document.getElementById('incomeInput').step = "1000"; // Larger step for annual
+                }
+                 // Re-attach tooltip text element reference as innerHTML overwrites it
+                 document.getElementById('incomeTooltipText').textContent = period === 'monthly' ? 'Enter your total monthly income before any deductions' : 'Enter your total annual income before any deductions';
+            }
+
+
+            // Initialize tax year info and tax bracket table on page load
             updateTaxYearInfo('2025');
             updateTaxBracketTable(0);
+
+            // Initialize footer year
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+             // Set active nav link on page load
+             const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+             const currentPath = window.location.pathname;
+             navLinks.forEach(link => {
+                 const linkHref = link.getAttribute('href');
+                  // Check if the current path matches the link's href (ignoring hash for this check)
+                 if (currentPath.endsWith(linkHref.split('#')[0]) && linkHref.split('#')[0] !== '') {
+                     navLinks.forEach(l => l.classList.remove('active')); // Remove active from all
+                     link.classList.add('active'); // Add active to the matching link
+                 } else if (currentPath === '/' && linkHref === '/') {
+                      // Special case for homepage link if on root
+                      navLinks.forEach(l => l.classList.remove('active'));
+                      link.classList.add('active');
+                 }
+             });
+             // Fallback for homepage if no specific link matched (e.g., on index.html)
+             if (currentPath === '/' || currentPath === '/index.html') {
+                 const homeLink = document.querySelector('.nav-menu a[href="/"]');
+                 if (homeLink) homeLink.classList.add('active');
+             } else if (currentPath.endsWith('/sars-tax-calculator.html')) {
+                  const taxLink = document.querySelector('.nav-menu a[href="/sars-tax-calculator.html"]');
+                  if (taxLink) taxLink.classList.add('active');
+             }
+
+             // Initialize income input label and tooltip
+             updateIncomeInputLabel('monthly');
+
         });
 
-        // Function to update tax year information
+        // Function to update tax year information box
         function updateTaxYearInfo(year) {
-            // Update information box based on selected tax year
             const infoBox = document.querySelector('.info-box');
-            
+
             if (year === '2025') {
                 infoBox.innerHTML = `
-                    <h3 class="info-box-title">Latest Tax Updates</h3>
+                    <h3 class="info-box-title">Latest Tax Updates (2025/2026)</h3>
                     <p>The 2025/2026 tax year runs from 1 March 2025 to 28 February 2026. Key updates include adjusted tax brackets and increased primary rebate to R17,235.</p>
                 `;
             } else if (year === '2024') {
                 infoBox.innerHTML = `
-                    <h3 class="info-box-title">2024/2025 Tax Updates</h3>
+                    <h3 class="info-box-title">2024/2025 Tax Period</h3>
                     <p>The 2024/2025 tax year runs from 1 March 2024 to 28 February 2025. Features include a primary rebate of R16,425 and medical credits of R367 per month for the first two members.</p>
                 `;
             } else if (year === '2023') {
@@ -1345,37 +1615,38 @@
             }
         }
 
-        // Function to update the tax bracket table
+        // Function to update the tax bracket table based on income and selected year
         function updateTaxBracketTable(income) {
             const selectedYear = document.querySelector('.tax-year-btn.active').getAttribute('data-year');
             const brackets = taxData[selectedYear].brackets;
             const tableBody = document.querySelector('#taxBracketTable tbody');
             tableBody.innerHTML = '';
-            
+
             let userBracket = -1;
-            
+
             // Find user's tax bracket
             for (let i = 0; i < brackets.length; i++) {
-                if (income >= brackets[i].min && income <= brackets[i].max) {
+                // Adjust max check for the last bracket (Infinity)
+                if (income >= brackets[i].min && (brackets[i].max === Infinity || income <= brackets[i].max)) {
                     userBracket = i;
                     break;
                 }
             }
-            
+
             // Populate the table
             brackets.forEach((bracket, index) => {
                 const row = document.createElement('tr');
-                if (index === userBracket) {
+                if (index === userBracket && income > 0) { // Only highlight if income is entered
                     row.classList.add('tax-bracket-current');
                 }
-                
+
                 const maxAmount = bracket.max === Infinity ? 'and above' : `- R${formatNumber(bracket.max)}`;
-                
+
                 row.innerHTML = `
                     <td>R${formatNumber(bracket.min)} ${maxAmount}</td>
-                    <td>${bracket.rate}% of taxable income</td>
+                    <td>${bracket.rate}%</td>
                 `;
-                
+
                 tableBody.appendChild(row);
             });
         }
@@ -1385,128 +1656,191 @@
             // Get selected tax year
             const selectedYear = document.querySelector('.tax-year-btn.active').getAttribute('data-year');
             const taxSettings = taxData[selectedYear];
-            
+
             // Get form values
             const age = document.getElementById('ageSelect').value;
-            const annualIncome = parseFloat(document.getElementById('annualIncome').value) || 0;
+            const incomeInput = parseFloat(document.getElementById('incomeInput').value) || 0;
+            const incomePeriod = document.querySelector('input[name="incomePeriod"]:checked').value; // Get selected input period
+
+            // Convert income to annual if monthly was entered
+            const annualIncome = incomePeriod === 'monthly' ? incomeInput * 12 : incomeInput;
+
             const retirementContributions = parseFloat(document.getElementById('retirementContributions').value) || 0;
-            
-            // Calculate retirement contribution deduction
+            const hasMedicalAid = document.getElementById('hasMedicalAid').checked;
+            const medicalDependents = parseInt(document.getElementById('medicalDependents').value) || 0; // Default to 0 if no medical aid
+            const monthlyMedicalContributions = parseFloat(document.getElementById('monthlyMedicalContributions').value) || 0;
+            const annualMedicalExpenses = parseFloat(document.getElementById('annualMedicalExpenses').value) || 0;
+
+
+            // --- Calculate Taxable Income ---
+
+            // 1. Calculate Retirement Contribution Deduction
             const maxRetirementDeduction = Math.min(
                 taxSettings.retirementLimit,
                 annualIncome * taxSettings.retirementPercentage / 100
             );
             const retirementDeduction = Math.min(retirementContributions, maxRetirementDeduction);
-            
-            // Calculate taxable income
+
+            // 2. Calculate Taxable Income
             const taxableIncome = Math.max(0, annualIncome - retirementDeduction);
-            
-            // Calculate base income tax
+
+
+            // --- Calculate Income Tax (before rebates/credits) ---
+
             let incomeTax = 0;
             let applicableBracket = null;
-            
+
             for (const bracket of taxSettings.brackets) {
-                if (taxableIncome >= bracket.min && taxableIncome <= bracket.max) {
+                if (taxableIncome >= bracket.min && (bracket.max === Infinity || taxableIncome <= bracket.max)) {
                     incomeTax = bracket.base + ((taxableIncome - bracket.min) * bracket.rate / 100);
-                    applicableBracket = bracket;
+                    applicableBracket = bracket; // Store the applicable bracket
                     break;
                 }
             }
-            
-            // Calculate age-based rebates
-            let rebates = taxSettings.rebates.primary;
+
+            // --- Calculate Rebates ---
+
+            let primaryRebateAmount = taxSettings.rebates.primary;
+            let ageRebateAmount = 0;
+
             if (age === '65to74') {
-                rebates += taxSettings.rebates.secondary;
+                ageRebateAmount = taxSettings.rebates.secondary;
             } else if (age === '75plus') {
-                rebates += taxSettings.rebates.secondary + taxSettings.rebates.tertiary;
+                ageRebateAmount = taxSettings.rebates.secondary + taxSettings.rebates.tertiary;
             }
-            
-            // Calculate medical tax credits
+
+            const totalRebates = primaryRebateAmount + ageRebateAmount;
+
+
+            // --- Calculate Medical Tax Credits ---
+
             let medicalCredits = 0;
-            
-            if (document.getElementById('hasMedicalAid').checked) {
-                const dependents = parseInt(document.getElementById('medicalDependents').value) || 1;
-                const monthlyMedicalContributions = parseFloat(document.getElementById('monthlyMedicalContributions').value) || 0;
-                const annualMedicalExpenses = parseFloat(document.getElementById('annualMedicalExpenses').value) || 0;
-                
-                // Calculate monthly medical credits
-                let monthlyCredits = 0;
-                if (dependents === 1) {
-                    monthlyCredits = taxSettings.medicalCredits.mainMember;
-                } else if (dependents === 2) {
-                    monthlyCredits = taxSettings.medicalCredits.mainMember + taxSettings.medicalCredits.firstDependent;
-                } else {
-                    monthlyCredits = taxSettings.medicalCredits.mainMember + taxSettings.medicalCredits.firstDependent + 
-                                     (dependents - 2) * taxSettings.medicalCredits.additionalDependents;
+            if (hasMedicalAid) {
+                // Monthly Medical Scheme Fees Tax Credit (MTC)
+                let monthlyMTC = 0;
+                if (medicalDependents >= 1) {
+                    monthlyMTC += taxSettings.medicalCredits.mainMember;
                 }
-                
-                // Annual medical credits
-                medicalCredits = monthlyCredits * 12;
-                
-                // Additional medical expenses tax credit calculation
+                if (medicalDependents >= 2) {
+                    monthlyMTC += taxSettings.medicalCredits.firstDependent;
+                }
+                if (medicalDependents > 2) {
+                    monthlyMTC += (medicalDependents - 2) * taxSettings.medicalCredits.additionalDependents;
+                }
+                const annualMTC = monthlyMTC * 12;
+
+                // Additional Medical Expenses Tax Credit Calculation
                 const annualMedicalContributions = monthlyMedicalContributions * 12;
-                const medicalExpensesThreshold = age === 'under65' ? (annualIncome * 0.075) : 0;
-                const qualifyingMedicalExpenses = Math.max(0, annualMedicalExpenses + annualMedicalContributions - (4 * medicalCredits));
-                
-                // Different calculation based on age
+                const totalMedicalExpenses = annualMedicalExpenses + annualMedicalContributions;
+
+                // Thresholds for additional medical expenses
+                const thresholdFactor = age === 'under65' ? 0.075 : 0; // 7.5% of taxable income for under 65
+                const thresholdAmount = taxableIncome * thresholdFactor;
+
+                // Qualifying Medical Expenses (QME) calculation
+                let qualifyingMedicalExpenses = 0;
                 if (age === 'under65') {
-                    if (qualifyingMedicalExpenses > medicalExpensesThreshold) {
-                        const excessExpenses = qualifyingMedicalExpenses - medicalExpensesThreshold;
-                        medicalCredits += excessExpenses * 0.25;
-                    }
-                } else {
-                    // For 65+ or with disability
-                    medicalCredits += qualifyingMedicalExpenses * 0.33;
+                     // QME = Total Medical Expenses - (4 x Annual MTC) - (7.5% of Taxable Income)
+                     qualifyingMedicalExpenses = Math.max(0, totalMedicalExpenses - (4 * annualMTC) - thresholdAmount);
+                } else { // 65 and over, or if taxpayer/dependent has a disability (simplified here for age)
+                     // QME = Total Medical Expenses - (3 x Annual MTC)
+                     qualifyingMedicalExpenses = Math.max(0, totalMedicalExpenses - (3 * annualMTC));
                 }
+
+
+                // Additional Medical Expenses Tax Credit
+                let additionalMedicalCredit = 0;
+                if (age === 'under65') {
+                    additionalMedicalCredit = qualifyingMedicalExpenses * 0.25; // 25% of QME
+                } else { // 65 and over, or if taxpayer/dependent has a disability
+                    additionalMedicalCredit = qualifyingMedicalExpenses * 0.333; // 33.3% of QME
+                }
+
+                 // Total Medical Credits = Annual MTC + Additional Medical Credit
+                 medicalCredits = annualMTC + additionalMedicalCredit;
             }
-            
-            // Calculate final tax payable
-            const taxPayable = Math.max(0, incomeTax - rebates - medicalCredits);
+
+
+            // --- Calculate Final Tax Payable ---
+
+            const taxBeforeRebatesAndCredits = incomeTax;
+            const taxAfterRebates = Math.max(0, taxBeforeRebatesAndCredits - totalRebates);
+            const taxPayable = Math.max(0, taxAfterRebates - medicalCredits);
             const monthlyTax = taxPayable / 12;
-            
+
+            // Store the annual tax payable for the toggle
+            currentTaxPayableAnnual = taxPayable;
+
             // Update results in the UI
             document.getElementById('taxableIncomeResult').textContent = `R${formatNumber(taxableIncome.toFixed(2))}`;
-            document.getElementById('incomeTaxResult').textContent = `R${formatNumber(incomeTax.toFixed(2))}`;
-            document.getElementById('primaryRebateResult').textContent = `R${formatNumber(rebates.toFixed(2))}`;
-            document.getElementById('ageRebateResult').textContent = age === 'under65' ? 'R0.00' : `R${formatNumber((age === '65to74' ? taxSettings.rebates.secondary : taxSettings.rebates.secondary + taxSettings.rebates.tertiary).toFixed(2))}`;
+            document.getElementById('incomeTaxResult').textContent = `R${formatNumber(taxBeforeRebatesAndCredits.toFixed(2))}`; // Show tax before rebates/credits
+            document.getElementById('primaryRebateResult').textContent = `R${formatNumber(primaryRebateAmount.toFixed(2))}`;
+            document.getElementById('ageRebateResult').textContent = `R${formatNumber(ageRebateAmount.toFixed(2))}`;
             document.getElementById('medicalCreditsResult').textContent = `R${formatNumber(medicalCredits.toFixed(2))}`;
             document.getElementById('taxPayableResult').textContent = `R${formatNumber(taxPayable.toFixed(2))}`;
-            document.getElementById('monthlyTaxResult').textContent = `R${formatNumber(monthlyTax.toFixed(2))}`;
-            document.getElementById('totalTaxResult').textContent = `R${formatNumber(taxPayable.toFixed(2))}`;
-            
+            document.getElementById('monthlyTaxBreakdownResult').textContent = `R${formatNumber(monthlyTax.toFixed(2))}`; // Always show monthly here
+
+            // Update the main result display based on the current toggle state (for results)
+            const selectedResultPeriod = document.querySelector('input[name="period"]:checked').value;
+            updateResultDisplay(selectedResultPeriod);
+
+
             // Update tax bracket table
             updateTaxBracketTable(taxableIncome);
-            
+
             // Update chart
-            updateTaxChart(incomeTax, rebates, medicalCredits, taxPayable);
+            // The chart should probably show the breakdown *before* medical credits for clarity,
+            // or show Tax Before Credits, Total Rebates, Medical Credits, Tax Payable.
+            // Let's update it to show Tax Before Rebates/Credits, Total Rebates, Medical Credits.
+            updateTaxChart(taxBeforeRebatesAndCredits, totalRebates, medicalCredits);
         }
 
+        // Function to update the main result display (Annual/Monthly)
+        function updateResultDisplay(period) {
+            const totalTaxResultElement = document.getElementById('totalTaxResult');
+            const resultPeriodLabelElement = document.getElementById('resultPeriodLabel');
+
+            if (period === 'annual') {
+                totalTaxResultElement.textContent = `R${formatNumber(currentTaxPayableAnnual.toFixed(2))}`;
+                resultPeriodLabelElement.textContent = 'Annual Tax Liability';
+            } else { // monthly
+                const monthlyTax = currentTaxPayableAnnual / 12;
+                totalTaxResultElement.textContent = `R${formatNumber(monthlyTax.toFixed(2))}`;
+                resultPeriodLabelElement.textContent = 'Monthly Tax Liability';
+            }
+        }
+
+
         // Function to update the tax breakdown chart
-        function updateTaxChart(incomeTax, rebates, medicalCredits, taxPayable) {
+        function updateTaxChart(taxBeforeCredits, totalRebates, medicalCredits) {
             // Destroy previous chart if it exists
             if (window.taxChart) {
                 window.taxChart.destroy();
             }
-            
+
             const ctx = document.getElementById('taxBreakdownChart').getContext('2d');
-            
+
+             // Calculate the net tax payable component for the chart
+             const taxPayableForChart = Math.max(0, taxBeforeCredits - totalRebates - medicalCredits);
+
+
             window.taxChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Tax Payable', 'Primary & Age Rebates', 'Medical Credits'],
+                    labels: ['Tax Payable', 'Total Rebates', 'Medical Credits'],
                     datasets: [{
-                        data: [taxPayable, rebates, medicalCredits],
+                        data: [taxPayableForChart, totalRebates, medicalCredits],
                         backgroundColor: [
-                            '#0070D1', 
-                            '#00BC8C',
-                            '#FFC107'
+                            '#0070D1', // Blue for Tax Payable
+                            '#00BC8C', // Teal for Rebates
+                            '#FFC107'  // Yellow for Medical Credits
                         ],
                         borderColor: [
-                            '#005bb1',
-                            '#009670',
-                            '#e6ac00'
+                            '#ffffff', // White border for segments
+                            '#ffffff',
+                            '#ffffff'
                         ],
-                        borderWidth: 1
+                        borderWidth: 2 // Thicker border for better separation
                     }]
                 },
                 options: {
@@ -1514,7 +1848,10 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12 // Smaller legend color box
+                            }
                         },
                         tooltip: {
                             callbacks: {
@@ -1535,7 +1872,8 @@
 
         // Helper function to format numbers with commas
         function formatNumber(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // Ensure number is a string before replacing
+            return String(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 </body>
