@@ -2,41 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAT Calculator | Financial Compass</title>
-    <meta name="description" content="Calculate VAT in South Africa quickly and easily. Find amounts including or excluding VAT at the standard 15% rate.">
+    <meta name="viewport" 
 
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+content="width=device-width, initial-
+
+scale=1.0">
+    <title>VAT Calculator | Financial 
+
+Compass</title>
+    <meta name="description" 
+
+content="Calculate VAT in South Africa 
+
+quickly and easily. Find amounts 
+
+including or excluding VAT at the 
+
+standard 15% rate.">
+
+    <link rel="icon" href="favicon.svg" 
+
+type="image/svg+xml">
+    <link rel="stylesheet" 
+
+href="https://cdnjs.cloudflare.com/ajax/li
+
+bs/font-awesome/6.4.0/css/all.min.css" 
+
+integrity="sha512-
+
+iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7
+
+Yy7tcenmpD1ypASozpmT/E0iPtmFIB46Zm
+
+dtAc9eNBvH0H/ZpiBw==" 
+
+crossorigin="anonymous" 
+
+referrerpolicy="no-referrer" />
+    <script 
+
+src="https://cdnjs.cloudflare.com/ajax/lib
+
+s/Chart.js/3.9.1/chart.min.js" 
+
+integrity="sha512-
+
+ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0
+
+wr6wHxU9JEHakS7UJZNeml5ALk
+
++8IKlU6jDgMabC3vkumRokgJA==" 
+
+crossorigin="anonymous" 
+
+referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" 
+
+href="https://cdnjs.cloudflare.com/ajax/li
+
+bs/Chart.js/3.9.1/chart.min.css" 
+
+integrity="sha512-5vJn8XQUg
+
++xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/id
+
+rbktwr/CmvSyF5vJn8XQUg
+
++xX9KdhOhHEqJfSZYn7ar
+
++V5CpQOJUWJBnddvjJJjP3Q==" 
+
+crossorigin="anonymous" 
+
+referrerpolicy="no-referrer" />
 
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" 
+
+href="https://fonts.googleapis.com">
+    <link rel="preconnect" 
+
+href="https://fonts.gstatic.com" 
+
+crossorigin>
+    <link 
+
+href="https://fonts.googleapis.com/css2?
+
+family=Poppins:wght@300;400;500;600;70
+
+0&display=swap" rel="stylesheet">
 
     <style>
-        /* --- Base Styles (Copied from previous files for consistency) --- */
+        /* --- Base Styles (Copied from 
+
+previous files for consistency) --- */
         :root {
             --primary: #0070D1; /* Blue */
             --primary-dark: #005bb1;
-            --secondary: #00BC8C; /* Teal/Green */
+            --secondary: #00BC8C; /* Teal/Green 
+
+*/
             --secondary-dark: #009670;
             --text: #333333;
             --text-light: #666666;
             --background: #FFFFFF;
-            --background-alt: #F9FBFD; /* Very light blue/grey */
+            --background-alt: #F9FBFD; /* Very 
+
+light blue/grey */
             --border: #E1E8ED;
             --shadow: rgba(0, 0, 0, 0.05);
             --radius: 10px;
             --error: #e74c3c;
             --success: #2ecc71;
-             /* Chart Colors (Consistent with Loan Calculators) */
-            --chart-principal: #0070D1; /* Blue (Used for Base Amount) */
-            --chart-interest: #FF6B6B; /* Coral (Used for VAT Amount) */
-            --chart-fees: #6BCB77; /* Green (Not used in VAT calculator chart, but kept for consistency) */
-            --chart-balloon: #FFC107; /* Amber (Not used in VAT calculator chart, but kept for consistency) */
+             /* Chart Colors (Consistent with 
+
+Loan Calculators) */
+            --chart-principal: #0070D1; /* Blue 
+
+(Used for Base Amount) */
+            --chart-interest: #FF6B6B; /* Coral 
+
+(Used for VAT Amount) */
+            --chart-fees: #6BCB77; /* Green (Not 
+
+used in VAT calculator chart, but kept for 
+
+consistency) */
+            --chart-balloon: #FFC107; /* Amber 
+
+(Not used in VAT calculator chart, but 
+
+kept for consistency) */
         }
 
         * {
@@ -46,16 +144,24 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            scroll-behavior: smooth; /* Smooth 
+
+scrolling for anchor links */
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--text);
             line-height: 1.6;
-            background-color: var(--background);
-            -webkit-font-smoothing: antialiased; /* Smoother fonts */
-            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--
+
+background);
+            -webkit-font-smoothing: 
+
+antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: 
+
+grayscale;
         }
 
         a {
@@ -85,15 +191,25 @@
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent; /* Added for consistent height with outline */
+            border: 2px solid transparent; /* 
+
+Added for consistent height with outline 
+
+*/
             text-align: center;
-            font-size: 1rem; /* Ensure consistent font size */
+            font-size: 1rem; /* Ensure consistent 
+
+font size */
         }
 
         .btn:hover {
-            background-color: var(--primary-dark);
+            background-color: var(--primary-
+
+dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 112, 
+
+209, 0.2);
         }
 
         .btn-secondary {
@@ -101,8 +217,12 @@
         }
 
         .btn-secondary:hover {
-            background-color: var(--secondary-dark);
-            box-shadow: 0 4px 12px rgba(0, 188, 140, 0.2);
+            background-color: var(--
+
+secondary-dark);
+            box-shadow: 0 4px 12px rgba(0, 188, 
+
+140, 0.2);
         }
 
         .btn-outline {
@@ -123,8 +243,12 @@
 
         /* --- Header --- */
         header {
-            background-color: var(--background);
-            box-shadow: 0 2px 10px var(--shadow);
+            background-color: var(--
+
+background);
+            box-shadow: 0 2px 10px var(--
+
+shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -135,8 +259,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0; /* Adjust as needed */
-            height: 73px; /* Explicit height for menu positioning */
+            padding: 16px 0; /* Adjust as needed 
+
+*/
+            height: 73px; /* Explicit height for 
+
+menu positioning */
         }
 
         .logo {
@@ -177,7 +305,9 @@
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -2px; /* Position slightly below text */
+            bottom: -2px; /* Position slightly 
+
+below text */
             left: 0;
             width: 0;
             height: 2px;
@@ -203,7 +333,9 @@
         /* --- Calculator Section --- */
         .calculator-section {
             padding: 60px 0;
-            background-color: var(--background-alt);
+            background-color: var(--
+
+background-alt);
         }
 
         .calculator-container {
@@ -214,9 +346,13 @@
         }
 
         .calculator-form {
-            background-color: var(--background);
+            background-color: var(--
+
+background);
             border-radius: var(--radius);
-            box-shadow: 0 6px 18px var(--shadow);
+            box-shadow: 0 6px 18px var(--
+
+shadow);
             padding: 30px;
             border: 1px solid var(--border);
         }
@@ -239,20 +375,26 @@
             border-radius: var(--radius);
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
-            transition: border 0.3s ease, box-shadow 0.3s ease;
+            transition: border 0.3s ease, box-
+
+shadow 0.3s ease;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 112, 
+
+209, 0.15);
         }
 
         .form-control.invalid {
              border-color: var(--error);
         }
 
-        /* Radio button group for VAT calculation type */
+        /* Radio button group for VAT 
+
+calculation type */
         .vat-type-group {
             margin-bottom: 24px;
         }
@@ -275,19 +417,27 @@
 
         /* Results section */
         .calculator-results {
-            background-color: var(--background);
+            background-color: var(--
+
+background);
             border-radius: var(--radius);
-            box-shadow: 0 6px 18px var(--shadow);
+            box-shadow: 0 6px 18px var(--
+
+shadow);
             padding: 30px;
             border: 1px solid var(--border);
             position: relative;
-            display: none; /* Hide results initially */
+            display: none; /* Hide results 
+
+initially */
         }
 
         .results-header {
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--
+
+border);
         }
 
         .results-title {
@@ -304,31 +454,43 @@
 
         .results-summary {
             display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Stack results vertically */
+            grid-template-columns: repeat(1, 
+
+1fr); /* Stack results vertically */
             gap: 16px;
             margin-bottom: 24px;
         }
 
         .result-item {
-            background-color: var(--background-alt);
+            background-color: var(--
+
+background-alt);
             padding: 16px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             display: flex;
-            justify-content: space-between; /* Space out label and value */
+            justify-content: space-between; /* 
+
+Space out label and value */
             align-items: center;
         }
 
         .result-label {
-            font-size: 1rem; /* Slightly larger font for labels */
+            font-size: 1rem; /* Slightly larger 
+
+font for labels */
             font-weight: 500;
-            color: var(--text); /* Use text color for clarity */
+            color: var(--text); /* Use text color 
+
+for clarity */
         }
 
         .result-value {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary); /* Highlight primary results */
+            color: var(--primary); /* Highlight 
+
+primary results */
         }
 
         .result-note {
@@ -340,15 +502,29 @@
         .chart-container {
             position: relative;
             margin-top: 24px;
-            height: 250px; /* Fixed height for chart container */
-            width: 100%; /* Ensure it takes full width */
-             display: flex; /* Use flexbox to center canvas */
-             justify-content: center; /* Center horizontally */
-             align-items: center; /* Center vertically */
+            height: 250px; /* Fixed height for 
+
+chart container */
+            width: 100%; /* Ensure it takes full 
+
+width */
+             display: flex; /* Use flexbox to 
+
+center canvas */
+             justify-content: center; /* Center 
+
+horizontally */
+             align-items: center; /* Center 
+
+vertically */
         }
          .chart-container canvas {
-             max-width: 100%; /* Prevent canvas from overflowing */
-             max-height: 100%; /* Prevent canvas from overflowing */
+             max-width: 100%; /* Prevent canvas 
+
+from overflowing */
+             max-height: 100%; /* Prevent 
+
+canvas from overflowing */
          }
 
          .chart-title {
@@ -360,7 +536,9 @@
         }
 
 
-        /* Additional form component styles */
+        /* Additional form component styles 
+
+*/
         .input-group {
             display: flex;
             align-items: center;
@@ -368,16 +546,22 @@
 
         .input-group-addon {
             padding: 12px 16px;
-            background-color: var(--background-alt);
+            background-color: var(--
+
+background-alt);
             border: 1px solid var(--border);
             border-right: none;
-            border-radius: var(--radius) 0 0 var(--radius);
+            border-radius: var(--radius) 0 0 var
+
+(--radius);
             color: var(--text-light);
             font-weight: 500;
         }
 
         .input-group .form-control {
-            border-radius: 0 var(--radius) var(--radius) 0;
+            border-radius: 0 var(--radius) var
+
+(--radius) 0;
         }
 
         .form-message {
@@ -405,7 +589,9 @@
         /* --- FAQ Section --- */
         .faq-section {
             padding: 60px 0;
-            background-color: var(--background);
+            background-color: var(--
+
+background);
         }
 
         .accordion {
@@ -416,7 +602,9 @@
         }
 
         .accordion-item {
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--
+
+border);
         }
 
         .accordion-item:last-child {
@@ -424,17 +612,23 @@
         }
 
         .accordion-header {
-            background-color: var(--background);
+            background-color: var(--
+
+background);
             padding: 20px 24px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s 
+
+ease;
         }
 
         .accordion-header:hover {
-            background-color: var(--background-alt);
+            background-color: var(--
+
+background-alt);
         }
 
         .accordion-title {
@@ -451,7 +645,9 @@
             padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: max-height 0.3s ease, 
+
+padding 0.3s ease;
         }
 
         .accordion-content-inner {
@@ -459,26 +655,44 @@
             color: var(--text-light);
         }
 
-        .accordion-item.active .accordion-header {
-            background-color: var(--background-alt);
+        .accordion-item.active .accordion-
+
+header {
+            background-color: var(--
+
+background-alt);
         }
 
-        .accordion-item.active .accordion-icon {
+        .accordion-item.active .accordion-
+
+icon {
             transform: rotate(180deg);
         }
 
-        .accordion-item.active .accordion-content {
-            max-height: 1000px; /* Sufficiently large value */
-            padding: 0 24px 24px; /* Apply padding when active */
+        .accordion-item.active .accordion-
+
+content {
+            max-height: 1000px; /* Sufficiently 
+
+large value */
+            padding: 0 24px 24px; /* Apply 
+
+padding when active */
         }
 
         /* Calculator Tips */
         .tip-box {
             margin-top: 30px;
             padding: 20px;
-            background-color: rgba(0, 112, 209, 0.05);
-            border-left: 4px solid var(--primary);
-            border-radius: 0 var(--radius) var(--radius) 0;
+            background-color: rgba(0, 112, 209, 
+
+0.05);
+            border-left: 4px solid var(--
+
+primary);
+            border-radius: 0 var(--radius) var
+
+(--radius) 0;
         }
 
         .tip-title {
@@ -518,7 +732,9 @@
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat
+
+(auto-fit, minmax(220px, 1fr));
             gap: 48px;
             margin-bottom: 48px;
         }
@@ -527,7 +743,9 @@
              color: white;
              font-size: 1.6rem;
              margin-bottom: 16px;
-             display: inline-flex; /* Align icon and text */
+             display: inline-flex; /* Align icon 
+
+and text */
              align-items: center;
         }
         .footer-column.about .footer-logo i {
@@ -554,7 +772,9 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 
+
+0.1);
             color: white;
             transition: all 0.3s ease;
             font-size: 1rem;
@@ -574,7 +794,9 @@
 
         .footer-links {
             list-style: none;
-            padding: 0; /* Remove default padding */
+            padding: 0; /* Remove default 
+
+padding */
         }
 
         .footer-link {
@@ -592,9 +814,13 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 
+
+255, 0.15);
             padding-top: 32px;
-            margin-top: 16px; /* Add margin above bottom line */
+            margin-top: 16px; /* Add margin 
+
+above bottom line */
             text-align: center;
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.875rem;
@@ -605,17 +831,27 @@
         @media (max-width: 992px) {
             .nav-menu {
                 position: fixed;
-                top: 73px; /* Match header height */
+                top: 73px; /* Match header height 
+
+*/
                 left: -100%;
                 flex-direction: column;
-                background-color: var(--background);
+                background-color: var(--
+
+background);
                 width: 100%;
                 height: calc(100vh - 73px);
                 transition: left 0.3s ease-in-out;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px 0; /* Add padding top/bottom */
+                box-shadow: 0 10px 20px rgba(0, 
+
+0, 0, 0.1);
+                padding: 20px 0; /* Add padding 
+
+top/bottom */
                 overflow-y: auto;
-                z-index: 999; /* Ensure it's below header but above content */
+                z-index: 999; /* Ensure it's below 
+
+header but above content */
              }
 
              .nav-menu.active {
@@ -628,18 +864,30 @@
              }
              .nav-link {
                  display: block;
-                 padding: 16px 30px; /* Increase padding */
+                 padding: 16px 30px; /* Increase 
+
+padding */
                  text-align: left; /* Align text left */
-                 border-bottom: 1px solid var(--border);
-                 font-size: 1.1rem; /* Slightly larger font */
+                 border-bottom: 1px solid var(--
+
+border);
+                 font-size: 1.1rem; /* Slightly larger 
+
+font */
              }
              .nav-link:hover {
-                 background-color: var(--background-alt);
+                 background-color: var(--
+
+background-alt);
              }
               .nav-link::after {
-                 display: none; /* Hide underline on mobile */
+                 display: none; /* Hide underline 
+
+on mobile */
              }
-             /* Style last nav item without border */
+             /* Style last nav item without 
+
+border */
              .nav-item:last-child .nav-link {
                  border-bottom: none;
              }
@@ -670,7 +918,9 @@
             }
 
             .footer-column.about .footer-logo {
-                 justify-content: center; /* Center logo items */
+                 justify-content: center; /* Center 
+
+logo items */
             }
 
             .footer-social {
@@ -684,12 +934,16 @@
 
         @media (max-width: 576px) {
             .header-container {
-                padding: 12px 0; /* Reduce header padding */
+                padding: 12px 0; /* Reduce header 
+
+padding */
                 height: 65px; /* Adjust height */
             }
 
             .nav-menu {
-                top: 65px; /* Match new header height */
+                top: 65px; /* Match new header 
+
+height */
                 height: calc(100vh - 65px);
             }
 
@@ -717,19 +971,47 @@
 </head>
 <body>
     <header>
-        <div class="container header-container">
-            <a href="/" class="logo"> <i class="fas fa-compass"></i> Financial<span>Compass</span>
+        <div class="container header-
+
+container">
+            <a href="/" class="logo"> <i 
+
+class="fas fa-compass"></i> 
+
+Financial<span>Compass</span>
             </a>
 
             <nav>
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu" aria-expanded="false" aria-controls="navMenu">
+                <button class="mobile-menu-btn" 
+
+id="mobileMenuBtn" aria-label="Open 
+
+Menu" aria-expanded="false" aria-
+
+controls="navMenu">
                     <i class="fas fa-bars"></i>
                 </button>
-                <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="/#tools" class="nav-link active">Financial Tools</a></li>
-                    <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
-                    <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
+                <ul class="nav-menu" 
+
+id="navMenu">
+                    <li class="nav-item"><a href="/" 
+
+class="nav-link">Home</a></li>
+                    <li class="nav-item"><a 
+
+href="/#tools" class="nav-link 
+
+active">Financial Tools</a></li>
+                    <li class="nav-item"><a 
+
+href="/#about" class="nav-link">Why 
+
+Us</a></li>
+                    <li class="nav-item"><a 
+
+href="/#updates" class="nav-
+
+link">Updates</a></li>
                 </ul>
             </nav>
         </div>
@@ -738,81 +1020,179 @@
     <main>
         <section class="calculator-section">
             <div class="container">
-                <h1 class="section-title">VAT Calculator</h1>
-                <p class="section-subtitle">Calculate VAT in South Africa (currently 15%)</p>
+                <h1 class="section-title">VAT 
+
+Calculator</h1>
+                <p class="section-
+
+subtitle">Calculate VAT in South Africa 
+
+(currently 15%)</p>
 
                 <div class="calculator-container">
                     <div class="calculator-form">
-                        <form id="vatCalculatorForm">
+                        <form 
+
+id="vatCalculatorForm">
                             <div class="form-group">
-                                <label for="vatAmountInput" class="form-label">Enter Amount</label>
+                                <label 
+
+for="vatAmountInput" class="form-
+
+label">Enter Amount</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon">R</span>
-                                    <input type="number" id="vatAmountInput" class="form-control" placeholder="e.g., 1000" min="0" step="0.01" required>
+                                    <span class="input-
+
+group-addon">R</span>
+                                    <input type="number" 
+
+id="vatAmountInput" class="form-
+
+control" placeholder="e.g., 1000" min="0" 
+
+step="0.01" required>
                                 </div>
-                                <span class="form-message" id="vatAmountError"></span>
+                                <span class="form-
+
+message" id="vatAmountError"></span>
                             </div>
 
-                            <div class="form-group vat-type-group">
-                                <label class="form-label">Amount You Entered Is:</label>
-                                <div class="vat-type-options">
-                                    <div class="vat-type-option">
-                                        <input type="radio" id="vatExcl" name="vatType" value="excl" checked>
-                                        <label for="vatExcl">Excluding VAT</label>
+                            <div class="form-group vat-
+
+type-group">
+                                <label class="form-
+
+label">Amount You Entered Is:</label>
+                                <div class="vat-type-
+
+options">
+                                    <div class="vat-type-
+
+option">
+                                        <input type="radio" 
+
+id="vatExcl" name="vatType" value="excl" 
+
+checked>
+                                        <label 
+
+for="vatExcl">Excluding VAT</label>
                                     </div>
-                                    <div class="vat-type-option">
-                                        <input type="radio" id="vatIncl" name="vatType" value="incl">
-                                        <label for="vatIncl">Including VAT</label>
+                                    <div class="vat-type-
+
+option">
+                                        <input type="radio" 
+
+id="vatIncl" name="vatType" value="incl">
+                                        <label 
+
+for="vatIncl">Including VAT</label>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="action-buttons">
-                                <button type="button" id="vatCalculateBtn" class="btn btn-primary">Calculate VAT</button>
-                                <button type="reset" id="vatResetBtn" class="btn btn-outline">Reset</button>
+                                <button type="button" 
+
+id="vatCalculateBtn" class="btn btn-
+
+primary">Calculate VAT</button>
+                                <button type="reset" 
+
+id="vatResetBtn" class="btn btn-
+
+outline">Reset</button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="calculator-results" id="vatResultsSection">
+                    <div class="calculator-results" 
+
+id="vatResultsSection">
                         <div class="results-header">
-                            <h3 class="results-title">VAT Calculation Results</h3>
-                            <p class="results-subtitle">At 15% South African VAT Rate</p>
+                            <h3 class="results-title">VAT 
+
+Calculation Results</h3>
+                            <p class="results-
+
+subtitle">At 15% South African VAT 
+
+Rate</p>
                         </div>
 
                         <div class="results-summary">
                             <div class="result-item">
-                                <span class="result-label">Amount Excluding VAT:</span>
-                                <span class="result-value" id="vatAmountExcl">R0.00</span>
+                                <span class="result-
+
+label">Amount Excluding VAT:</span>
+                                <span class="result-value" 
+
+id="vatAmountExcl">R0.00</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">VAT Amount (15%):</span>
-                                <span class="result-value" id="vatAmountValue">R0.00</span>
+                                <span class="result-
+
+label">VAT Amount (15%):</span>
+                                <span class="result-value" 
+
+id="vatAmountValue">R0.00</span>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">Amount Including VAT:</span>
-                                <span class="result-value" id="vatAmountIncl">R0.00</span>
+                                <span class="result-
+
+label">Amount Including VAT:</span>
+                                <span class="result-value" 
+
+id="vatAmountIncl">R0.00</span>
                             </div>
                         </div>
 
-                        <div class="visualization-container">
-                             <h4 class="chart-title">Amount Breakdown</h4>
-                            <div class="chart-container">
-                                <canvas id="vatBreakdownChart"></canvas>
+                        <div class="visualization-
+
+container">
+                             <h4 class="chart-
+
+title">Amount Breakdown</h4>
+                            <div class="chart-
+
+container">
+                                <canvas 
+
+id="vatBreakdownChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
                  <div class="tip-box">
-                        <h4 class="tip-title"><i class="fas fa-calculator"></i> VAT Tips in SA</h4>
+                        <h4 class="tip-title"><i 
+
+class="fas fa-calculator"></i> VAT Tips in 
+
+SA</h4>
                         <div class="tip-content">
-                            <p>Understanding VAT in South Africa:</p>
+                            <p>Understanding VAT in 
+
+South Africa:</p>
                             <ul>
-                                <li>The standard VAT rate is currently 15%.</li>
-                                <li>Some essential goods and services are Zero-Rated (VAT at 0%) or Exempt (no VAT charged).</li>
-                                <li>Businesses registered for VAT collect VAT on sales (Output Tax) and can claim VAT back on expenses (Input Tax).</li>
-                                <li>This calculator uses the standard 15% rate for estimations.</li>
+                                <li>The standard VAT rate 
+
+is currently 15%.</li>
+                                <li>Some essential goods 
+
+and services are Zero-Rated (VAT at 0%) 
+
+or Exempt (no VAT charged).</li>
+                                <li>Businesses registered 
+
+for VAT act as agents for SARS, collecting 
+
+VAT on behalf of the government.</li>
+                                <li>This calculator uses 
+
+the standard 15% rate for 
+
+estimations.</li>
                             </ul>
                         </div>
                     </div>
@@ -822,54 +1202,172 @@
 
          <section class="faq-section">
             <div class="container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">Common questions about VAT in South Africa</p>
+                <h2 class="section-
 
-                <div class="accordion" id="vatFAQ">
+title">Frequently Asked Questions</h2>
+                <p class="section-
+
+subtitle">Common questions about VAT in 
+
+South Africa</p>
+
+                <div class="accordion" 
+
+id="vatFAQ">
                     <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3 class="accordion-title">What is VAT?</h3>
-                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        <div class="accordion-
+
+header">
+                            <h3 class="accordion-
+
+title">What is VAT?</h3>
+                            <i class="accordion-icon fas 
+
+fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>VAT stands for Value Added Tax. It is a consumption tax levied on the supply of goods and services in South Africa. Businesses registered for VAT act as agents for SARS, collecting VAT on behalf of the government.</p>
+                        <div class="accordion-
+
+content">
+                            <div class="accordion-
+
+content-inner">
+                                <p>VAT stands for Value 
+
+Added Tax. It is a consumption tax levied 
+
+on the supply of goods and services in 
+
+South Africa. Businesses registered for 
+
+VAT act as agents for SARS, collecting VAT 
+
+on behalf of the government.</p>
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3 class="accordion-title">What is the current standard VAT rate in South Africa?</h3>
-                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        <div class="accordion-
+
+header">
+                            <h3 class="accordion-
+
+title">What is the current standard VAT 
+
+rate in South Africa?</h3>
+                            <i class="accordion-icon fas 
+
+fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>The current standard VAT rate in South Africa is 15%. This rate has been in effect since April 1, 2018.</p>
+                        <div class="accordion-
+
+content">
+                            <div class="accordion-
+
+content-inner">
+                                <p>The current standard 
+
+VAT rate in South Africa is 15%. This rate 
+
+has been in effect since April 1, 2018.</p>
                             </div>
                         </div>
                     </div>
                      <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3 class="accordion-title">What are Zero-Rated and Exempt supplies?</h3>
-                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        <div class="accordion-
+
+header">
+                            <h3 class="accordion-
+
+title">What are Zero-Rated and Exempt 
+
+supplies?</h3>
+                            <i class="accordion-icon fas 
+
+fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p><strong>Zero-Rated supplies</strong> are taxable supplies on which VAT is charged at a rate of 0%. Examples include most basic food items, paraffin, and international transport. Businesses making zero-rated supplies can still claim input tax on related expenses. <strong>Exempt supplies</strong> are supplies on which no VAT is charged. Examples include most financial services, educational services, and residential rentals. Businesses making only exempt supplies cannot claim input tax on related expenses.</p>
+                        <div class="accordion-
+
+content">
+                            <div class="accordion-
+
+content-inner">
+                                <p><strong>Zero-Rated 
+
+supplies</strong> are taxable supplies on 
+
+which VAT is charged at a rate of 0%. 
+
+Examples include most basic food items, 
+
+paraffin, and international transport. 
+
+Businesses making zero-rated supplies 
+
+can still claim input tax on related 
+
+expenses. <strong>Exempt 
+
+supplies</strong> are supplies on which 
+
+no VAT is charged. Examples include most 
+
+financial services, educational services, 
+
+and residential rentals. Businesses 
+
+making only exempt supplies cannot 
+
+claim input tax on related expenses.</p>
                             </div>
                         </div>
                     </div>
                      <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3 class="accordion-title">How do I calculate VAT?</h3>
-                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        <div class="accordion-
+
+header">
+                            <h3 class="accordion-
+
+title">How do I calculate VAT?</h3>
+                            <i class="accordion-icon fas 
+
+fa-chevron-down"></i>
                         </div>
-                        <div class="accordion-content">
-                            <div class="accordion-content-inner">
-                                <p>To calculate VAT at 15%:</p>
+                        <div class="accordion-
+
+content">
+                            <div class="accordion-
+
+content-inner">
+                                <p>To calculate VAT at 
+
+15%:</p>
                                 <ul>
-                                    <li><strong>If the amount EXCLUDES VAT:</strong> Multiply the amount by 0.15 to get the VAT amount. Add the VAT amount to the original amount to get the total including VAT. (Amount Excl. VAT * 1.15 = Amount Incl. VAT)</li>
-                                    <li><strong>If the amount INCLUDES VAT:</strong> Divide the amount by 1.15 to get the amount excluding VAT. Subtract the amount excluding VAT from the total to get the VAT amount. (Amount Incl. VAT / 1.15 = Amount Excl. VAT)</li>
+                                    <li><strong>If the 
+
+amount EXCLUDES VAT:</strong> 
+
+Multiply the amount by 0.15 to get the VAT 
+
+amount. Add the VAT amount to the 
+
+original amount to get the total including 
+
+VAT. (Amount Excl. VAT * 1.15 = Amount 
+
+Incl. VAT)</li>
+                                    <li><strong>If the 
+
+amount INCLUDES VAT:</strong> Divide 
+
+the amount by 1.15 to get the amount 
+
+excluding VAT. Subtract the amount 
+
+excluding VAT from the total to get the 
+
+VAT amount. (Amount Incl. VAT / 1.15 = 
+
+Amount Excl. VAT)</li>
                                 </ul>
                             </div>
                         </div>
@@ -885,45 +1383,138 @@
             <div class="footer-content">
                 <div class="footer-column about">
                     <a href="/" class="footer-logo">
-                        <i class="fas fa-compass"></i> Financial<span>Compass</span>
+                        <i class="fas fa-compass"></i> 
+
+Financial<span>Compass</span>
                     </a>
-                    <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
+                    <p class="footer-
+
+description">Your free guide to 
+
+navigating South African personal 
+
+finance. Empowering you with clear, 
+
+accurate tools and insights.</p>
                     <div class="footer-social">
-                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="footer-
+
+social-link" aria-label="Facebook"><i 
+
+class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="footer-
+
+social-link" aria-label="Twitter"><i 
+
+class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-
+
+social-link" aria-label="LinkedIn"><i 
+
+class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
 
                 <div class="footer-column links">
-                    <h3 class="footer-heading">Quick Links</h3>
+                    <h3 class="footer-
+
+heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="/">Home</a></li>
-                        <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
-                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
-                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
+                        <li class="footer-link"><a 
+
+href="/">Home</a></li>
+                        <li class="footer-link"><a 
+
+href="/#tools">Financial Tools</a></li>
+                        <li class="footer-link"><a 
+
+href="/#about">Why Choose Us</a></li>
+                        <li class="footer-link"><a 
+
+href="/#updates">Latest Updates</a></li>
+                         <li class="footer-link"><a 
+
+href="terms-privacy.html">Terms & 
+
+Privacy</a></li>
+                        </ul>
                 </div>
 
-                 <div class="footer-column calculators">
-                    <h3 class="footer-heading">Calculators</h3>
+                 <div class="footer-column 
+
+calculators">
+                    <h3 class="footer-
+
+heading">Calculators</h3>
                     <ul class="footer-links">
-                        <li class="footer-link"><a href="sars-tax-calculator.html">SARS Tax Calculator</a></li>
-                        <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
-                        <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
-                        <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="#">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
+                        <li class="footer-link"><a 
+
+href="sars-tax-calculator.html">SARS Tax 
+
+Calculator</a></li>
+                        <li class="footer-link"><a 
+
+href="budget-planner.html">Budget 
+
+Planner</a></li>
+                        <li class="footer-link"><a 
+
+href="loan-calculators.html">Loan 
+
+Calculators</a></li>
+                        <li class="footer-link"><a 
+
+href="vat-calculator.html">VAT 
+
+Calculator</a></li>
+                        <li class="footer-link"><a 
+
+href="retirement-
+
+calculator.html">Retirement 
+
+Calculator</a></li>
+                        <li class="footer-link"><a 
+
+href="savings-goal-planner.html">Savings 
+
+Goal Planner</a></li>
+                    </ul>
                 </div>
 
-                 <div class="footer-column contact">
-                    <h3 class="footer-heading">Disclaimer</h3>
-                     <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
-                        Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
+                 <div class="footer-column 
+
+contact">
+                    <h3 class="footer-
+
+heading">Disclaimer</h3>
+                     <p class="footer-description" 
+
+style="font-size: 0.85rem; color: rgba
+
+(255,255,255,0.5);">
+                        Financial Compass provides 
+
+tools for estimation purposes only. 
+
+Information should not be considered 
+
+financial advice. Always consult a 
+
+qualified professional for financial 
+
+decisions.
                     </p>
                     </div>
 
             </div> <div class="footer-bottom">
-                &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
+                &copy; <span 
+
+id="currentYear"></span> Financial 
+
+Compass. Built for South Africans. All 
+
+Rights Reserved.
             </div>
         </div>
     </footer>
@@ -931,63 +1522,129 @@
 
     <script>
         // --- Mobile Menu Toggle ---
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
+        const mobileMenuBtn = 
+
+document.getElementById
+
+('mobileMenuBtn');
+        const navMenu = 
+
+document.getElementById('navMenu');
         const body = document.body;
 
         if (mobileMenuBtn && navMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                const isExpanded = navMenu.classList.toggle('active');
-                mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
-                const icon = mobileMenuBtn.querySelector('i');
+            mobileMenuBtn.addEventListener
+
+('click', () => {
+                const isExpanded = 
+
+navMenu.classList.toggle('active');
+                mobileMenuBtn.setAttribute
+
+('aria-expanded', isExpanded);
+                const icon = 
+
+mobileMenuBtn.querySelector('i');
                 if (icon) {
-                    icon.className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
+                    icon.className = isExpanded ? 
+
+'fas fa-times' : 'fas fa-bars';
                 }
-                body.classList.toggle('no-scroll', isExpanded);
+                body.classList.toggle('no-scroll', 
+
+isExpanded);
             });
 
-            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    if (navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        const icon = mobileMenuBtn.querySelector('i');
+            navMenu.querySelectorAll('a
+
+[href^="#"]').forEach(link => {
+                link.addEventListener('click', (e) 
+
+=> {
+                    if (navMenu.classList.contains
+
+('active')) {
+                        navMenu.classList.remove
+
+('active');
+                        mobileMenuBtn.setAttribute
+
+('aria-expanded', 'false');
+                        const icon = 
+
+mobileMenuBtn.querySelector('i');
                         if (icon) {
-                             icon.className = 'fas fa-bars';
+                             icon.className = 'fas fa-
+
+bars';
                          }
-                         body.classList.remove('no-scroll');
+                         body.classList.remove('no-
+
+scroll');
                     }
                 });
             });
-             // Close menu when clicking outside (basic implementation)
-             document.addEventListener('click', (e) => {
-                 if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && navMenu.classList.contains('active')) {
-                     navMenu.classList.remove('active');
-                     mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                     const icon = mobileMenuBtn.querySelector('i');
+             // Close menu when clicking outside 
+
+(basic implementation)
+             document.addEventListener('click', 
+
+(e) => {
+                 if (!navMenu.contains(e.target) 
+
+&& !mobileMenuBtn.contains(e.target) 
+
+&& navMenu.classList.contains('active')) {
+                     navMenu.classList.remove
+
+('active');
+                     mobileMenuBtn.setAttribute
+
+('aria-expanded', 'false');
+                     const icon = 
+
+mobileMenuBtn.querySelector('i');
                      if (icon) {
                          icon.className = 'fas fa-bars';
                      }
-                     body.classList.remove('no-scroll');
+                     body.classList.remove('no-
+
+scroll');
                  }
              });
         }
 
         // --- Footer Year ---
-        const currentYearSpan = document.getElementById('currentYear');
+        const currentYearSpan = 
+
+document.getElementById('currentYear');
         if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
+            currentYearSpan.textContent = new 
+
+Date().getFullYear();
         }
 
         // --- Accordion Functionality ---
-        const accordionItems = document.querySelectorAll('.accordion-item');
+        const accordionItems = 
+
+document.querySelectorAll('.accordion-
+
+item');
         accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            header.addEventListener('click', () => {
+            const header = item.querySelector
+
+('.accordion-header');
+            header.addEventListener('click', () 
+
+=> {
                 item.classList.toggle('active');
-                accordionItems.forEach(otherItem => {
+                accordionItems.forEach
+
+(otherItem => {
                     if (otherItem !== item) {
-                        otherItem.classList.remove('active');
+                        otherItem.classList.remove
+
+('active');
                     }
                 });
             });
@@ -995,37 +1652,105 @@
 
         // --- Helper Functions ---
         function formatCurrency(amount) {
-            // Ensure amount is a number before formatting
-            const numericAmount = parseFloat(amount);
+            // Ensure amount is a number 
+
+before formatting
+            const numericAmount = parseFloat
+
+(amount);
             if (isNaN(numericAmount)) {
-                return 'R0.00'; // Return default if not a valid number
+                return 'R0.00'; // Return default if 
+
+not a valid number
             }
-            return 'R' + numericAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            return 'R' + 
+
+numericAmount.toLocaleString
+
+(undefined, {minimumFractionDigits: 2, 
+
+maximumFractionDigits: 2});
         }
 
         // --- Get CSS Chart Colors ---
-        // Fetch the computed styles from the root element once
-        const style = getComputedStyle(document.documentElement);
-        const chartPrincipalColor = style.getPropertyValue('--chart-principal').trim();
-        const chartInterestColor = style.getPropertyValue('--chart-interest').trim();
+        // Fetch the computed styles from the 
+
+root element once
+        const style = getComputedStyle
+
+(document.documentElement);
+        const chartPrincipalColor = 
+
+style.getPropertyValue('--chart-
+
+principal').trim();
+        const chartInterestColor = 
+
+style.getPropertyValue('--chart-
+
+interest').trim();
 
 
         // --- VAT Calculator Logic ---
-        const vatCalculatorForm = document.getElementById('vatCalculatorForm');
-        const vatAmountInput = document.getElementById('vatAmountInput');
-        const vatExclRadio = document.getElementById('vatExcl');
-        const vatInclRadio = document.getElementById('vatIncl');
-        const vatCalculateBtn = document.getElementById('vatCalculateBtn');
-        const vatResetBtn = document.getElementById('vatResetBtn');
-        const vatResultsSection = document.getElementById('vatResultsSection');
+        const vatCalculatorForm = 
 
-        const vatAmountExclEl = document.getElementById('vatAmountExcl');
-        const vatAmountValueEl = document.getElementById('vatAmountValue');
-        const vatAmountInclEl = document.getElementById('vatAmountIncl');
-        const vatBreakdownCanvas = document.getElementById('vatBreakdownChart');
-        const vatAmountError = document.getElementById('vatAmountError');
+document.getElementById
 
-        let vatBreakdownChart = null; // To hold the chart instance
+('vatCalculatorForm');
+        const vatAmountInput = 
+
+document.getElementById
+
+('vatAmountInput');
+        const vatExclRadio = 
+
+document.getElementById('vatExcl');
+        const vatInclRadio = 
+
+document.getElementById('vatIncl');
+        const vatCalculateBtn = 
+
+document.getElementById
+
+('vatCalculateBtn');
+        const vatResetBtn = 
+
+document.getElementById('vatResetBtn');
+        const vatResultsSection = 
+
+document.getElementById
+
+('vatResultsSection');
+
+        const vatAmountExclEl = 
+
+document.getElementById
+
+('vatAmountExcl');
+        const vatAmountValueEl = 
+
+document.getElementById
+
+('vatAmountValue');
+        const vatAmountInclEl = 
+
+document.getElementById
+
+('vatAmountIncl');
+        const vatBreakdownCanvas = 
+
+document.getElementById
+
+('vatBreakdownChart');
+        const vatAmountError = 
+
+document.getElementById
+
+('vatAmountError');
+
+        let vatBreakdownChart = null; // To 
+
+hold the chart instance
 
         // Standard SA VAT Rate
         const VAT_RATE = 0.15; // 15%
@@ -1034,21 +1759,45 @@
              // Clear previous errors
             if(vatAmountError) {
                  vatAmountError.textContent = '';
-                 vatAmountError.classList.remove('active');
-             }
-             if(vatAmountInput) vatAmountInput.classList.remove('invalid');
+                 
 
-            const inputAmount = vatAmountInput ? parseFloat(vatAmountInput.value) : NaN;
-            const isIncludingVat = vatInclRadio ? vatInclRadio.checked : false;
+vatAmountError.classList.remove
+
+('active');
+             }
+             if(vatAmountInput) 
+
+vatAmountInput.classList.remove
+
+('invalid');
+
+            const inputAmount = 
+
+vatAmountInput ? parseFloat
+
+(vatAmountInput.value) : NaN;
+            const isIncludingVat = vatInclRadio 
+
+? vatInclRadio.checked : false;
 
             // Input Validation
-            if (isNaN(inputAmount) || inputAmount < 0) {
+            if (isNaN(inputAmount) || 
+
+inputAmount < 0) {
                 if(vatAmountError) {
-                     vatAmountError.textContent = 'Please enter a valid positive number.';
-                     vatAmountError.classList.add('active');
+                     vatAmountError.textContent = 
+
+'Please enter a valid positive number.';
+                     vatAmountError.classList.add
+
+('active');
                 }
-                 if(vatAmountInput) vatAmountInput.classList.add('invalid');
-                clearVatResults(); // Clear results and hide section on error
+                 if(vatAmountInput) 
+
+vatAmountInput.classList.add('invalid');
+                clearVatResults(); // Clear results 
+
+and hide section on error
                 return;
             }
 
@@ -1059,60 +1808,114 @@
             if (isIncludingVat) {
                 // Input is Including VAT
                 amountInclVat = inputAmount;
-                amountExclVat = inputAmount / (1 + VAT_RATE);
-                vatAmount = amountInclVat - amountExclVat;
+                amountExclVat = inputAmount / (1 
+
++ VAT_RATE);
+                vatAmount = amountInclVat - 
+
+amountExclVat;
             } else {
                 // Input is Excluding VAT
                 amountExclVat = inputAmount;
-                vatAmount = inputAmount * VAT_RATE;
-                amountInclVat = amountExclVat + vatAmount;
+                vatAmount = inputAmount * 
+
+VAT_RATE;
+                amountInclVat = amountExclVat + 
+
+vatAmount;
             }
 
             // Update results display
-            if(vatAmountExclEl) vatAmountExclEl.textContent = formatCurrency(amountExclVat);
-            if(vatAmountValueEl) vatAmountValueEl.textContent = formatCurrency(vatAmount);
-            if(vatAmountInclEl) vatAmountInclEl.textContent = formatCurrency(amountInclVat);
+            if(vatAmountExclEl) 
+
+vatAmountExclEl.textContent = 
+
+formatCurrency(amountExclVat);
+            if(vatAmountValueEl) 
+
+vatAmountValueEl.textContent = 
+
+formatCurrency(vatAmount);
+            if(vatAmountInclEl) 
+
+vatAmountInclEl.textContent = 
+
+formatCurrency(amountInclVat);
 
             // Show results section
-            if(vatResultsSection) vatResultsSection.style.display = 'block';
+            if(vatResultsSection) 
+
+vatResultsSection.style.display = 'block';
 
             // Update chart
-            updateVatBreakdownChart(amountExclVat, vatAmount);
+            updateVatBreakdownChart
+
+(amountExclVat, vatAmount);
 
              // Optional: Scroll to results
              if(vatResultsSection) {
-                 vatResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 vatResultsSection.scrollIntoView
+
+({ behavior: 'smooth', block: 'start' });
              }
         }
 
         function clearVatResults() {
              // Clear result elements
-             if(vatAmountExclEl) vatAmountExclEl.textContent = 'R0.00';
-             if(vatAmountValueEl) vatAmountValueEl.textContent = 'R0.00';
-             if(vatAmountInclEl) vatAmountInclEl.textContent = 'R0.00';
+             if(vatAmountExclEl) 
+
+vatAmountExclEl.textContent = 'R0.00';
+             if(vatAmountValueEl) 
+
+vatAmountValueEl.textContent = 'R0.00';
+             if(vatAmountInclEl) 
+
+vatAmountInclEl.textContent = 'R0.00';
 
              // Hide results section
-             if(vatResultsSection) vatResultsSection.style.display = 'none';
+             if(vatResultsSection) 
+
+vatResultsSection.style.display = 'none';
 
              // Destroy chart
              if (vatBreakdownChart) {
                 vatBreakdownChart.destroy();
-                vatBreakdownChart = null; // Clear the reference
+                vatBreakdownChart = null; // 
+
+Clear the reference
              }
-              // Clear canvas explicitly if chart was destroyed
+              // Clear canvas explicitly if chart 
+
+was destroyed
              if (vatBreakdownCanvas) {
-                  const ctx = vatBreakdownCanvas.getContext('2d');
-                  ctx.clearRect(0, 0, vatBreakdownCanvas.width, vatBreakdownCanvas.height);
+                  const ctx = 
+
+vatBreakdownCanvas.getContext('2d');
+                  ctx.clearRect(0, 0, 
+
+vatBreakdownCanvas.width, 
+
+vatBreakdownCanvas.height);
               }
         }
 
 
-        // Function to update the VAT breakdown chart
-        function updateVatBreakdownChart(amountExcl, vatAmount) {
-            if (!vatBreakdownCanvas) return; // Ensure canvas element exists
-            const ctx = vatBreakdownCanvas.getContext('2d');
+        // Function to update the VAT 
 
-            // Destroy the previous chart instance if it exists
+breakdown chart
+        function updateVatBreakdownChart
+
+(amountExcl, vatAmount) {
+            if (!vatBreakdownCanvas) return; // 
+
+Ensure canvas element exists
+            const ctx = 
+
+vatBreakdownCanvas.getContext('2d');
+
+            // Destroy the previous chart 
+
+instance if it exists
             if (vatBreakdownChart) {
                 vatBreakdownChart.destroy();
             }
@@ -1122,45 +1925,83 @@
             const labels = [];
             const backgroundColors = [];
 
-            // Only add data segments if their value is greater than 0
-            // Note: Display breakdown of the *total* (Amount Including VAT)
-            const totalAmount = amountExcl + vatAmount;
+            // Only add data segments if their 
+
+value is greater than 0
+            // Note: Display breakdown of the 
+
+*total* (Amount Including VAT)
+            const totalAmount = amountExcl + 
+
+vatAmount;
 
              if (totalAmount > 0) {
-                 // Add Principal (Base Amount Excl VAT)
+                 // Add Principal (Base Amount 
+
+Excl VAT)
                  if (amountExcl > 0) {
                      chartData.push(amountExcl);
-                     labels.push('Amount Excl. VAT');
-                     backgroundColors.push(chartPrincipalColor); // Use Principal color for Base Amount
+                     labels.push('Amount Excl. 
+
+VAT');
+                     backgroundColors.push
+
+(chartPrincipalColor); // Use Principal 
+
+color for Base Amount
                  }
 
                  // Add Interest (VAT Amount)
                  if (vatAmount > 0) {
                      chartData.push(vatAmount);
-                     labels.push('VAT Amount (15%)');
-                     backgroundColors.push(chartInterestColor); // Use Interest color for VAT Amount
+                     labels.push('VAT Amount 
+
+(15%)');
+                     backgroundColors.push
+
+(chartInterestColor); // Use Interest color 
+
+for VAT Amount
                  }
              }
 
 
             // Create the new Chart.js instance
-            if (chartData.length > 0) { // Only create chart if there's data
-                 vatBreakdownChart = new Chart(ctx, {
-                     type: 'pie', // Use 'pie' or 'doughnut'
+            if (chartData.length > 0) { // Only 
+
+create chart if there's data
+                 vatBreakdownChart = new Chart
+
+(ctx, {
+                     type: 'pie', // Use 'pie' or 
+
+'doughnut'
                      data: {
-                         labels: labels, // Use the filtered labels
+                         labels: labels, // Use the 
+
+filtered labels
                          datasets: [{
-                             data: chartData, // Use the filtered chartData
-                             backgroundColor: backgroundColors, // Use the fetched backgroundColors
+                             data: chartData, // Use the 
+
+filtered chartData
+                             backgroundColor: 
+
+backgroundColors, // Use the fetched 
+
+backgroundColors
                              borderWidth: 0
                          }]
                      },
                      options: {
                          responsive: true,
-                         maintainAspectRatio: false, // Allow chart to fit container size
+                         maintainAspectRatio: false, 
+
+// Allow chart to fit container size
                          plugins: {
                              legend: {
-                                 position: 'bottom', // Position legend below the chart
+                                 position: 'bottom', // 
+
+Position legend below the chart
                                  labels: {
                                      boxWidth: 12,
                                      padding: 15
@@ -1168,55 +2009,117 @@
                              },
                               tooltip: {
                                   callbacks: {
-                                      // Custom tooltip to show currency and percentage
-                                      label: function(context) {
-                                          const label = context.label || '';
-                                          const value = context.raw;
-                                          const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                          const percentage = total > 0 ? (value / total * 100) : 0;
-                                          return `${label}: ${formatCurrency(value)} (${percentage.toFixed(1)}%)`;
+                                      // Custom tooltip to 
+
+show currency and percentage
+                                      label: function(context) 
+
+{
+                                          const label = 
+
+context.label || '';
+                                          const value = 
+
+context.raw;
+                                          const total = 
+
+context.dataset.data.reduce((a, b) => a + 
+
+b, 0);
+                                          const percentage = 
+
+total > 0 ? (value / total * 100) : 0;
+                                          return `${label}: 
+
+${formatCurrency(value)} 
+
+(${percentage.toFixed(1)}%)`;
                                       }
                                   }
                               }
                          },
                          layout: {
-                             padding: 10 // Add some padding around the chart
+                             padding: 10 // Add some 
+
+padding around the chart
                          }
                      }
                  });
-                 vatBreakdownCanvas.chart = vatBreakdownChart; // Store chart instance
+                 vatBreakdownCanvas.chart = 
+
+vatBreakdownChart; // Store chart 
+
+instance
             } else {
-                 // If no data, ensure canvas is clear (destroying handles this, but being explicit)
+                 // If no data, ensure canvas is 
+
+clear (destroying handles this, but being 
+
+explicit)
                   if (vatBreakdownCanvas) {
-                      const ctx = vatBreakdownCanvas.getContext('2d');
-                      ctx.clearRect(0, 0, vatBreakdownCanvas.width, vatBreakdownCanvas.height);
+                      const ctx = 
+
+vatBreakdownCanvas.getContext('2d');
+                      ctx.clearRect(0, 0, 
+
+vatBreakdownCanvas.width, 
+
+vatBreakdownCanvas.height);
                   }
             }
         }
 
 
         // Event Listeners
-        if (vatCalculateBtn) vatCalculateBtn.addEventListener('click', calculateVat);
+        if (vatCalculateBtn) 
+
+vatCalculateBtn.addEventListener('click', 
+
+calculateVat);
         if (vatResetBtn) {
-            vatResetBtn.addEventListener('click', function() {
-                // Use a timeout to allow form.reset() to complete before clearing results
+            vatResetBtn.addEventListener
+
+('click', function() {
+                // Use a timeout to allow 
+
+form.reset() to complete before clearing 
+
+results
                 setTimeout(function() {
                     clearVatResults();
-                     // Clear validation messages and invalid classes
+                     // Clear validation messages 
+
+and invalid classes
                     if(vatAmountError) {
-                        vatAmountError.textContent = '';
-                        vatAmountError.classList.remove('active');
+                        vatAmountError.textContent 
+
+= '';
+                        
+
+vatAmountError.classList.remove
+
+('active');
                     }
-                    if(vatAmountInput) vatAmountInput.classList.remove('invalid');
+                    if(vatAmountInput) 
+
+vatAmountInput.classList.remove
+
+('invalid');
 
                 }, 50); // Short delay
             });
         }
-         // Optional: Recalculate on Enter key in the input field
+         // Optional: Recalculate on Enter key 
+
+in the input field
         if (vatAmountInput) {
-            vatAmountInput.addEventListener('keypress', function(event) {
+            vatAmountInput.addEventListener
+
+('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    event.preventDefault(); // Prevent form submission
+                    event.preventDefault(); // 
+
+Prevent form submission
                     calculateVat();
                 }
             });
@@ -1224,60 +2127,162 @@
 
 
         // --- Initial Load Logic ---
-        window.addEventListener('load', function() {
-             // On initial load, clear results and hide the results section
+        window.addEventListener('load', 
+
+function() {
+             // On initial load, clear results and 
+
+hide the results section
             clearVatResults();
-             // Clear any existing validation messages
+             // Clear any existing validation 
+
+messages
              if(vatAmountError) {
                 vatAmountError.textContent = '';
-                vatAmountError.classList.remove('active');
+                
+
+vatAmountError.classList.remove
+
+('active');
              }
-             if(vatAmountInput) vatAmountInput.classList.remove('invalid');
+             if(vatAmountInput) 
+
+vatAmountInput.classList.remove
+
+('invalid');
 
 
-            // --- Active Nav Link Highlighting (Update for vat-calculator.html) ---
-            const navLinks = document.querySelectorAll('.nav-menu .nav-link');
-            const currentPath = window.location.pathname;
+            // --- Active Nav Link Highlighting 
+
+(Update for vat-calculator.html) ---
+            const navLinks = 
+
+document.querySelectorAll('.nav-menu 
+
+.nav-link');
+            const currentPath = 
+
+window.location.pathname;
 
             navLinks.forEach(link => {
-                const linkHref = link.getAttribute('href');
-                // Check if the current path ends with the link's href (handles index.html, sars-tax-calculator.html, etc.)
-                // Also handle the case where the href is just '/' for the home page
-                if (currentPath.endsWith(linkHref) && linkHref !== '/') {
-                     navLinks.forEach(l => l.classList.remove('active'));
+                const linkHref = link.getAttribute
+
+('href');
+                // Check if the current path ends 
+
+with the link's href (handles index.html, 
+
+sars-tax-calculator.html, etc.)
+                // Also handle the case where the 
+
+href is just '/' for the home page
+                if (currentPath.endsWith
+
+(linkHref) && linkHref !== '/') {
+                     navLinks.forEach(l => 
+
+l.classList.remove('active'));
                      link.classList.add('active');
                 }
-                 // Special handling for the root '/' link if the current path is exactly '/' or 'index.html'
-                else if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
-                     navLinks.forEach(l => l.classList.remove('active'));
+                 // Special handling for the root '/' 
+
+link if the current path is exactly '/' or 
+
+'index.html'
+                else if ((currentPath === '/' || 
+
+currentPath.endsWith('/index.html')) && 
+
+linkHref === '/') {
+                     navLinks.forEach(l => 
+
+l.classList.remove('active'));
                      link.classList.add('active');
                 }
-                // Highlight the 'Financial Tools' link when on any calculator page
-                else if (currentPath.includes('-calculator.html') && linkHref === '/#tools') {
-                      navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
+                // Highlight the 'Financial Tools' 
+
+link when on any calculator page
+                else if (currentPath.includes('-
+
+calculator.html') && linkHref === 
+
+'/#tools') {
+                      navLinks.forEach(l => 
+
+l.classList.remove('active')); // Remove 
+
+active from others first
                       link.classList.add('active');
                 }
-                 // Handle hash links on the homepage - only activate if on the homepage
-                else if (currentPath === '/' && linkHref.startsWith('#')) {
-                     // No specific action needed for highlighting based on hash on load
-                     // The '/#tools' case above handles the link to this page
+                 // Handle hash links on the 
+
+homepage - only activate if on the 
+
+homepage
+                else if (currentPath === '/' && 
+
+linkHref.startsWith('#')) {
+                     // No specific action needed for 
+
+highlighting based on hash on load
+                     // The '/#tools' case above 
+
+handles the link to this page
                 }
-                 // For vat-calculator.html specifically, ensure the Financial Tools link is active if not already
-                 if (currentPath.endsWith('/vat-calculator.html') && linkHref === '/#tools') {
-                     // Ensure this link is active if we are on the VAT page
-                     navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
+                 // For vat-calculator.html 
+
+specifically, ensure the Financial Tools 
+
+link is active if not already
+                 if (currentPath.endsWith('/vat-
+
+calculator.html') && linkHref === 
+
+'/#tools') {
+                     // Ensure this link is active if we 
+
+are on the VAT page
+                     navLinks.forEach(l => 
+
+l.classList.remove('active')); // Remove 
+
+active from others first
                      link.classList.add('active');
                  }
             });
-             // Ensure home is active if path is exactly "/" and no other link matched (and no hash)
-             // This is a fallback, the logic above should handle most cases
-             if (currentPath === '/' && window.location.hash === '' && !document.querySelector('.nav-menu .nav-link.active')) {
-                  const homeLink = document.querySelector('.nav-menu a[href="/"]');
+             // Ensure home is active if path is 
+
+exactly "/" and no other link matched 
+
+(and no hash)
+             // This is a fallback, the logic above 
+
+should handle most cases
+             if (currentPath === '/' && 
+
+window.location.hash === '' && !
+
+document.querySelector('.nav-menu 
+
+.nav-link.active')) {
+                  const homeLink = 
+
+document.querySelector('.nav-menu a
+
+[href="/"]');
                   if (homeLink) {
-                      homeLink.classList.add('active');
+                      homeLink.classList.add
+
+('active');
                   } else {
-                       const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
-                       if (indexLink) indexLink.classList.add('active');
+                       const indexLink = 
+
+document.querySelector('.nav-menu a
+
+[href="index.html"]');
+                       if (indexLink) 
+
+indexLink.classList.add('active');
                   }
              }
 
