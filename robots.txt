@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://financialcompass.co.za/sitemap.xml
