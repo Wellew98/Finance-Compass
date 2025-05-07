@@ -394,7 +394,7 @@
             color: var(--text-light);
         }
 
-        .result-heading { /* For sub-headings like "Tax Breakdown" and titles of full-width sections */
+        .result-heading { 
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 16px;
@@ -413,7 +413,7 @@
             border-bottom: none;
         }
 
-        .result-label {
+        .result-label { /* Applied to the div containing the label text */
             font-weight: 500;
             color: var(--text-light);
         }
@@ -426,15 +426,14 @@
         /* Full-width sections styling */
         .full-width-card {
             width: 100%;
-            margin-top: 30px; /* Spacing between full-width sections */
-            /* card and card-padding classes are applied directly in HTML for background, shadow, radius, padding */
+            margin-top: 30px; 
         }
 
 
         .tax-bracket-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px; /* If heading is separate, otherwise handled by card padding */
+            margin-top: 20px; 
         }
 
         .tax-bracket-table th,
@@ -454,14 +453,11 @@
             font-weight: 600;
         }
 
-        /* Chart container */
-        .chart-container { /* This class is inside a full-width-card now */
+        .chart-container { 
             position: relative;
             height: 350px;
-            /* margin-top and margin-bottom handled by full-width-card or heading margins */
         }
 
-        /* Info box */
         .info-box {
             background-color: rgba(0, 112, 209, 0.05);
             border-left: 4px solid var(--primary);
@@ -477,7 +473,6 @@
             font-size: 1.1rem;
         }
 
-        /* Tax year selector */
         .tax-year-selector {
             display: flex;
             justify-content: center;
@@ -508,7 +503,6 @@
             box-shadow: 0 2px 8px rgba(0, 112, 209, 0.15);
         }
 
-        /* Action buttons */
         .action-buttons {
             display: flex;
             gap: 16px;
@@ -523,8 +517,6 @@
             box-shadow: 0 4px 12px rgba(0, 188, 140, 0.3);
         }
 
-
-        /* Monthly/Annual Toggle (for Results) */
         .period-toggle {
             display: flex;
             justify-content: center;
@@ -560,7 +552,6 @@
             border-color: var(--primary);
         }
 
-         /* Monthly/Annual Toggle (for Income Input) */
          .income-period-toggle {
              display: flex;
              margin-bottom: 10px;
@@ -597,8 +588,6 @@
              border-color: var(--secondary);
          }
 
-
-        /* Tax Saving Strategies Section */
         .strategies-section {
              background-color: var(--background-alt);
         }
@@ -626,31 +615,25 @@
             font-size: 0.95rem;
         }
 
-        /* Financial Wisdom Nugget (inner styling, outer is full-width-card) */
-        .wisdom-nugget-section { /* This is now the inner content wrapper */
-            /* padding: 20px; No padding here, handled by full-width-card card-padding */
-            background-color: #fffbeb; /* Light yellow, like a post-it note */
+        .wisdom-nugget-section-inner { /* Renamed to avoid conflict, used for specific styling */
+            background-color: #fffbeb; 
             border-left: 5px solid var(--accent);
-            border-radius: var(--radius); /* This might conflict with card's radius, consider removing if full-width-card has one */
-            /* box-shadow: 0 2px 10px rgba(0,0,0,0.07); No shadow here, handled by full-width-card */
-            /* The full-width-card will have card-padding, so this internal padding might be redundant or cause double padding.
-               Let's assume card-padding on full-width-card is sufficient.
-            */
+            border-radius: var(--radius); 
+            padding: 20px; /* Added padding here for the inner content */
         }
         .wisdom-nugget-title {
             font-family: 'Caveat', cursive;
-            font-size: 1.8rem;
+            font-size: 2rem; /* Increased size */
             color: var(--accent-dark);
-            margin-bottom: 10px;
+            margin-bottom: 12px; /* Adjusted margin */
         }
         .wisdom-nugget-text {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Increased size */
             color: var(--text-light);
-            line-height: 1.5;
+            line-height: 1.6; /* Adjusted line height */
         }
 
 
-        /* --- Header --- */
         header {
             background-color: var(--background);
             box-shadow: 0 2px 10px var(--shadow);
@@ -729,7 +712,6 @@
             padding: 5px;
         }
 
-        /* --- Footer --- */
         footer {
             background-color: #1e293b;
             color: rgba(255, 255, 255, 0.8);
@@ -820,7 +802,6 @@
             font-size: 0.875rem;
         }
 
-        /* FAQ Section */
         .faq-section {
             background-color: var(--background-alt);
         }
@@ -874,10 +855,9 @@
             border-top: 1px solid var(--border);
         }
 
-        /* Responsive Styles */
         @media (max-width: 992px) {
             .calculator-container {
-                grid-template-columns: 1fr; /* Stack form and results on smaller screens */
+                grid-template-columns: 1fr; 
             }
             .calculator-results {
                 margin-top: 30px;
@@ -1049,7 +1029,8 @@
     </div>
 
     <section class="section">
-        <div class="container"> <div class="tax-year-selector">
+        <div class="container"> 
+            <div class="tax-year-selector">
                 <button class="tax-year-btn active" data-year="2025">2025/2026</button>
                 <button class="tax-year-btn" data-year="2024">2024/2025</button>
                 <button class="tax-year-btn" data-year="2023">2023/2024</button>
@@ -1069,7 +1050,7 @@
                             <label class="form-label" for="ageSelect">Your Age
                                 <span class="tooltip">
                                     <i class="fas fa-info-circle tooltip-icon"></i>
-                                    <span class="tooltip-text">Your age at the end of the tax year</span>
+                                    <span class="tooltip-text" id="ageTooltipText">Your age at the end of the tax year</span>
                                 </span>
                             </label>
                             <select class="form-select" id="ageSelect">
@@ -1186,50 +1167,53 @@
 
                     <h3 class="result-heading">Detailed Breakdown</h3>
                     <div class="result-row">
-                        <div class="result-label">Gross Income (Annual):</div>
+                        <div class="result-label" id="grossIncomeLabel">Gross Income (Annual):</div>
                         <div class="result-value" id="grossIncomeResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Retirement Deduction:</div>
+                        <div class="result-label" id="retirementDeductionLabel">Retirement Deduction (Annual):</div>
                         <div class="result-value" id="retirementDeductionResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Taxable Income (Annual):</div>
+                        <div class="result-label" id="taxableIncomeLabel">Taxable Income (Annual):</div>
                         <div class="result-value" id="taxableIncomeResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Income Tax (before rebates):</div>
+                        <div class="result-label" id="incomeTaxLabel">Income Tax (before rebates, Annual):</div>
                         <div class="result-value" id="incomeTaxResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Primary Rebate:</div>
+                        <div class="result-label" id="primaryRebateLabel">Primary Rebate (Annual):</div>
                         <div class="result-value" id="primaryRebateResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Age Rebate:</div>
+                        <div class="result-label" id="ageRebateLabel">Age Rebate (Annual):</div>
                         <div class="result-value" id="ageRebateResult">R0.00</div>
                     </div>
                     <div class="result-row">
-                        <div class="result-label">Medical Credits:</div>
+                        <div class="result-label" id="medicalCreditsLabel">Medical Credits (Annual):</div>
                         <div class="result-value" id="medicalCreditsResult">R0.00</div>
                     </div>
                     <div class="result-row" style="font-weight: bold; background-color: #f0f8ff; padding-top:12px; padding-bottom:12px;">
-                        <div class="result-label">Net Tax Payable:</div>
+                        <div class="result-label" id="taxPayableDetailLabel">Net Tax Payable (Annual):</div>
                         <div class="result-value" id="taxPayableResult">R0.00</div>
                     </div>
                      <div class="result-row" style="font-weight: bold; background-color: #e6fff9; padding-top:12px; padding-bottom:12px;">
-                        <div class="result-label">Net Take-Home Pay:</div>
+                        <div class="result-label" id="takeHomePayDetailLabel">Net Take-Home Pay (Annual):</div>
                         <div class="result-value" id="takeHomePayResult">R0.00</div>
                     </div>
                 </div>
-            </div> <div id="wisdomNuggetOuterContainer" class="full-width-card card card-padding" style="display:none;">
-                <div class="wisdom-nugget-section" id="wisdomNuggetSection"> <h4 class="wisdom-nugget-title">Financial Wisdom Nugget <i class="fas fa-lightbulb" style="color: var(--accent);"></i></h4>
+            </div> 
+
+            <div id="wisdomNuggetOuterContainer" class="full-width-card card" style="display:none;">
+                <div class="wisdom-nugget-section-inner"> 
+                    <h4 class="wisdom-nugget-title">Financial Wisdom Nugget <i class="fas fa-lightbulb" style="color: var(--accent);"></i></h4>
                     <p class="wisdom-nugget-text" id="wisdomNuggetText"></p>
                 </div>
             </div>
 
             <div class="full-width-card card card-padding">
-                <h3 class="result-heading">Your Income Journey</h3>
+                <h3 class="result-heading" id="incomeJourneyChartTitle">Your Income Journey (Annual)</h3>
                 <div class="chart-container">
                     <canvas id="incomeJourneyChart"></canvas>
                 </div>
@@ -1245,17 +1229,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
 
-        </div> </section>
+        </div> 
+    </section>
 
     <section class="section strategies-section" id="tax-strategies">
         <div class="container">
             <h2 class="section-title">Optimise Your Tax: Key Strategies</h2>
             <p class="section-subtitle">Explore legitimate ways to potentially reduce your tax liability in South Africa.</p>
-
             <div class="strategies-grid">
                 <div class="strategy-card card">
                     <div class="card-padding">
@@ -1302,7 +1286,6 @@
         <div class="container">
             <h2 class="section-title">Frequently Asked Questions</h2>
             <p class="section-subtitle">Get answers to common questions about South African personal income tax.</p>
-
             <div id="faqContainer">
                 <div class="faq-item">
                     <div class="faq-question">
@@ -1313,7 +1296,6 @@
                         <p>The South African tax year runs from 1 March to the last day of February the following year. For example, the 2025/2026 tax year runs from 1 March 2025 to 28 February 2026.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         What are tax rebates?
@@ -1337,8 +1319,6 @@
                         <p>Take-home pay, also known as net income, is the amount of money you receive after all deductions, primarily income tax, have been subtracted from your gross income. This calculator estimates your take-home pay after accounting for income tax, rebates, and medical credits.</p>
                     </div>
                 </div>
-
-
                 <div class="faq-item">
                     <div class="faq-question">
                         How are medical tax credits calculated?
@@ -1353,7 +1333,6 @@
                         <p>The calculation varies based on your age and whether you or any of your dependents have a disability.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         What retirement contributions are tax-deductible?
@@ -1368,7 +1347,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         When is the deadline for tax returns in South Africa?
@@ -1402,7 +1380,6 @@
                         <a href="https://www.linkedin.com/company/107288558" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-
                 <div class="footer-column links">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
@@ -1413,7 +1390,6 @@
                          <li class="footer-link"><a href="/terms-privacy.html">Terms & Privacy</a></li>
                         </ul>
                 </div>
-
                  <div class="footer-column calculators">
                     <h3 class="footer-heading">Calculators</h3>
                     <ul class="footer-links">
@@ -1425,26 +1401,24 @@
                         <li class="footer-link"><a href="/savings-goal-planner.html">Savings Goal Planner</a></li>
                     </ul>
                 </div>
-
                  <div class="footer-column contact">
                     <h3 class="footer-heading">Disclaimer</h3>
                      <p class="footer-description" style="font-size: 0.85rem; color: rgba(255,255,255,0.5);">
                         Financial Compass provides tools for estimation purposes only. Information should not be considered financial advice. Always consult a qualified professional for financial decisions.
                     </p>
                     </div>
-
-            </div> <div class="footer-bottom">
+            </div> 
+            <div class="footer-bottom">
                 &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
             </div>
         </div>
     </footer>
 
     <script>
-        // Tax Brackets and Constants for Different Tax Years
+        // Tax Brackets and Constants
         const taxData = {
             "2025": {
                 yearLabel: "2025/2026",
-                info: "The 2025/2026 tax year runs from 1 March 2025 to 28 February 2026. Key updates include adjusted tax brackets and increased primary rebate to R17,235.",
                 brackets: [
                     { min: 0, max: 237100, rate: 18, base: 0 },
                     { min: 237101, max: 370500, rate: 26, base: 42678 },
@@ -1460,7 +1434,6 @@
             },
             "2024": {
                 yearLabel: "2024/2025",
-                info: "The 2024/2025 tax year runs from 1 March 2024 to 28 February 2025. Features include a primary rebate of R16,425 and medical credits of R367 per month for the first two members.",
                 brackets: [
                     { min: 0, max: 226000, rate: 18, base: 0 },
                     { min: 226001, max: 353100, rate: 26, base: 40680 },
@@ -1476,7 +1449,6 @@
             },
             "2023": {
                 yearLabel: "2023/2024",
-                info: "The 2023/2024 tax year runs from 1 March 2023 to 29 February 2024. This year featured a primary rebate of R15,714 and medical credits of R347 per month for the first two members.",
                 brackets: [
                     { min: 0, max: 216200, rate: 18, base: 0 },
                     { min: 216201, max: 337800, rate: 26, base: 38916 },
@@ -1492,9 +1464,15 @@
             }
         };
 
-        let currentTaxPayableAnnual = 0;
+        // Global variables to store annual calculated values
         let currentAnnualGrossIncome = 0;
         let currentAnnualRetirementDeduction = 0;
+        let currentAnnualTaxableIncome = 0;
+        let currentAnnualIncomeTaxBeforeRebates = 0;
+        let currentAnnualPrimaryRebate = 0;
+        let currentAnnualAgeRebate = 0;
+        let currentAnnualMedicalCredits = 0;
+        let currentAnnualTaxPayable = 0;
         let currentAnnualTakeHomePay = 0;
 
         const wisdomNuggets = [
@@ -1508,9 +1486,19 @@
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize DOM elements and event listeners
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const navMenu = document.getElementById('navMenu');
+            const faqItems = document.querySelectorAll('.faq-item');
+            const taxYearBtns = document.querySelectorAll('.tax-year-btn');
+            const hasMedicalAid = document.getElementById('hasMedicalAid');
+            const medicalAidSection = document.getElementById('medicalAidSection');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const periodRadios = document.querySelectorAll('input[name="period"]');
+            const incomePeriodRadios = document.querySelectorAll('input[name="incomePeriod"]');
 
+            // Mobile Menu
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', function() {
                     const isExpanded = navMenu.classList.toggle('active');
@@ -1530,19 +1518,17 @@
                  });
             }
 
-            const faqItems = document.querySelectorAll('.faq-item');
+            // FAQ Accordion
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 question.addEventListener('click', () => {
                     const currentlyActive = item.classList.contains('active');
                     faqItems.forEach(i => i.classList.remove('active'));
-                    if (!currentlyActive) {
-                        item.classList.add('active');
-                    }
+                    if (!currentlyActive) item.classList.add('active');
                 });
             });
 
-            const taxYearBtns = document.querySelectorAll('.tax-year-btn');
+            // Tax Year Selector
             taxYearBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     taxYearBtns.forEach(b => b.classList.remove('active'));
@@ -1550,17 +1536,15 @@
                     const selectedYear = this.getAttribute('data-year');
                     updateTaxYearInfo(selectedYear);
                     if (document.getElementById('incomeInput').value) {
-                        calculateTax();
+                        calculateTax(); // Recalculate if income is present
                     } else {
                          updateTaxBracketTable(0);
-                         // Also ensure chart is in initial placeholder state if no income
-                         updateIncomeJourneyChart(0,0,0,0,0);
+                         updateResultDisplay('annual'); // Reset display to annual with 0s
                     }
                 });
             });
             
-            const hasMedicalAid = document.getElementById('hasMedicalAid');
-            const medicalAidSection = document.getElementById('medicalAidSection');
+            // Medical Aid Section Toggle
             hasMedicalAid.addEventListener('change', function() {
                 medicalAidSection.style.display = this.checked ? 'block' : 'none';
                  if (!this.checked) {
@@ -1570,84 +1554,85 @@
                  }
             });
 
-            const calculateBtn = document.getElementById('calculateBtn');
+            // Calculate Button
             calculateBtn.addEventListener('click', calculateTax);
 
-            const resetBtn = document.getElementById('resetBtn');
+            // Reset Button
             resetBtn.addEventListener('click', function() {
                 document.getElementById('taxCalculatorForm').reset();
                 document.getElementById('ageSelect').value = 'under65';
                 document.getElementById('incomePeriodMonthly').checked = true;
                 updateIncomeInputLabel('monthly');
-
-                document.getElementById('totalTaxResult').textContent = 'R0.00';
-                document.getElementById('totalTakeHomeResult').textContent = 'R0.00';
-                document.getElementById('grossIncomeResult').textContent = 'R0.00';
-                document.getElementById('retirementDeductionResult').textContent = 'R0.00';
-                document.getElementById('taxableIncomeResult').textContent = 'R0.00';
-                document.getElementById('incomeTaxResult').textContent = 'R0.00';
-                document.getElementById('primaryRebateResult').textContent = 'R0.00';
-                document.getElementById('ageRebateResult').textContent = 'R0.00';
-                document.getElementById('medicalCreditsResult').textContent = 'R0.00';
-                document.getElementById('taxPayableResult').textContent = 'R0.00';
-                document.getElementById('takeHomePayResult').textContent = 'R0.00';
-
-                document.getElementById('periodAnnual').checked = true;
-                document.getElementById('resultPeriodLabel').textContent = 'Estimated Tax Liability';
-                document.getElementById('takeHomePeriodLabel').textContent = 'Estimated Take-Home Pay';
-
-                if (window.incomeJourneyChartInstance) {
-                    window.incomeJourneyChartInstance.destroy();
-                }
-                updateIncomeJourneyChart(0,0,0,0,0); // Reset chart to placeholder
-                document.getElementById('medicalAidSection').style.display = 'none';
-                updateTaxBracketTable(0);
-                document.getElementById('wisdomNuggetOuterContainer').style.display = 'none';
-
-                currentTaxPayableAnnual = 0;
+                medicalAidSection.style.display = 'none';
+                
+                // Reset all global annual values
                 currentAnnualGrossIncome = 0;
                 currentAnnualRetirementDeduction = 0;
+                currentAnnualTaxableIncome = 0;
+                currentAnnualIncomeTaxBeforeRebates = 0;
+                currentAnnualPrimaryRebate = 0;
+                currentAnnualAgeRebate = 0;
+                currentAnnualMedicalCredits = 0;
+                currentAnnualTaxPayable = 0;
                 currentAnnualTakeHomePay = 0;
+
+                document.getElementById('periodAnnual').checked = true; // Reset period toggle
+                updateResultDisplay('annual'); // Update all displays with zeros
+                updateTaxBracketTable(0);
+                document.getElementById('wisdomNuggetOuterContainer').style.display = 'none';
             });
 
-            const periodRadios = document.querySelectorAll('input[name="period"]');
+            // Result Period Toggle (Annual/Monthly for display)
             periodRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     updateResultDisplay(this.value);
                 });
             });
 
-            const incomePeriodRadios = document.querySelectorAll('input[name="incomePeriod"]');
+            // Income Input Period Toggle (Annual/Monthly for input field)
             incomePeriodRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     updateIncomeInputLabel(this.value);
                 });
             });
 
-            updateTaxYearInfo('2025'); // This also updates age tooltip
+            // Initial page setup
+            updateTaxYearInfo('2025');
             updateTaxBracketTable(0);
-            updateIncomeJourneyChart(0,0,0,0,0); // Initial placeholder chart
+            updateResultDisplay('annual'); // Initialize display with 0s and annual labels
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             updateIncomeInputLabel('monthly');
+            updateActiveNavLink();
+        });
 
-             const navLinks = document.querySelectorAll('.nav-menu .nav-link');
-             const currentPath = window.location.pathname;
-             navLinks.forEach(link => {
+        function updateActiveNavLink() {
+            const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+            const currentPath = window.location.pathname;
+            navLinks.forEach(link => {
                 link.classList.remove('active');
                 const linkHref = link.getAttribute('href');
-                if (currentPath.includes(linkHref.split('#')[0]) && linkHref.split('#')[0] !== '/') {
+                // More specific matching for tools link
+                if ((currentPath.endsWith('sars-tax-calculator.html') || currentPath.endsWith('/#tools')) && linkHref === '/#tools') {
                     link.classList.add('active');
-                } else if ((currentPath === '/' || currentPath.endsWith('/index.html') || currentPath.endsWith('/sars-tax-calculator.html')) && linkHref === '/#tools') { // Special case for tools
-                     link.classList.add('active');
+                } else if (currentPath.includes(linkHref.split('#')[0]) && linkHref.split('#')[0] !== '/' && linkHref !== '/#tools') {
+                    link.classList.add('active');
                 } else if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
-                     link.classList.add('active');
+                    link.classList.add('active');
                 }
-             });
-        });
+            });
+        }
+
 
         function updateIncomeInputLabel(period) {
             const incomeTooltipTextEl = document.getElementById('incomeTooltipText');
             const incomeInputEl = document.getElementById('incomeInput');
+            const ageTooltipTextEl = document.getElementById('ageTooltipText'); // Get age tooltip
+            const selectedYear = document.querySelector('.tax-year-btn.active').getAttribute('data-year');
+            const taxSettings = taxData[selectedYear];
+            const yearEndDay = taxSettings.yearLabel === "2023/2024" ? "29 February" : "28 February";
+            const yearEndYear = taxSettings.yearLabel.split('/')[1] || selectedYear;
+
+
             if (period === 'monthly') {
                 incomeTooltipTextEl.textContent = 'Enter your total monthly income before any deductions';
                 incomeInputEl.step = "100";
@@ -1657,23 +1642,22 @@
                 incomeInputEl.step = "1000";
                 incomeInputEl.placeholder = "e.g., 300000";
             }
+            // Update age tooltip text based on the currently selected tax year
+            if (ageTooltipTextEl) {
+                 ageTooltipTextEl.textContent = `Your age at the end of the tax year (${yearEndDay} ${yearEndYear})`;
+            }
         }
 
         function updateTaxYearInfo(year) {
             const taxSettings = taxData[year];
             const yearEndDay = taxSettings.yearLabel === "2023/2024" ? "29 February" : "28 February";
             const yearEndYear = taxSettings.yearLabel.split('/')[1] || year;
-
-            document.getElementById('taxYearInfoText').innerHTML = `The <strong>${taxSettings.yearLabel}</strong> tax year runs from 1 March ${parseInt(yearEndYear)-1} to ${yearEndDay} ${yearEndYear}. Key updates include a primary rebate of R${formatNumber(taxSettings.rebates.primary)} and medical credits of R${taxSettings.medicalCredits.mainMember} per month for the main member.`;
-            
-            const ageTooltip = document.querySelector('#ageSelect + .tooltip .tooltip-text');
-            if (ageTooltip) {
-                ageTooltip.textContent = `Your age at the end of the tax year (${yearEndDay} ${yearEndYear})`;
-            }
+            document.getElementById('taxYearInfoText').innerHTML = `The <strong>${taxSettings.yearLabel}</strong> tax year runs from 1 March ${parseInt(yearEndYear)-1} to ${yearEndDay} ${yearEndYear}. Key updates include a primary rebate of R${formatNumber(taxSettings.rebates.primary.toFixed(2))} and medical credits of R${taxSettings.medicalCredits.mainMember} per month for the main member.`;
+            updateIncomeInputLabel(document.querySelector('input[name="incomePeriod"]:checked').value); // Update age tooltip via this
         }
 
 
-        function updateTaxBracketTable(income) {
+        function updateTaxBracketTable(taxableIncome) {
             const selectedYear = document.querySelector('.tax-year-btn.active').getAttribute('data-year');
             const brackets = taxData[selectedYear].brackets;
             const tableBody = document.querySelector('#taxBracketTable tbody');
@@ -1681,7 +1665,7 @@
             let userBracket = -1;
 
             for (let i = 0; i < brackets.length; i++) {
-                if (income >= brackets[i].min && (brackets[i].max === Infinity || income <= brackets[i].max)) {
+                if (taxableIncome >= brackets[i].min && (brackets[i].max === Infinity || taxableIncome <= brackets[i].max)) {
                     userBracket = i;
                     break;
                 }
@@ -1689,7 +1673,7 @@
 
             brackets.forEach((bracket, index) => {
                 const row = document.createElement('tr');
-                if (index === userBracket && income > 0) {
+                if (index === userBracket && taxableIncome > 0) { // Only highlight if income > 0
                     row.classList.add('tax-bracket-current');
                 }
                 const maxAmount = bracket.max === Infinity ? 'and above' : `- R${formatNumber(bracket.max.toFixed(2))}`;
@@ -1712,9 +1696,9 @@
             const taxSettings = taxData[selectedYear];
 
             const age = document.getElementById('ageSelect').value;
-            const incomeInput = parseFloat(document.getElementById('incomeInput').value) || 0;
+            const incomeInputVal = parseFloat(document.getElementById('incomeInput').value) || 0;
             const incomePeriod = document.querySelector('input[name="incomePeriod"]:checked').value;
-            currentAnnualGrossIncome = incomePeriod === 'monthly' ? incomeInput * 12 : incomeInput;
+            currentAnnualGrossIncome = incomePeriod === 'monthly' ? incomeInputVal * 12 : incomeInputVal;
 
             const retirementContributionsInput = parseFloat(document.getElementById('retirementContributions').value) || 0;
             const hasMedicalAid = document.getElementById('hasMedicalAid').checked;
@@ -1724,24 +1708,24 @@
 
             const maxRetirementDeductionPercentage = currentAnnualGrossIncome * (taxSettings.retirementPercentage / 100);
             currentAnnualRetirementDeduction = Math.min(retirementContributionsInput, taxSettings.retirementLimit, maxRetirementDeductionPercentage);
-            const taxableIncome = Math.max(0, currentAnnualGrossIncome - currentAnnualRetirementDeduction);
+            currentAnnualTaxableIncome = Math.max(0, currentAnnualGrossIncome - currentAnnualRetirementDeduction);
 
-            let incomeTax = 0;
+            currentAnnualIncomeTaxBeforeRebates = 0;
             for (const bracket of taxSettings.brackets) {
-                if (taxableIncome >= bracket.min && (bracket.max === Infinity || taxableIncome <= bracket.max)) {
-                    incomeTax = bracket.base + ((taxableIncome - bracket.min + 0.00001) * bracket.rate / 100); // Ensure correct bracket application
+                if (currentAnnualTaxableIncome >= bracket.min && (bracket.max === Infinity || currentAnnualTaxableIncome <= bracket.max)) {
+                    currentAnnualIncomeTaxBeforeRebates = bracket.base + ((currentAnnualTaxableIncome - bracket.min + 0.00001) * bracket.rate / 100);
                     break;
                 }
             }
-            incomeTax = Math.max(0, incomeTax);
+            currentAnnualIncomeTaxBeforeRebates = Math.max(0, currentAnnualIncomeTaxBeforeRebates);
 
-            let primaryRebateAmount = taxSettings.rebates.primary;
-            let ageRebateAmount = 0;
-            if (age === '65to74') ageRebateAmount = taxSettings.rebates.secondary;
-            else if (age === '75plus') ageRebateAmount = taxSettings.rebates.secondary + taxSettings.rebates.tertiary;
-            const totalRebates = primaryRebateAmount + ageRebateAmount;
+            currentAnnualPrimaryRebate = taxSettings.rebates.primary;
+            currentAnnualAgeRebate = 0;
+            if (age === '65to74') currentAnnualAgeRebate = taxSettings.rebates.secondary;
+            else if (age === '75plus') currentAnnualAgeRebate = taxSettings.rebates.secondary + taxSettings.rebates.tertiary;
+            const totalRebates = currentAnnualPrimaryRebate + currentAnnualAgeRebate;
 
-            let medicalCredits = 0;
+            currentAnnualMedicalCredits = 0;
             if (hasMedicalAid && medicalDependents > 0) {
                 let monthlyMTC = 0;
                 if (medicalDependents >= 1) monthlyMTC += taxSettings.medicalCredits.mainMember;
@@ -1752,45 +1736,27 @@
                 const annualMedicalContributionsTotal = monthlyMedicalContributions * 12;
                 const totalPaidToSchemeAndOther = annualMedicalContributionsTotal + annualMedicalExpenses;
                 let additionalMedicalCredit = 0;
-
                 if (age === 'under65') {
-                    // AMTC for under 65: 25% of [ (Total contributions + qualifying out-of-pocket expenses) - (4 x MTC) - (7.5% of taxable income) ]
-                    // Qualifying out-of-pocket expenses are those NOT covered by scheme.
-                    // So, totalPaidToSchemeAndOther = annualMedicalContributionsTotal (paid to scheme) + annualMedicalExpenses (out-of-pocket)
                     const amountExceedingFourTimesMTC = totalPaidToSchemeAndOther - (4 * annualMTC);
-                    const threshold = taxableIncome * 0.075;
+                    const threshold = currentAnnualTaxableIncome * 0.075;
                     if (amountExceedingFourTimesMTC > threshold) {
                          additionalMedicalCredit = (amountExceedingFourTimesMTC - threshold) * 0.25;
                     }
-                } else { // 65 and over, or disability
-                    // AMTC for 65+/disability: 33.3% of [ (Total contributions + qualifying out-of-pocket expenses) - (3 x MTC) ]
+                } else { 
                     const amountExceedingThreeTimesMTC = totalPaidToSchemeAndOther - (3 * annualMTC);
-                     additionalMedicalCredit = amountExceedingThreeTimesMTC * (1/3); // 33.3%
+                     additionalMedicalCredit = amountExceedingThreeTimesMTC * (1/3);
                 }
-                medicalCredits = annualMTC + Math.max(0, additionalMedicalCredit); // Ensure additional credit is not negative
+                currentAnnualMedicalCredits = annualMTC + Math.max(0, additionalMedicalCredit);
             }
-            medicalCredits = Math.max(0, medicalCredits);
+            currentAnnualMedicalCredits = Math.max(0, currentAnnualMedicalCredits);
 
-            const taxBeforeRebatesAndCredits = incomeTax;
-            const taxAfterRebates = Math.max(0, taxBeforeRebatesAndCredits - totalRebates);
-            currentTaxPayableAnnual = Math.max(0, taxAfterRebates - medicalCredits);
-            currentAnnualTakeHomePay = currentAnnualGrossIncome - currentTaxPayableAnnual;
-
-            document.getElementById('grossIncomeResult').textContent = `R${formatNumber(currentAnnualGrossIncome.toFixed(2))}`;
-            document.getElementById('retirementDeductionResult').textContent = `R${formatNumber(currentAnnualRetirementDeduction.toFixed(2))}`;
-            document.getElementById('taxableIncomeResult').textContent = `R${formatNumber(taxableIncome.toFixed(2))}`;
-            document.getElementById('incomeTaxResult').textContent = `R${formatNumber(taxBeforeRebatesAndCredits.toFixed(2))}`;
-            document.getElementById('primaryRebateResult').textContent = `R${formatNumber(primaryRebateAmount.toFixed(2))}`;
-            document.getElementById('ageRebateResult').textContent = `R${formatNumber(ageRebateAmount.toFixed(2))}`;
-            document.getElementById('medicalCreditsResult').textContent = `R${formatNumber(medicalCredits.toFixed(2))}`;
-            document.getElementById('taxPayableResult').textContent = `R${formatNumber(currentTaxPayableAnnual.toFixed(2))}`;
-            document.getElementById('takeHomePayResult').textContent = `R${formatNumber(currentAnnualTakeHomePay.toFixed(2))}`;
+            const taxAfterRebates = Math.max(0, currentAnnualIncomeTaxBeforeRebates - totalRebates);
+            currentAnnualTaxPayable = Math.max(0, taxAfterRebates - currentAnnualMedicalCredits);
+            currentAnnualTakeHomePay = currentAnnualGrossIncome - currentAnnualTaxPayable;
 
             const selectedResultPeriod = document.querySelector('input[name="period"]:checked').value;
-            updateResultDisplay(selectedResultPeriod);
-
-            updateTaxBracketTable(taxableIncome);
-            updateIncomeJourneyChart(currentAnnualGrossIncome, currentAnnualRetirementDeduction, medicalCredits, currentTaxPayableAnnual, currentAnnualTakeHomePay);
+            updateResultDisplay(selectedResultPeriod); // This will update all display elements
+            updateTaxBracketTable(currentAnnualTaxableIncome);
             displayWisdomNugget();
 
             calculateBtn.innerHTML = '<i class="fas fa-calculator"></i> Calculate Tax';
@@ -1798,41 +1764,79 @@
         }
 
         function updateResultDisplay(period) {
-            const totalTaxResultElement = document.getElementById('totalTaxResult');
-            const resultPeriodLabelElement = document.getElementById('resultPeriodLabel');
-            const totalTakeHomeResultElement = document.getElementById('totalTakeHomeResult');
-            const takeHomePeriodLabelElement = document.getElementById('takeHomePeriodLabel');
+            const isMonthly = period === 'monthly';
+            const divisor = isMonthly ? 12 : 1;
+            const periodLabelSuffix = isMonthly ? '(Monthly)' : '(Annual)';
 
-            if (period === 'annual') {
-                totalTaxResultElement.textContent = `R${formatNumber(currentTaxPayableAnnual.toFixed(2))}`;
-                resultPeriodLabelElement.textContent = 'Estimated Annual Tax Liability';
-                totalTakeHomeResultElement.textContent = `R${formatNumber(currentAnnualTakeHomePay.toFixed(2))}`;
-                takeHomePeriodLabelElement.textContent = 'Estimated Annual Take-Home Pay';
-            } else {
-                totalTaxResultElement.textContent = `R${formatNumber((currentTaxPayableAnnual / 12).toFixed(2))}`;
-                resultPeriodLabelElement.textContent = 'Estimated Monthly Tax Liability';
-                totalTakeHomeResultElement.textContent = `R${formatNumber((currentAnnualTakeHomePay / 12).toFixed(2))}`;
-                takeHomePeriodLabelElement.textContent = 'Estimated Monthly Take-Home Pay';
-            }
+            // Update main summary boxes
+            document.getElementById('totalTaxResult').textContent = `R${formatNumber((currentAnnualTaxPayable / divisor).toFixed(2))}`;
+            document.getElementById('resultPeriodLabel').textContent = `Estimated Tax Liability ${periodLabelSuffix}`;
+            document.getElementById('totalTakeHomeResult').textContent = `R${formatNumber((currentAnnualTakeHomePay / divisor).toFixed(2))}`;
+            document.getElementById('takeHomePeriodLabel').textContent = `Estimated Take-Home Pay ${periodLabelSuffix}`;
+
+            // Update detailed breakdown labels and values
+            document.getElementById('grossIncomeLabel').textContent = `Gross Income ${periodLabelSuffix}:`;
+            document.getElementById('grossIncomeResult').textContent = `R${formatNumber((currentAnnualGrossIncome / divisor).toFixed(2))}`;
+
+            document.getElementById('retirementDeductionLabel').textContent = `Retirement Deduction ${periodLabelSuffix}:`;
+            document.getElementById('retirementDeductionResult').textContent = `R${formatNumber((currentAnnualRetirementDeduction / divisor).toFixed(2))}`;
+            
+            document.getElementById('taxableIncomeLabel').textContent = `Taxable Income ${periodLabelSuffix}:`;
+            document.getElementById('taxableIncomeResult').textContent = `R${formatNumber((currentAnnualTaxableIncome / divisor).toFixed(2))}`;
+
+            document.getElementById('incomeTaxLabel').textContent = `Income Tax (before rebates, ${periodLabelSuffix.toLowerCase()}):`;
+            document.getElementById('incomeTaxResult').textContent = `R${formatNumber((currentAnnualIncomeTaxBeforeRebates / divisor).toFixed(2))}`;
+            
+            document.getElementById('primaryRebateLabel').textContent = `Primary Rebate ${periodLabelSuffix}:`;
+            document.getElementById('primaryRebateResult').textContent = `R${formatNumber((currentAnnualPrimaryRebate / divisor).toFixed(2))}`;
+
+            document.getElementById('ageRebateLabel').textContent = `Age Rebate ${periodLabelSuffix}:`;
+            document.getElementById('ageRebateResult').textContent = `R${formatNumber((currentAnnualAgeRebate / divisor).toFixed(2))}`;
+
+            document.getElementById('medicalCreditsLabel').textContent = `Medical Credits ${periodLabelSuffix}:`;
+            document.getElementById('medicalCreditsResult').textContent = `R${formatNumber((currentAnnualMedicalCredits / divisor).toFixed(2))}`;
+
+            document.getElementById('taxPayableDetailLabel').textContent = `Net Tax Payable ${periodLabelSuffix}:`;
+            document.getElementById('taxPayableResult').textContent = `R${formatNumber((currentAnnualTaxPayable / divisor).toFixed(2))}`;
+            
+            document.getElementById('takeHomePayDetailLabel').textContent = `Net Take-Home Pay ${periodLabelSuffix}:`;
+            document.getElementById('takeHomePayResult').textContent = `R${formatNumber((currentAnnualTakeHomePay / divisor).toFixed(2))}`;
+
+            // Update Income Journey Chart
+            updateIncomeJourneyChart(
+                currentAnnualGrossIncome / divisor,
+                currentAnnualRetirementDeduction / divisor,
+                currentAnnualMedicalCredits / divisor, // Note: Medical credits are part of tax payable, chart shows RA, Tax, TakeHome
+                currentAnnualTaxPayable / divisor,
+                currentAnnualTakeHomePay / divisor,
+                period
+            );
         }
 
-        function updateIncomeJourneyChart(grossIncome, retirementDeduction, medicalCreditsVal, taxPayable, takeHomePay) {
+
+        function updateIncomeJourneyChart(gross, retirement, medicalCreditsVal, tax, takeHome, period) {
             if (window.incomeJourneyChartInstance) {
                 window.incomeJourneyChartInstance.destroy();
             }
             const ctx = document.getElementById('incomeJourneyChart').getContext('2d');
-            const displayGross = Math.max(0, grossIncome);
-            const displayRetirement = Math.max(0, retirementDeduction);
-            const displayTax = Math.max(0, taxPayable);
-            const displayTakeHome = Math.max(0, takeHomePay);
-            const allZero = displayRetirement === 0 && displayTax === 0 && displayTakeHome === 0 && displayGross === 0;
+            const displayGross = Math.max(0, gross);
+            const displayRetirement = Math.max(0, retirement);
+            const displayTax = Math.max(0, tax);
+            const displayTakeHome = Math.max(0, takeHome);
+            
+            // Check if all input values for the chart are zero (initial state or reset)
+            // The chart shows Retirement, Tax, TakeHome. Gross is in the title.
+            const chartDataAllZero = displayRetirement === 0 && displayTax === 0 && displayTakeHome === 0;
+            const periodLabelSuffix = period === 'monthly' ? 'Monthly' : 'Annual';
+            document.getElementById('incomeJourneyChartTitle').textContent = `Your Income Journey (${periodLabelSuffix})`;
+
 
             const data = {
-                labels: allZero ? ['Enter your details to see your income journey'] : ['Retirement Contributions', 'Total Tax Payable', 'Net Take-Home Pay'],
+                labels: chartDataAllZero ? [`Enter details to see your ${periodLabelSuffix.toLowerCase()} income journey`] : ['Retirement Contributions', 'Total Tax Payable', 'Net Take-Home Pay'],
                 datasets: [{
                     label: 'Income Journey',
-                    data: allZero ? [1] : [displayRetirement, displayTax, displayTakeHome],
-                    backgroundColor: allZero ? ['#E9ECEF'] : ['#FFC107', '#dc3545', '#28a745'],
+                    data: chartDataAllZero ? [1] : [displayRetirement, displayTax, displayTakeHome],
+                    backgroundColor: chartDataAllZero ? ['#E9ECEF'] : ['#FFC107', '#dc3545', '#28a745'],
                     borderColor: '#FFFFFF',
                     borderWidth: 2,
                     hoverOffset: 4
@@ -1851,17 +1855,23 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    if (allZero) return context.label;
-                                    let label = context.label || '';
+                                    if (chartDataAllZero && displayGross === 0) return context.label; // Show placeholder text if gross is also 0
+                                    let label = context.dataset.data.length > 1 ? (context.label || '') : ''; // Avoid label for placeholder
                                     if (label) label += ': ';
-                                    label += `R${formatNumber(parseFloat(context.raw).toFixed(2))}`;
+                                     // Ensure context.raw is a number before calling toFixed
+                                    const value = parseFloat(context.raw);
+                                    if (!isNaN(value)) {
+                                        label += `R${formatNumber(value.toFixed(2))}`;
+                                    } else if (chartDataAllZero && displayGross === 0) { // If it's the placeholder single slice
+                                        return context.label;
+                                    }
                                     return label;
                                 }
                             }
                         },
-                        title: {
-                            display: !allZero,
-                            text: `Gross Annual Income: R${formatNumber(displayGross.toFixed(2))}`,
+                        title: { // Chart title showing Gross Income
+                            display: !(chartDataAllZero && displayGross === 0), // Only display if there's actual data
+                            text: `Gross ${periodLabelSuffix} Income: R${formatNumber(displayGross.toFixed(2))}`,
                             padding: { top: 10, bottom: 20 },
                             font: { size: 14, weight: 'bold' }
                         }
@@ -1876,7 +1886,7 @@
             const nuggetTextElement = document.getElementById('wisdomNuggetText');
             const randomIndex = Math.floor(Math.random() * wisdomNuggets.length);
             nuggetTextElement.textContent = wisdomNuggets[randomIndex];
-            nuggetOuterContainer.style.display = 'block'; // Show the outer container
+            nuggetOuterContainer.style.display = 'block';
         }
 
         function formatNumber(numberStr) {
