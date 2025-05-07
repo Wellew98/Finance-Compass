@@ -7,11 +7,14 @@
     <meta name="description" content="Free South African financial calculators including SARS income tax, loans, VAT, retirement planning and budgeting tools. Take control of your finances.">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
 
     <style>
         /* --- Base Styles --- */
@@ -20,6 +23,8 @@
             --primary-dark: #005bb1;
             --secondary: #00BC8C; /* Teal/Green */
             --secondary-dark: #009670;
+            --accent: #FFC107; /* Yellow/Gold */
+            --accent-dark: #e6ac00;
             --text: #333333;
             --text-light: #666666;
             --background: #FFFFFF;
@@ -27,6 +32,9 @@
             --border: #E1E8ED;
             --shadow: rgba(0, 0, 0, 0.05);
             --radius: 10px;
+             /* Added highlight colors from sars-tax-calculator for potential use */
+            --highlight-blue: #e6f7ff;
+            --highlight-green: #e6fff9;
         }
 
         * {
@@ -47,6 +55,9 @@
             -webkit-font-smoothing: antialiased; /* Smoother fonts */
             -moz-osx-font-smoothing: grayscale;
         }
+         body.no-scroll {
+             overflow: hidden; /* Prevent scrolling when mobile menu is open */
+         }
 
         a {
             text-decoration: none;
@@ -112,6 +123,37 @@
             color: white;
         }
 
+         /* Style for update card links to look like buttons */
+        .update-card-footer a {
+            display: inline-block;
+            padding: 10px 20px; /* Smaller padding for a smaller button */
+            background-color: var(--primary); /* Or outline */
+            color: white; /* Or primary color for outline */
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem; /* Slightly smaller font */
+            border: 2px solid transparent; /* For outline consistency */
+        }
+        .update-card-footer a:hover {
+             background-color: var(--primary-dark);
+             transform: translateY(-2px);
+             box-shadow: 0 4px 12px rgba(0, 112, 209, 0.2);
+        }
+
+        /* If you want an outline button style for updates */
+        .update-card-footer .btn-outline-update {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        .update-card-footer .btn-outline-update:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+
         /* --- Sections & Titles --- */
         .section {
             padding: 80px 0;
@@ -147,6 +189,45 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
          }
+
+         /* --- Info box (Financial Wisdom Nugget style) - Updated based on sars-tax-calculator.html --- */
+         /* The wrapper section for the wisdom nugget */
+        .wisdom-nugget-section {
+            padding: 60px 0; /* Adjusted padding */
+            background-color: #fffaf0; /* Lighter warm background */
+        }
+
+        .wisdom-nugget-inner {
+            background-color: #fffbeb; /* Slightly warmer background for the inner card */
+            border-left: 5px solid var(--accent); /* Yellow border accent */
+            border-radius: var(--radius);
+            padding: 20px;
+            max-width: 700px; /* Constrain width */
+            margin: 0 auto; /* Center the nugget */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Add subtle shadow */
+        }
+
+        .wisdom-nugget-title {
+            font-family: 'Caveat', cursive; /* Distinct font */
+            font-size: 2rem; /* Prominent size */
+            color: var(--accent-dark); /* Darker yellow color */
+            margin-bottom: 12px;
+            display: flex; /* Align icon and text */
+            align-items: center;
+        }
+         .wisdom-nugget-title i {
+             margin-right: 10px; /* Space between icon and text */
+             font-size: 1.6em; /* Make icon a bit larger relative to text */
+             color: var(--accent); /* Use primary accent color for icon */
+         }
+
+
+        .wisdom-nugget-text {
+            font-size: 1.1rem; /* Easy to read */
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
 
         /* --- Header --- */
         header {
@@ -229,43 +310,57 @@
 
         /* --- Hero Section --- */
         .hero {
-            background: linear-gradient(135deg, #F9FBFD, #EEF2F7);
-            padding: 100px 0; /* Reduced padding slightly */
+            /* Used a slightly more vibrant gradient inspired by tax calculator page header */
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; /* Text becomes white for contrast */
+            padding: 100px 0;
             position: relative;
             overflow: hidden;
-            text-align: center; /* Center content now image is removed */
+            text-align: center;
         }
 
         .hero-content {
-            /* Removed flex properties as content is now centered */
+            /* No changes needed here */
         }
 
         .hero-text {
-            max-width: 800px; /* Allow text to be wider */
-            margin: 0 auto; /* Center the text block */
+            max-width: 800px;
+            margin: 0 auto;
+            /* Added subtle text shadow */
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
         }
 
         .hero-title {
-            font-size: 3rem; /* Slightly smaller if needed */
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
-            color: var(--text);
+            color: white; /* Title is white */
         }
 
         .hero-subtitle {
             font-size: 1.2rem;
-            color: var(--text-light);
+            color: rgba(255, 255, 255, 0.9); /* Subtitle is lighter white */
             margin-bottom: 2.5rem;
         }
 
         .hero-buttons {
             display: flex;
-            flex-wrap: wrap; /* Allow buttons to wrap on small screens */
-            justify-content: center; /* Center buttons */
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 16px;
             margin-top: 2.5rem;
         }
+        /* Ensure hero buttons look good on the new background */
+        .hero-buttons .btn-outline {
+             border-color: white;
+             color: white;
+        }
+         .hero-buttons .btn-outline:hover {
+             background-color: white;
+             color: var(--primary);
+         }
+
 
         /* --- Featured Tools Section --- */
         .tool-grid {
@@ -279,21 +374,36 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-        }
+             /* Added subtle border colour change on hover */
+            transition: all 0.3s ease;
+         }
+         .tool-card.tax:hover { border-color: var(--primary-dark); }
+         .tool-card.budget:hover { border-color: var(--secondary-dark); }
+         .tool-card.loan:hover { border-color: #524a9d; } /* Darker purple */
+         .tool-card.vat:hover { border-color: #e05d5d; } /* Darker coral */
+         .tool-card.retirement:hover { border-color: var(--accent-dark); }
+         .tool-card.savings:hover { border-color: #7b1fa2; } /* Darker deeper purple */
+
 
         .tool-card-header {
             padding: 24px;
             color: white;
             text-align: center;
             border-bottom: 1px solid var(--border);
+            border-top-left-radius: var(--radius);
+            border-top-right-radius: var(--radius);
+            /* Added subtle text shadow to header titles */
+            text-shadow: 0.5px 0.5px 2px rgba(0,0,0,0.1);
         }
-         /* Unique header colors */
-         .tool-card.tax .tool-card-header { background-color: var(--primary); }
-         .tool-card.budget .tool-card-header { background-color: var(--secondary); }
-         .tool-card.loan .tool-card-header { background-color: #6C63FF; } /* Purple */
-         .tool-card.vat .tool-card-header { background-color: #FF6B6B; } /* Coral */
-         .tool-card.retirement .tool-card-header { background-color: #FFC107; } /* Amber */
-         .tool-card.savings .tool-card-header { background-color: #9C27B0; } /* Deep Purple */
+         /* Unique header colors for tool cards - kept for variety */
+         .tool-card.tax .tool-card-header { background-color: var(--primary); } /* Blue */
+         .tool-card.budget .tool-card-header { background-color: var(--secondary); } /* Teal/Green */
+         .tool-card.loan .tool-card-header { background-color: #6C63FF; } /* A pleasant purple */
+         .tool-card.vat .tool-card-header { background-color: #FF6B6B; } /* A warm coral */
+         /* Retirement card header needs text color adjusted as background is light */
+         .tool-card.retirement .tool-card-header { background-color: var(--accent); color: var(--text); } /* Yellow/Gold with dark text */
+         .tool-card.savings .tool-card-header { background-color: #9C27B0; } /* A deeper purple */
+
 
         .tool-card-icon {
             font-size: 2.5rem;
@@ -325,11 +435,14 @@
             display: flex;
             justify-content: center;
             margin-top: auto;
+            border-bottom-left-radius: var(--radius);
+            border-bottom-right-radius: var(--radius);
         }
 
-         /* --- Features Section (Why Choose Us) --- */
+         /* --- Features Section (Why Choose Us) - Enhanced based on sars-tax-calculator results/info box styles --- */
          .features-section {
-            background-color: var(--background-alt);
+            /* Use a subtle background tint inspired by the result summary/info box */
+            background-color: var(--highlight-blue); /* Light blue tint */
          }
 
          .features-grid {
@@ -344,26 +457,47 @@
             align-items: center;
             text-align: center;
             padding: 24px;
+             /* Add background and subtle border/shadow */
+            background-color: var(--background); /* White background for the item card */
+            border-radius: var(--radius);
+            border: 1px solid var(--border); /* Subtle border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); /* Subtle shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
          }
+
+         .feature-item:hover {
+            transform: translateY(-5px); /* Lift slightly on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* More prominent shadow on hover */
+            border-color: var(--primary); /* Highlight border on hover */
+         }
+
 
          .feature-icon-wrapper {
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            background-color: rgba(0, 112, 209, 0.1);
+            background-color: rgba(0, 112, 209, 0.1); /* Primary tint */
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 24px;
-            color: var(--primary);
+            color: var(--primary); /* Primary colour for icon */
             font-size: 1.8rem;
             flex-shrink: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
          }
+
+         .feature-item:hover .feature-icon-wrapper {
+            background-color: var(--primary); /* Solid primary on hover */
+            color: white; /* White icon on hover */
+         }
+
 
          .feature-title {
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 12px;
+            color: var(--text); /* Keep title text color */
          }
 
          .feature-description {
@@ -372,22 +506,34 @@
          }
 
 
-        /* --- Updates Section --- */
+        /* --- Updates Section - Enhanced based on sars-tax-calculator result rows/info box styles --- */
         .updates-section {
-             background-color: var(--background);
+             /* Use a subtle background tint inspired by the result rows highlighting */
+             background-color: var(--highlight-green); /* Light green tint */
         }
 
         .updates-grid {
              display: grid;
              grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
              gap: 30px;
+             margin-top: 40px;
         }
 
         .update-card {
              display: flex;
              flex-direction: column;
              height: 100%;
+             /* Use a distinct border inspired by the info-box */
+             border-left: 4px solid var(--secondary); /* Secondary color left border */
+             border-radius: 0 var(--radius) var(--radius) 0; /* Match info box style */
+             transition: all 0.3s ease;
+             background-color: var(--background); /* White background for cards */
         }
+        .update-card:hover {
+             border-color: var(--primary); /* Change border color on hover for interaction feedback */
+             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Add subtle shadow on hover */
+        }
+
 
         .update-card-content {
              padding: 24px;
@@ -407,7 +553,7 @@
              font-size: 1.2rem;
              font-weight: 600;
              margin-bottom: 12px;
-             color: var(--primary);
+             color: var(--primary); /* Keep primary for title */
              line-height: 1.4;
         }
 
@@ -424,7 +570,7 @@
         }
         /* Style the link inside the footer like a button */
         .update-card-footer a {
-             display: inline-block; /* Make it behave like a button */
+             display: inline-block;
              text-align: center;
         }
 
@@ -448,7 +594,7 @@
              color: white;
              font-size: 1.6rem;
              margin-bottom: 16px;
-             display: inline-flex; /* Align icon and text */
+             display: inline-flex;
              align-items: center;
         }
         .footer-column.about .footer-logo i {
@@ -495,7 +641,7 @@
 
         .footer-links {
             list-style: none;
-            padding: 0; /* Remove default padding */
+            padding: 0;
         }
 
         .footer-link {
@@ -507,15 +653,17 @@
             transition: all 0.3s ease;
         }
 
+        /* Modified footer link hover based on the inspiration */
         .footer-link a:hover {
-            color: white;
-            padding-left: 5px;
+            color: var(--secondary); /* Use secondary color for hover */
+            padding-left: 8px; /* Add subtle slide effect */
         }
+
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 32px;
-            margin-top: 16px; /* Add margin above bottom line */
+            margin-top: 16px;
             text-align: center;
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.875rem;
@@ -586,6 +734,16 @@
             .hero-subtitle {
                  font-size: 1.1rem;
             }
+             .wisdom-nugget-title {
+                 font-size: 1.6rem; /* Adjust size for smaller screens */
+             }
+             .wisdom-nugget-title i {
+                 font-size: 1.4em; /* Adjust icon size */
+             }
+             .wisdom-nugget-text {
+                 font-size: 1rem; /* Adjust text size */
+             }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -650,12 +808,6 @@
                  font-size: 1.6rem;
              }
          }
-
-         body.no-scroll {
-             overflow: hidden;
-         }
-
-
     </style>
 </head>
 <body>
@@ -691,7 +843,16 @@
             </div>
     </section>
 
-    <section class="section" id="tools">
+    <section class="section wisdom-nugget-section" id="wisdom-nugget">
+        <div class="container">
+            <div class="wisdom-nugget-inner">
+                <h4 class="wisdom-nugget-title">Financial Wisdom Nugget <i class="fas fa-lightbulb"></i></h4>
+                <p class="wisdom-nugget-text">Albert Einstein reportedly called compound interest the 8th wonder of the world. Regularly saving even small amounts allows your money to grow on itself over time, significantly boosting your wealth journey!</p>
+            </div>
+        </div>
+    </section>
+
+     <section class="section" id="tools">
         <div class="container">
             <h2 class="section-title">Your Essential Financial Toolkit</h2>
             <p class="section-subtitle">Accurate & up-to-date calculators built specifically for South African financial regulations and tax laws.</p>
@@ -748,7 +909,9 @@
                         <a href="vat-calculator.html" class="btn btn-secondary">Calculate VAT</a>
                     </div>
                 </div>
-                <div class="tool-card retirement"> <div class="tool-card-header" style="background-color: #FFC107;"> <div class="tool-card-icon"><i class="fas fa-piggy-bank"></i></div>
+                <div class="tool-card retirement">
+                    <div class="tool-card-header">
+                         <div class="tool-card-icon"><i class="fas fa-piggy-bank"></i></div>
                          <h3 class="tool-card-title">Retirement Calculator</h3>
                      </div>
                      <div class="tool-card-body">
@@ -759,7 +922,8 @@
                      </div>
                  </div>
                  <div class="tool-card savings">
-                     <div class="tool-card-header" style="background-color: #9C27B0;"> <div class="tool-card-icon"><i class="fas fa-bullseye"></i></div>
+                     <div class="tool-card-header">
+                         <div class="tool-card-icon"><i class="fas fa-bullseye"></i></div>
                          <h3 class="tool-card-title">Savings Goal Planner</h3>
                      </div>
                      <div class="tool-card-body">
@@ -825,7 +989,7 @@
                         <h3 class="update-title">Confirmed: SA VAT Rate Remains 15%</h3>
                         <p class="update-excerpt">National Treasury confirms the proposed VAT increase for May 2025 has been cancelled. The standard VAT rate stays at 15%. Our VAT calculator reflects this.</p>
                         <div class="update-card-footer">
-                             <a href="#" class="btn btn-outline btn-sm">Read More</a>
+                             <a href="#" class="btn btn-outline-update">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -835,7 +999,7 @@
                         <h3 class="update-title">2025/2026 Tax Tables Implemented</h3>
                         <p class="update-excerpt">The official SARS tax brackets, rebates (Primary R17,235), and thresholds (starting at R95,750 for under 65s) for 1 Mar 2025 - 28 Feb 2026 are now live in our Tax Calculator.</p>
                          <div class="update-card-footer">
-                             <a href="sars-tax-calculator.html" class="btn btn-outline btn-sm">View Details</a>
+                             <a href="sars-tax-calculator.html" class="btn btn-outline-update">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -845,7 +1009,7 @@
                         <h3 class="update-title">Understanding Retirement Reforms</h3>
                          <p class="update-excerpt">Recent changes impact how you access retirement funds. Explore implications for RAs, Pension/Provident funds, and withdrawal benefits.</p>
                          <div class="update-card-footer">
-                             <a href="#" class="btn btn-outline btn-sm">Learn More</a>
+                             <a href="#" class="btn btn-outline-update">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -943,6 +1107,20 @@
                     // for hash links, so default smooth scrolling should work.
                 });
             });
+             // Close menu if a link to a different page is clicked
+             navMenu.querySelectorAll('a:not([href^="#"])').forEach(link => {
+                link.addEventListener('click', () => {
+                     if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                        }
+                         document.body.classList.remove('no-scroll');
+                     }
+                });
+            });
         }
 
 
@@ -961,42 +1139,36 @@
             const linkHref = link.getAttribute('href');
 
             // Handle root path '/' and explicit '/' link
-            if (currentPath === '/' && (linkHref === '/' || linkHref === 'index.html')) {
+            if (currentPath === '/' && (linkHref === '/' || currentPath.endsWith('/index.html'))) { // Adjusted condition
                  navLinks.forEach(l => l.classList.remove('active')); // Clear others
                  link.classList.add('active');
             }
             // Handle other specific page links (e.g., /sars-tax-calculator.html)
-            else if (linkHref !== '/' && currentPath.endsWith(linkHref)) {
+            else if (linkHref !== '/' && linkHref.startsWith('/') && currentPath.includes(linkHref.split('#')[0])) {
+                 // This matches links like /sars-tax-calculator.html if the current path is exactly that
                  navLinks.forEach(l => l.classList.remove('active')); // Clear others
                  link.classList.add('active');
             }
-             // Handle hash links on the homepage - only activate if on the homepage
-             else if (currentPath === '/' && linkHref.startsWith('#')) {
-                 // No specific action needed here for highlighting based on hash,
-                 // the browser handles scrolling. Highlighting is typically done
-                 // based on the current page path.
-             }
-             // Add highlighting for the terms-privacy page if needed in header nav
-             else if (linkHref === 'terms-privacy.html' && currentPath.endsWith('/terms-privacy.html')) {
-                  navLinks.forEach(l => l.classList.remove('active')); // Clear others
-                  link.classList.add('active');
+            // Handle hash links on the homepage - only activate if on the homepage AND the hash matches (simple check)
+             else if (currentPath === '/' || currentPath.endsWith('/index.html')) {
+                 if (linkHref.startsWith('#') && window.location.hash === linkHref) {
+                      // This part requires a more complex scroll spy logic to highlight based on scroll position
+                      // For simplicity here, we won't add active class for hash links on initial load based on hash.
+                      // The smooth scroll handles the navigation.
+                 }
+                 // Ensure the "Financial Tools" link remains active if on a calculator page accessed from home
+                 if (currentPath.endsWith('/sars-tax-calculator.html') && linkHref === '/#tools') {
+                     link.classList.add('active');
+                 }
+                  // Ensure the "Home" link is active if on the root path
+                  if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
+                      link.classList.add('active'); // Ensure Home is active if on homepage
+                  }
              }
             else {
                  link.classList.remove('active'); // Ensure others are not active
             }
         });
-         // Ensure home is active if path is exactly "/" and no other link matched
-         if (currentPath === '/' && !document.querySelector('.nav-menu .nav-link.active')) {
-              const homeLink = document.querySelector('.nav-menu a[href="/"]');
-              if (homeLink) {
-                  homeLink.classList.add('active');
-              } else {
-                   // Fallback if the href="/" link isn't found, maybe highlight index.html if it exists
-                   const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
-                   if (indexLink) indexLink.classList.add('active');
-              }
-         }
-
 
     </script>
     </body>
