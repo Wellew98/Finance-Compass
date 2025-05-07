@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savings Goal Planner | Financial Compass</title>
-    <meta name="description" content="Plan how to reach your savings goals in South Africa. Calculate required contributions based on your target amount and timeframe.">
+    <title>Plan Your Success: Savings Goal Planner | Financial Compass</title>
+    <meta name="description" content="Plan how to reach your savings goals in South Africa. Calculate required contributions based on your target amount and timeframe, with visual projections.">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha5512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha5512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
 
     <style>
-        /* --- Base Styles (Copied from previous files for consistency) --- */
+        /* --- Base Styles --- */
         :root {
             --primary: #0070D1; /* Blue */
             --primary-dark: #005bb1;
             --secondary: #00BC8C; /* Teal/Green */
             --secondary-dark: #009670;
+            --accent: #FFC107; /* Yellow/Gold */
+            --accent-dark: #e6ac00;
             --text: #333333;
             --text-light: #666666;
             --background: #FFFFFF;
@@ -32,12 +36,13 @@
             --radius: 10px;
             --error: #e74c3c;
             --success: #2ecc71;
-             /* Chart Colors (Consistent with Retirement Calculator) */
-            --chart-principal: #0070D1; /* Blue (Used for Total Value) */
-            --chart-interest: #FF6B6B; /* Coral (Used for Cumulative Contributions) */
-            --chart-fees: #6BCB77; /* Green */
-            --chart-balloon: #FFC107; /* Amber */
-             --chart-background: rgba(0, 112, 209, 0.1); /* Light primary for area fill */
+            --warning: #ffc107; /* Added warning color */
+            --info: #17a2b8;
+             /* Chart Colors (Consistent with Retirement Calculator & Enhanced) */
+            --chart-balance: #0070D1; /* Blue (Used for Total Value) */
+            --chart-contributions: #00BC8C; /* Teal/Green (Used for Cumulative Contributions) */
+            --chart-growth: #FFC107; /* Yellow for growth */
+            --chart-balance-fill: rgba(0, 112, 209, 0.1); /* Light primary for area fill */
         }
 
         * {
@@ -58,6 +63,9 @@
             -webkit-font-smoothing: antialiased; /* Smoother fonts */
             -moz-osx-font-smoothing: grayscale;
         }
+         body.no-scroll {
+            overflow: hidden; /* Prevent scrolling when mobile menu is open */
+        }
 
         a {
             text-decoration: none;
@@ -74,6 +82,12 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        img {
+             max-width: 100%;
+             height: auto;
+             display: block; /* Prevents bottom space */
         }
 
         /* --- Buttons --- */
@@ -117,8 +131,10 @@
             color: white;
         }
          .btn:disabled {
-             opacity: 0.5;
+             opacity: 0.6;
              cursor: not-allowed;
+             transform: none;
+             box-shadow: none;
          }
 
 
@@ -201,11 +217,29 @@
             padding: 5px; /* Easier to tap */
         }
 
+
         /* --- Calculator Section --- */
         .calculator-section {
             padding: 60px 0;
-            background-color: var(--background-alt);
+            background: linear-gradient(135deg, var(--background-alt), rgba(0, 188, 140, 0.05)); /* Subtle gradient background */
         }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700; /* Slightly bolder */
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--primary-dark); /* Use a darker primary */
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
 
         .calculator-container {
             display: grid;
@@ -217,7 +251,7 @@
         .calculator-form {
             background-color: var(--background);
             border-radius: var(--radius);
-            box-shadow: 0 6px 18px var(--shadow);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* More prominent shadow */
             padding: 30px;
             border: 1px solid var(--border);
         }
@@ -231,7 +265,15 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--text);
+             display: flex; /* Align label text and tooltip icon */
+             align-items: center;
         }
+         .form-label .fas { /* Style for info icon in label */
+             margin-left: 6px;
+             font-size: 0.9em;
+             color: var(--primary);
+         }
+
 
         .form-control {
             width: 100%;
@@ -241,16 +283,19 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             transition: border 0.3s ease, box-shadow 0.3s ease;
+             background-color: var(--background-alt); /* Use alt background for inputs */
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 112, 209, 0.15);
+            box-shadow: 0 0 0 4px rgba(0, 112, 209, 0.15); /* More pronounced focus */
+             background-color: var(--background); /* White background on focus */
         }
 
         .form-control.invalid {
              border-color: var(--error);
+             box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.15);
         }
 
         /* Input group styling */
@@ -261,17 +306,17 @@
 
         .input-group-addon {
             padding: 12px 16px;
-            background-color: var(--background-alt);
+            background-color: var(--border); /* Use border colour for addon */
             border: 1px solid var(--border);
             border-right: none;
             border-radius: var(--radius) 0 0 var(--radius);
-            color: var(--text-light);
+            color: var(--text); /* Darker text for addon */
             font-weight: 500;
         }
          .input-group-addon.suffix {
              border-radius: 0 var(--radius) var(--radius) 0;
              border-left: none;
-             border-right: 1px solid var(--border); /* Add right border */
+             border-right: 1px solid var(--border);
          }
 
         .input-group .form-control {
@@ -285,12 +330,12 @@
             padding-left: 12px; /* Add padding back if suffix follows */
          }
 
-
         .form-message {
             display: none;
             margin-top: 6px;
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* Slightly larger font for messages */
             color: var(--error);
+             font-weight: 500;
         }
          .form-message.active {
              display: block;
@@ -308,11 +353,11 @@
         }
 
 
-        /* Results section */
+        /* Results section - Enhanced based on sars-tax-calculator */
         .calculator-results {
             background-color: var(--background);
             border-radius: var(--radius);
-            box-shadow: 0 6px 18px var(--shadow);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Consistent shadow */
             padding: 30px;
             border: 1px solid var(--border);
             position: relative;
@@ -322,76 +367,99 @@
         .results-header {
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--primary); /* Prominent border */
         }
 
         .results-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 5px;
+            font-size: 1.6rem; /* Larger title */
+            font-weight: 700; /* Bolder */
+            color: var(--primary); /* Primary color */
+            margin-bottom: 8px; /* Adjusted margin */
         }
 
         .results-subtitle {
-            font-size: 0.9rem;
+            font-size: 1rem; /* Adjusted size */
             color: var(--text-light);
         }
 
         .results-summary {
             display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Stack results vertically */
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for summary items */
+            gap: 20px; /* Gap between summary items */
+            margin-bottom: 30px; /* Space below summary */
         }
 
         .result-item {
             background-color: var(--background-alt);
-            padding: 16px;
+            padding: 20px; /* Increased padding */
             border-radius: var(--radius);
             border: 1px solid var(--border);
             display: flex;
-            justify-content: space-between; /* Space out label and value */
-            align-items: center;
+            flex-direction: column; /* Stack label and value */
+            align-items: flex-start; /* Align text to the left */
+             transition: all 0.3s ease; /* Add transition for hover */
         }
+         /* Highlight key result items with colour */
+         .result-item.highlight-primary {
+             background-color: var(--highlight-blue); /* Light blue background */
+             border-color: var(--primary); /* Primary border */
+         }
+          .result-item.highlight-secondary {
+             background-color: var(--highlight-green); /* Light green background */
+             border-color: var(--secondary); /* Secondary border */
+         }
+
 
         .result-label {
-            font-size: 1rem; /* Slightly larger font for labels */
+            font-size: 0.95rem; /* Slightly smaller label */
             font-weight: 500;
-            color: var(--text); /* Use text color for clarity */
+            color: var(--text-light); /* Lighter text for label */
+            margin-bottom: 8px; /* Space between label and value */
         }
 
         .result-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary); /* Highlight primary results */
+            font-size: 2rem; /* Larger value font */
+            font-weight: 700; /* Bolder value */
+            color: var(--text); /* Use text color for value initially */
+             word-break: break-word; /* Prevent overflow */
         }
+         .result-item.highlight-primary .result-value {
+             color: var(--primary-dark); /* Dark primary for value in blue box */
+         }
+          .result-item.highlight-secondary .result-value {
+             color: var(--secondary-dark); /* Dark secondary for value in green box */
+         }
+
 
         .result-note {
             font-size: 0.8rem;
             color: var(--text-light);
-            margin-top: 5px;
+            margin-top: auto; /* Push note to the bottom */
+             padding-top: 10px;
+             border-top: 1px dashed var(--border); /* Dashed line separator */
+             width: 100%; /* Ensure note takes full width */
         }
 
         .chart-container {
             position: relative;
-            margin-top: 24px;
+            margin-top: 24px; /* Adjusted margin */
             height: 350px; /* Adjusted height for line chart */
-            width: 100%; /* Ensure it takes full width */
-             display: flex; /* Use flexbox to center canvas */
-             justify-content: center; /* Center horizontally */
-             align-items: center; /* Center vertically */
+            width: 100%;
+             display: flex;
+             justify-content: center;
+             align-items: center;
         }
          .chart-container canvas {
-             max-width: 100%; /* Prevent canvas from overflowing */
-             max-height: 100%; /* Prevent canvas from overflowing */
+             max-width: 100%;
+             max-height: 100%;
          }
 
          .chart-title {
             text-align: center;
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 1rem;
-            font-size: 1.2rem; /* Slightly larger title for line chart */
+            margin-bottom: 1.5rem; /* More space below title */
+            font-size: 1.3rem; /* Slightly larger title for chart */
         }
 
 
@@ -444,13 +512,18 @@
             padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Smooth transition */
         }
 
         .accordion-content-inner {
-            padding: 0 24px 24px;
+            padding: 20px 24px 24px; /* Applied padding here */
             color: var(--text-light);
+            border-top: 1px solid var(--border); /* Add border on top when open */
         }
+         .accordion-item.active .accordion-content-inner {
+             padding-top: 20px; /* Ensure consistent padding top when active */
+         }
+
 
         .accordion-item.active .accordion-header {
             background-color: var(--background-alt);
@@ -462,16 +535,17 @@
 
         .accordion-item.active .accordion-content {
             max-height: 1000px; /* Sufficiently large value */
-            padding: 0 24px 24px; /* Apply padding when active */
+             /* Padding is now handled by accordion-content-inner */
         }
 
-        /* Calculator Tips */
+        /* Calculator Tips - Styled like the info-box from tax calculator */
         .tip-box {
             margin-top: 30px;
             padding: 20px;
-            background-color: rgba(0, 112, 209, 0.05);
-            border-left: 4px solid var(--primary);
-            border-radius: 0 var(--radius) var(--radius) 0;
+            background-color: rgba(0, 112, 209, 0.05); /* Primary tint background */
+            border-left: 4px solid var(--primary); /* Primary border */
+            border-radius: 0 var(--radius) var(--radius) 0; /* Rounded on the right */
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
         }
 
         .tip-title {
@@ -479,15 +553,18 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            color: var(--primary);
+            color: var(--primary); /* Primary color for title */
+            font-size: 1.1rem; /* Slightly larger title */
         }
 
         .tip-title i {
             margin-right: 10px;
+             color: var(--accent); /* Use accent color for the lightbulb icon */
+             font-size: 1.2em; /* Make icon a bit larger */
         }
 
         .tip-content {
-            font-size: 0.9rem;
+            font-size: 0.95rem; /* Adjusted font size */
             color: var(--text-light);
         }
 
@@ -497,11 +574,11 @@
         }
 
         .tip-content li {
-            margin-bottom: 5px;
+            margin-bottom: 8px; /* More space between list items */
         }
 
 
-        /* --- Footer --- */
+        /* --- Footer (Copied from updated index.html) --- */
         footer {
             background-color: #1e293b;
             color: rgba(255, 255, 255, 0.8);
@@ -579,10 +656,12 @@
             transition: all 0.3s ease;
         }
 
+        /* Modified footer link hover based on the index inspiration */
         .footer-link a:hover {
-            color: white;
-            padding-left: 5px;
+            color: var(--secondary); /* Use secondary color for hover */
+            padding-left: 8px; /* Add subtle slide effect */
         }
+
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -642,70 +721,115 @@
              }
 
              .calculator-container {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Stack form and results */
+             }
+             .calculator-results {
+                 margin-top: 30px; /* Add space when stacked */
              }
         }
 
         @media (max-width: 768px) {
-            .results-summary {
-                grid-template-columns: 1fr;
+            .section {
+                padding: 64px 0;
             }
+            .section-title {
+                font-size: 2rem;
+            }
+            .section-subtitle {
+                 font-size: 1.1rem;
+            }
+            .results-summary {
+                grid-template-columns: 1fr; /* Stack summary items */
+            }
+            .result-value {
+                 font-size: 1.8rem; /* Adjust size */
+            }
+             .chart-title {
+                 font-size: 1.1rem; /* Adjust chart title size */
+             }
 
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
-
             .footer-column {
                  display: flex;
                  flex-direction: column;
                  align-items: center;
             }
-
-            .footer-column.about .footer-logo {
+             .footer-column.about .footer-logo {
                  justify-content: center; /* Center logo items */
-            }
-
+             }
             .footer-social {
                  justify-content: center;
             }
-
             .footer-links {
                  text-align: center;
             }
         }
 
-        @media (max-width: 576px) {
-            .header-container {
-                padding: 12px 0; /* Reduce header padding */
-                height: 65px; /* Adjust height */
-            }
-
-            .nav-menu {
-                top: 65px; /* Match new header height */
-                height: calc(100vh - 65px);
-            }
-
-            .logo {
-                font-size: 1.4rem;
-            }
-
-            .logo i {
-                font-size: 1.6rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .result-value {
-                font-size: 1.3rem;
-            }
-        }
-
-        body.no-scroll {
-             overflow: hidden;
-        }
+         @media (max-width: 576px) {
+             .section-title {
+                 font-size: 1.75rem;
+             }
+             .section-subtitle {
+                 font-size: 1rem;
+             }
+             .result-value {
+                 font-size: 1.6rem; /* Further adjust size */
+             }
+             .header-container {
+                 padding: 12px 0;
+                 height: 65px;
+             }
+             .nav-menu {
+                 top: 65px;
+                 height: calc(100vh - 65px);
+             }
+             .logo {
+                 font-size: 1.4rem;
+             }
+             .logo i {
+                 font-size: 1.6rem;
+             }
+             .action-buttons {
+                 flex-direction: column;
+                 gap: 12px;
+             }
+             .btn {
+                 width: 90%; /* Make buttons wider */
+                 max-width: 320px;
+                 padding: 14px 20px; /* Adjust padding */
+             }
+              .form-group {
+                  margin-bottom: 20px; /* Reduce spacing */
+              }
+               .form-control {
+                   padding: 10px 14px; /* Adjust input padding */
+                   font-size: 0.95rem;
+               }
+               .input-group-addon {
+                   padding: 10px 14px; /* Adjust addon padding */
+               }
+                .accordion-header {
+                    padding: 16px 20px; /* Adjust accordion header padding */
+                }
+                .accordion-title {
+                    font-size: 1rem; /* Adjust accordion title size */
+                }
+                .accordion-content-inner {
+                     padding: 16px 20px 20px; /* Adjust accordion content padding */
+                }
+                .tip-box {
+                     padding: 16px; /* Adjust tip box padding */
+                }
+                .tip-title {
+                     font-size: 1rem; /* Adjust tip title size */
+                }
+                .tip-title i {
+                     font-size: 1.1em; /* Adjust tip icon size */
+                }
+         }
     </style>
 </head>
 <body>
@@ -723,7 +847,7 @@
                     <li class="nav-item"><a href="/#tools" class="nav-link active">Financial Tools</a></li>
                     <li class="nav-item"><a href="/#about" class="nav-link">Why Us</a></li>
                     <li class="nav-item"><a href="/#updates" class="nav-link">Updates</a></li>
-                </ul>
+                    </ul>
             </nav>
         </div>
     </header>
@@ -731,37 +855,37 @@
     <main>
         <section class="calculator-section">
             <div class="container">
-                <h1 class="section-title">Savings Goal Planner</h1>
-                <p class="section-subtitle">Plan your savings journey to reach your financial goals.</p>
+                <h1 class="section-title">Plan Your Success: Savings Goal Planner</h1>
+                <p class="section-subtitle">Chart your course to financial freedom! This tool helps you figure out how much you need to save regularly to hit your targets.</p>
 
                 <div class="calculator-container">
                     <div class="calculator-form">
-                        <form id="savingsGoalForm">
+                        <h2 class="results-title">Map Your Savings Journey</h2> <form id="savingsGoalForm">
                             <div class="form-group">
-                                <label for="goalAmount" class="form-label">Your Savings Goal Amount</label>
+                                <label for="goalAmount" class="form-label">Your Savings Goal Amount<i class="fas fa-info-circle"></i></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">R</span>
                                     <input type="number" id="goalAmount" class="form-control" value="100000" min="1000" step="100" required>
                                 </div>
-                                <span class="form-message" id="goalAmountError"></span>
+                                <span class="form-message" id="goalAmountError">Please enter a valid positive savings goal amount.</span>
                             </div>
 
                             <div class="form-group">
-                                <label for="currentSavings" class="form-label">Current Savings</label>
+                                <label for="currentSavings" class="form-label">Current Savings<i class="fas fa-info-circle"></i></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">R</span>
                                     <input type="number" id="currentSavings" class="form-control" value="10000" min="0" step="100" required>
                                 </div>
-                                <span class="form-message" id="currentSavingsError"></span>
+                                <span class="form-message" id="currentSavingsError">Please enter a valid current savings amount (cannot exceed your goal).</span>
                             </div>
 
                              <div class="form-group">
-                                 <label for="timeframe" class="form-label">Timeframe to Reach Goal</label>
+                                 <label for="timeframe" class="form-label">Timeframe to Reach Goal<i class="fas fa-info-circle"></i></label>
                                  <div class="input-group">
-                                     <input type="number" id="timeframe" class="form-control" value="5" min="1" max="30" required>
+                                     <input type="number" id="timeframe" class="form-control" value="5" min="1" required>
                                      <span class="input-group-addon suffix" id="timeframeUnit">Years</span>
                                  </div>
-                                  <span class="form-message" id="timeframeError"></span>
+                                  <span class="form-message" id="timeframeError">Please enter a valid positive timeframe.</span>
                              </div>
 
                              <div class="form-group">
@@ -774,54 +898,56 @@
 
 
                              <div class="form-group">
-                                 <label for="annualGrowthRate" class="form-label">Expected Annual Investment Growth</label>
+                                 <label for="annualGrowthRate" class="form-label">Expected Annual Investment Growth<i class="fas fa-info-circle"></i></label>
                                   <div class="input-group">
                                      <input type="number" id="annualGrowthRate" class="form-control" value="6" min="0" max="20" step="0.1" required>
                                       <span class="input-group-addon suffix">% p.a.</span>
                                   </div>
-                                   <span class="form-message" id="annualGrowthRateError"></span>
+                                   <span class="form-message" id="annualGrowthRateError">Please enter a valid annual growth rate (e.g., 6 for 6%).</span>
                              </div>
 
 
                             <div class="action-buttons">
-                                <button type="button" id="savingsCalculateBtn" class="btn btn-primary">Plan Savings</button>
-                                <button type="reset" id="savingsResetBtn" class="btn btn-outline">Reset</button>
+                                <button type="button" id="savingsCalculateBtn" class="btn btn-primary"><i class="fas fa-chart-line"></i> Plan Savings</button>
+                                <button type="reset" id="savingsResetBtn" class="btn btn-outline"><i class="fas fa-redo"></i> Reset</button>
                             </div>
                         </form>
                     </div>
 
                     <div class="calculator-results" id="savingsResultsSection">
                         <div class="results-header">
-                            <h3 class="results-title">Your Savings Plan</h3>
-                            <p class="results-subtitle">Estimated contributions to reach your goal.</p>
+                            <h3 class="results-title">Your Savings Blueprint Revealed!</h3>
+                            <p class="results-subtitle">Here’s what it takes to turn your savings goal into reality.</p>
                         </div>
 
                         <div class="results-summary">
-                            <div class="result-item">
-                                <span class="result-label">Amount Needed to Save:</span>
+                            <div class="result-item highlight-primary"> <span class="result-label">Amount Needed to Save:</span>
                                 <span class="result-value" id="amountToSave">R0.00</span>
+                                <div class="result-note">Excluding current savings</div>
                             </div>
-                            <div class="result-item">
-                               <span class="result-label" id="requiredContributionLabel">Required Monthly Contribution:</span>
+                            <div class="result-item highlight-secondary"> <span class="result-label" id="requiredContributionLabel">Required Monthly Contribution:</span>
                                <span class="result-value" id="requiredContribution">R0.00</span>
+                               <div class="result-note">Based on your timeframe and growth</div>
                            </div>
-                             <div class="result-item">
+                            <div class="result-item">
                                 <span class="result-label">Projected Final Savings:</span>
                                 <span class="result-value" id="projectedFinalSavings">R0.00</span>
-                                <div class="result-note">Including estimated growth</div>
+                                <div class="result-note">Includes your contributions + estimated growth</div>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">Total Contributed:</span>
+                                <span class="result-label">Total Contributed by You:</span>
                                 <span class="result-value" id="totalContributed">R0.00</span>
+                                <div class="result-note">Sum of your regular contributions + initial savings</div>
                             </div>
                              <div class="result-item">
-                                <span class="result-label">Total Growth Earned:</span>
+                                <span class="result-label">Total Estimated Growth Earned:</span>
                                 <span class="result-value" id="totalGrowthEarned">R0.00</span>
+                                <div class="result-note">The power of compounding in action!</div>
                             </div>
                         </div>
 
                         <div class="visualization-container">
-                             <h4 class="chart-title">Projected Savings Balance</h4>
+                             <h4 class="chart-title">How Your Savings Could Grow Over Time</h4>
                             <div class="chart-container">
                                 <canvas id="savingsGrowthChart"></canvas>
                             </div>
@@ -832,14 +958,14 @@
                  <div class="tip-box">
                         <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Smart Savings Tips in SA</h4>
                         <div class="tip-content">
-                            <p>Tips to help you reach your savings goals:</p>
+                            <p>Use these strategies to make reaching your goal easier:</p>
                             <ul>
                                 <li><strong>Set SMART Goals:</strong> Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound.</li>
-                                <li><strong>Automate Savings:</strong> Set up automatic transfers from your current account to your savings account each payday.</li>
-                                <li><strong>Reduce Expenses:</strong> Identify areas in your budget where you can cut back to free up more money for savings.</li>
-                                <li><strong>Increase Income:</strong> Look for opportunities to earn extra income, even if it's a small amount.</li>
-                                 <li><strong>Review Progress:</strong> Regularly check your progress and adjust your plan if needed.</li>
-                                  <li><strong>Choose the Right Account:</strong> Select a savings account or investment that offers a good interest rate or return, considering your timeframe and risk tolerance.</li>
+                                <li><strong>Automate Savings:</strong> Set up automatic transfers from your current account to your savings account each payday – "out of sight, out of mind" for easier saving!</li>
+                                <li><strong>Reduce Expenses:</strong> Find areas in your budget to cut back. Even small savings add up significantly over time.</li>
+                                <li><strong>Increase Income:</strong> Explore ways to earn extra income, like a side hustle or selling unused items.</li>
+                                 <li><strong>Track & Adjust:</strong> Regularly check your progress. If you're ahead of schedule, fantastic! If you're behind, adjust your contributions or timeframe.</li>
+                                  <li><strong>Choose Wisely:</strong> Research savings accounts or investments (like Tax-Free Savings Accounts) that offer the best returns for your timeframe and comfort level with risk.</li>
                             </ul>
                         </div>
                     </div>
@@ -849,40 +975,50 @@
 
          <section class="faq-section">
             <div class="container">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">Common questions about saving in South Africa</p>
+                <h2 class="section-title">Savings FAQs</h2> <p class="section-subtitle">Get answers to common questions about planning and achieving your savings goals.</p>
 
                 <div class="accordion" id="savingsFAQ">
                     <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">How much should I save each month?</h3>
+                            <h3 class="accordion-title">How much should I aim to save each month?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>The amount you should save depends entirely on your income, expenses, and financial goals. Financial advisors often recommend saving at least 10-15% of your income, but any amount you can consistently save is a good start. This calculator helps you determine the required amount for a specific goal.</p>
+                                <p>There's no one-size-fits-all answer. It depends on your income, current expenses, debts, and the size and urgency of your savings goal. A common guideline is the 50/30/20 rule (50% needs, 30% wants, 20% savings/debt repayment), but this calculator gives you a concrete monthly target for your specific goal.</p>
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">Where should I keep my savings?</h3>
+                            <h3 class="accordion-title">Where is the best place to keep my savings in South Africa?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>For short-term goals (less than 1-3 years), a high-yield savings account or money market account is generally suitable as they offer liquidity and low risk. For longer-term goals, you might consider investments like unit trusts or exchange-traded funds (ETFs) for potentially higher returns, but these come with higher risk.</p>
+                                <p>For short-term goals (money you might need in less than 1-3 years), consider high-yield savings accounts or money market accounts offered by banks. They offer easy access and low risk. For longer-term goals, explore Tax-Free Savings Accounts (TFSAs) or investments like unit trusts, which can offer higher growth potential over time (though they carry more risk).</p>
                             </div>
                         </div>
                     </div>
                      <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">What is the impact of interest/growth on my savings?</h3>
+                            <h3 class="accordion-title">How does the 'growth rate' affect my savings plan?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>Interest or investment growth allows your savings to grow on their own through compounding. The higher the growth rate and the longer your timeframe, the more significant the impact of compounding will be, potentially reducing the amount you need to contribute yourself to reach your goal.</p>
+                                <p>The annual growth rate (your expected return on savings/investments) is crucial due to compounding. The higher the growth rate, the less you might need to contribute yourself to reach your goal, as your existing savings and earned growth will also be earning returns. Be realistic with your growth rate – higher potential returns often come with higher risk.</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">What if I can't meet the required monthly contribution?</h3>
+                            <i class="accordion-icon fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>Don't be discouraged! If the calculated contribution is too high, you have a few options: aim for a smaller savings goal, extend your timeframe, or explore ways to increase your income or decrease your expenses to free up more cash for saving. Consistency is key, even if the amount is smaller than initially planned.</p>
                             </div>
                         </div>
                     </div>
@@ -896,14 +1032,14 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column about">
-                    <a href="/" class="logo">
+                    <a href="/" class="footer-logo">
                         <i class="fas fa-compass"></i> Financial<span>Compass</span>
                     </a>
                     <p class="footer-description">Your free guide to navigating South African personal finance. Empowering you with clear, accurate tools and insights.</p>
                     <div class="footer-social">
-                        <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61575624285316" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/FinCompassSA" class="footer-social-link" aria-label="X (formerly Twitter)"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/107288558" class="footer-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
 
@@ -912,9 +1048,10 @@
                     <ul class="footer-links">
                         <li class="footer-link"><a href="/">Home</a></li>
                         <li class="footer-link"><a href="/#tools">Financial Tools</a></li>
-                        <li class="footer-link"><a href="/#about">Why Choose Us</a></li>
-                        <li class="footer-link"><a href="/#updates">Latest Updates</a></li>
-                         <li class="footer-link"><a href="privacy-policy.html">Privacy Policy</a></li> <li class="footer-link"><a href="terms-of-service.html">Terms of Service</a></li> </ul>
+                        <li class="footer-link"><a href="/#about">Why Us</a></li>
+                        <li class="footer-link"><a href="/#updates">Updates</a></li>
+                         <li class="footer-link"><a href="terms-privacy.html">Terms & Privacy</a></li>
+                        </ul>
                 </div>
 
                  <div class="footer-column calculators">
@@ -924,7 +1061,9 @@
                         <li class="footer-link"><a href="budget-planner.html">Budget Planner</a></li>
                         <li class="footer-link"><a href="loan-calculators.html">Loan Calculators</a></li>
                         <li class="footer-link"><a href="vat-calculator.html">VAT Calculator</a></li>
-                        <li class="footer-link"><a href="retirement-calculator.html">Retirement Calculator</a></li> <li class="footer-link"><a href="#">Savings Goal Planner</a></li> </ul>
+                        <li class="footer-link"><a href="retirement-calculator.html">Retirement Calculator</a></li>
+                        <li class="footer-link"><a href="savings-goal-planner.html">Savings Goal Planner</a></li>
+                    </ul>
                 </div>
 
                  <div class="footer-column contact">
@@ -934,7 +1073,8 @@
                     </p>
                     </div>
 
-            </div> <div class="footer-bottom">
+            </div>
+            <div class="footer-bottom">
                 &copy; <span id="currentYear"></span> Financial Compass. Built for South Africans. All Rights Reserved.
             </div>
         </div>
@@ -973,7 +1113,8 @@
             });
              // Close menu when clicking outside (basic implementation)
              document.addEventListener('click', (e) => {
-                 if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && navMenu.classList.contains('active')) {
+                 // Check if the menu is active and the click is outside the menu and the button
+                 if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                      navMenu.classList.remove('active');
                      mobileMenuBtn.setAttribute('aria-expanded', 'false');
                      const icon = mobileMenuBtn.querySelector('i');
@@ -983,6 +1124,20 @@
                      body.classList.remove('no-scroll');
                  }
              });
+             // Close menu if a link to a different page is clicked
+             navMenu.querySelectorAll('a:not([href^="#"])').forEach(link => {
+                link.addEventListener('click', () => {
+                     if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                             icon.className = 'fas fa-bars';
+                        }
+                         body.classList.remove('no-scroll');
+                     }
+                });
+            });
         }
 
         // --- Footer Year ---
@@ -996,40 +1151,45 @@
         accordionItems.forEach(item => {
             const header = item.querySelector('.accordion-header');
             header.addEventListener('click', () => {
-                item.classList.toggle('active');
+                // Close all other items
                 accordionItems.forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
+                         const otherContent = otherItem.querySelector('.accordion-content');
+                         if(otherContent) otherContent.style.maxHeight = null; // Reset max-height
                     }
                 });
+
+                // Toggle the clicked item
+                item.classList.toggle('active');
+                const content = item.querySelector('.accordion-content');
+                 if (item.classList.contains('active')) {
+                     content.style.maxHeight = content.scrollHeight + "px"; // Set max-height to content height
+                 } else {
+                     content.style.maxHeight = null; // Reset max-height
+                 }
             });
         });
 
+
         // --- Helper Functions ---
         function formatCurrency(amount) {
-            // Ensure amount is a number before formatting
             const numericAmount = parseFloat(amount);
             if (isNaN(numericAmount)) {
-                return 'R0.00'; // Return default if not a valid number
+                return 'R0.00';
             }
-            return 'R' + numericAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
-        function formatPercentage(rate) {
-             const numericRate = parseFloat(rate);
-             if (isNaN(numericRate)) {
-                 return '0.00%';
-             }
-            return numericRate.toFixed(2) + '%';
+             // Use toLocaleString with minimum and maximum fraction digits for consistency
+            return 'R' + numericAmount.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
 
         // --- Get CSS Chart Colors ---
         // Fetch the computed styles from the root element once
         const style = getComputedStyle(document.documentElement);
-        const chartPrincipalColor = style.getPropertyValue('--chart-principal').trim(); // Blue for Total Value
-        const chartInterestColor = style.getPropertyValue('--chart-interest').trim(); // Coral for Contributions
-        const chartBackgroundColor = style.getPropertyValue('--chart-background').trim(); // Light blue for area fill
+        const chartBalanceColor = style.getPropertyValue('--chart-balance').trim();
+        const chartContributionsColor = style.getPropertyValue('--chart-contributions').trim();
+        const chartGrowthColor = style.getPropertyValue('--chart-growth').trim();
+        const chartBalanceFillColor = style.getPropertyValue('--chart-balance-fill').trim();
 
 
         // --- Savings Goal Planner Logic ---
@@ -1061,230 +1221,200 @@
         let savingsGrowthChart = null; // To hold the chart instance
 
 
-        // Update the timeframe unit text based on the select value
-        if (timeframeTypeSelect && timeframeUnitSpan) {
+        // Update the timeframe unit text and label based on the select value
+        if (timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
             timeframeTypeSelect.addEventListener('change', function() {
-                timeframeUnitSpan.textContent = timeframeTypeSelect.value === 'years' ? 'Years' : 'Months';
-                // Adjust min/max for timeframe input based on type (optional but good practice)
+                const selectedValue = timeframeTypeSelect.value;
+                timeframeUnitSpan.textContent = selectedValue === 'years' ? 'Years' : 'Months';
+                requiredContributionLabelEl.textContent = selectedValue === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
+
+                 // Adjust min/max for timeframe input based on type (optional but good practice)
                  if (timeframeInput) {
-                     if (timeframeTypeSelect.value === 'years') {
+                     if (selectedValue === 'years') {
                          timeframeInput.min = 1;
-                         timeframeInput.max = 30; // Example max years
-                         if (parseInt(timeframeInput.value) > 30) timeframeInput.value = 30;
+                         timeframeInput.max = 60; // Example max years (60 years)
+                         if (parseInt(timeframeInput.value) > 60) timeframeInput.value = 60;
                          if (parseInt(timeframeInput.value) < 1) timeframeInput.value = 1;
+                         timeframeInput.step = 1;
                      } else { // months
                          timeframeInput.min = 1;
-                         timeframeInput.max = 360; // Example max months (30 years)
-                          if (parseInt(timeframeInput.value) > 360) timeframeInput.value = 360;
+                         timeframeInput.max = 720; // Example max months (60 years * 12)
+                          if (parseInt(timeframeInput.value) > 720) timeframeInput.value = 720;
                           if (parseInt(timeframeInput.value) < 1) timeframeInput.value = 1;
+                          timeframeInput.step = 1;
                      }
                  }
-                 // Update the label for required contribution
-                 if(requiredContributionLabelEl) {
-                     requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
-                 }
-
             });
         }
 
 
         function calculateSavingsGoal() {
-            // Clear previous errors
-            document.querySelectorAll('.form-message').forEach(msg => {
-                msg.textContent = '';
-                msg.classList.remove('active');
-            });
-             document.querySelectorAll('.form-control').forEach(input => {
-                 input.classList.remove('invalid');
-             });
+             // Use a timeout to allow the button click animation to start
+             setTimeout(async () => {
+                savingsCalculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Planning...';
+                savingsCalculateBtn.disabled = true;
+
+                // Clear previous errors
+                document.querySelectorAll('.form-message').forEach(msg => {
+                    msg.textContent = '';
+                    msg.classList.remove('active');
+                });
+                 document.querySelectorAll('.form-control').forEach(input => {
+                     input.classList.remove('invalid');
+                 });
 
 
-            // Get input values
-            const goalAmount = goalAmountInput ? parseFloat(goalAmountInput.value) : NaN;
-            let currentSavings = currentSavingsInput ? parseFloat(currentSavingsInput.value) || 0 : NaN;
-            const timeframe = timeframeInput ? parseInt(timeframeInput.value) : NaN;
-            const timeframeType = timeframeTypeSelect ? timeframeTypeSelect.value : 'years';
-            const annualGrowthRate = annualGrowthRateInput ? parseFloat(annualGrowthRateInput.value) / 100 : NaN;
+                // Get input values
+                const goalAmount = goalAmountInput ? parseFloat(goalAmountInput.value) : NaN;
+                let currentSavings = currentSavingsInput ? parseFloat(currentSavingsInput.value) || 0 : NaN;
+                const timeframe = timeframeInput ? parseInt(timeframeInput.value) : NaN;
+                const timeframeType = timeframeTypeSelect ? timeframeTypeSelect.value : 'years';
+                const annualGrowthRate = annualGrowthRateInput ? parseFloat(annualGrowthRateInput.value) / 100 : NaN;
 
-            // Input Validation
-            let isValid = true;
-            if (isNaN(goalAmount) || goalAmount <= 0) {
-                if(goalAmountError) {
-                    goalAmountError.textContent = 'Please enter a valid positive savings goal amount.';
-                    goalAmountError.classList.add('active');
+                // Input Validation
+                let isValid = true;
+                if (isNaN(goalAmount) || goalAmount <= 0) {
+                    if(goalAmountError) {
+                        goalAmountError.textContent = 'Please enter a valid positive savings goal amount.';
+                        goalAmountError.classList.add('active');
+                    }
+                    if(goalAmountInput) goalAmountInput.classList.add('invalid');
+                    isValid = false;
                 }
-                if(goalAmountInput) goalAmountInput.classList.add('invalid');
-                isValid = false;
-            }
-             if (isNaN(currentSavings) || currentSavings < 0 || currentSavings > goalAmount) {
-                  if(currentSavingsError) {
-                      currentSavingsError.textContent = 'Please enter a valid current savings amount (cannot exceed your goal).';
-                      currentSavingsError.classList.add('active');
-                  }
-                  if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
-                  isValid = false;
-             }
-            if (isNaN(timeframe) || timeframe <= 0) {
-                 if(timeframeError) {
-                     timeframeError.textContent = 'Please enter a valid positive timeframe.';
-                     timeframeError.classList.add('active');
+                 if (isNaN(currentSavings) || currentSavings < 0) {
+                      if(currentSavingsError) {
+                          currentSavingsError.textContent = 'Please enter a valid current savings amount (cannot be negative).';
+                          currentSavingsError.classList.add('active');
+                      }
+                      if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
+                      isValid = false;
                  }
-                 if(timeframeInput) timeframeInput.classList.add('invalid');
-                 isValid = false;
-             }
-             if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 1) { // Rates as decimals
-                  if(annualGrowthRateError) {
-                      annualGrowthRateError.textContent = 'Please enter a valid annual growth rate (e.g., 6 for 6%).';
-                      annualGrowthRateError.classList.add('active');
-                  }
-                  if(annualGrowthRateInput) annualGrowthRateInput.classList.add('invalid');
-                  isValid = false;
-             }
-
-             if (currentSavings >= goalAmount) {
-                  if(currentSavingsError) {
-                      currentSavingsError.textContent = 'Your current savings already meet or exceed your goal!';
-                      currentSavingsError.classList.add('active');
-                  }
-                   if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
-                   isValid = false;
-             }
-
-
-            if (!isValid) {
-                clearSavingsGoalResults(); // Clear results and hide section on error
-                return;
-            }
-
-            const periods = timeframeType === 'years' ? timeframe : timeframe / 12; // Convert months to years for annual growth calculation
-            const numberOfMonths = timeframeType === 'years' ? timeframe * 12 : timeframe; // Total months for monthly contribution calculation
-
-            const amountNeeded = goalAmount - currentSavings;
-
-            // --- Calculate Required Contribution ---
-            // Using Future Value of an Ordinary Annuity formula, rearranged to solve for Payment (PMT)
-            // FV = PV * (1 + r)^n + PMT * [((1 + r)^n - 1) / r]
-            // Where:
-            // FV = Future Value (Goal Amount)
-            // PV = Present Value (Current Savings)
-            // r = Period Interest Rate (Annual Growth Rate / 12 for monthly, or Annual Growth Rate for annual)
-            // n = Number of Periods (Total Months for monthly, Total Years for annual)
-            // PMT = Payment (Required Monthly or Annual Contribution)
-
-            const monthlyGrowthRate = annualGrowthRate / 12;
-
-            let requiredMonthlyContribution = 0;
-            let projectedFinalSavings = currentSavings;
-            let totalContributed = 0;
-
-             const periodLabels = [0]; // Start at period 0 (initial savings)
-             const balanceData = [currentSavings]; // Initial balance
-             const contributionsData = [currentSavings]; // Initial contributions (starting point for cumulative)
-
-
-            // If timeframe is 0 or negative (should be caught by validation, but safety check)
-            if (numberOfMonths <= 0) {
-                 if(timeframeError) {
-                      timeframeError.textContent = 'Timeframe must be at least 1 month.';
-                      timeframeError.classList.add('active');
+                if (isNaN(timeframe) || timeframe <= 0) {
+                     if(timeframeError) {
+                         timeframeError.textContent = 'Please enter a valid positive timeframe.';
+                         timeframeError.classList.add('active');
+                     }
+                     if(timeframeInput) timeframeInput.classList.add('invalid');
+                     isValid = false;
                  }
-                 if(timeframeInput) timeframeInput.classList.add('invalid');
-                 clearSavingsGoalResults();
-                 return;
-            }
+                 if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 1) { // Rates as decimals
+                      if(annualGrowthRateError) {
+                          annualGrowthRateError.textContent = 'Please enter a valid annual growth rate (0-100%).';
+                          annualGrowthRateError.classList.add('active');
+                      }
+                      if(annualGrowthRateInput) annualGrowthRateInput.classList.add('invalid');
+                      isValid = false;
+                 }
+
+                 if (isValid && currentSavings >= goalAmount) {
+                      if(currentSavingsError) {
+                          currentSavingsError.textContent = 'Your current savings already meet or exceed your goal! No further contributions needed.';
+                          currentSavingsError.classList.add('active');
+                      }
+                       if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
+                       isValid = false;
+                 }
 
 
-            // Calculate required monthly contribution using a loop approach for simulation and chart data
-            // This is an iterative approach to find the contribution needed
-            // We can refine this to a direct formula if preferred, but loop helps with chart data points
-            let low = 0;
-            let high = goalAmount; // Max possible monthly contribution
-            let iterations = 0;
-            const maxIterations = 100; // Prevent infinite loops
-            const tolerance = 0.01; // How close we need to be to the goal (R0.01)
-
-            while (iterations < maxIterations) {
-                let testContribution = (low + high) / 2;
-                let testBalance = currentSavings;
-                for (let i = 0; i < numberOfMonths; i++) {
-                    testBalance += testContribution;
-                    testBalance *= (1 + monthlyGrowthRate);
+                if (!isValid) {
+                    clearSavingsGoalResults(); // Clear results and hide section on error
+                     savingsCalculateBtn.innerHTML = '<i class="fas fa-chart-line"></i> Plan Savings';
+                     savingsCalculateBtn.disabled = false;
+                    return;
                 }
 
-                if (Math.abs(testBalance - goalAmount) < tolerance) {
-                    requiredMonthlyContribution = testContribution;
-                    break; // Found a close enough contribution
-                } else if (testBalance < goalAmount) {
-                    low = testContribution; // Need to contribute more
-                } else {
-                    high = testContribution; // Can contribute less
-                }
-                iterations++;
-            }
+                const numberOfMonths = timeframeType === 'years' ? timeframe * 12 : timeframe; // Total months for calculation
+                const monthlyGrowthRate = annualGrowthRate / 12;
 
-            // If the loop finished without finding a precise value (due to tolerance/iterations),
-            // use the last test contribution as an estimate.
-            if (iterations === maxIterations) {
-                 requiredMonthlyContribution = (low + high) / 2;
-             }
+                const amountNeededFromNow = goalAmount - currentSavings;
 
 
-            // --- Simulate Growth for Chart Data ---
-            projectedFinalSavings = currentSavings;
-            totalContributed = 0;
-            for (let month = 1; month <= numberOfMonths; month++) {
-                 projectedFinalSavings += requiredMonthlyContribution;
-                 totalContributed += requiredMonthlyContribution;
-                 projectedFinalSavings *= (1 + monthlyGrowthRate);
+                // --- Calculate Required Contribution ---
+                let requiredMonthlyContribution = 0;
 
-                 // Store data for the chart (e.g., every 12 months for years, or every month for shorter terms)
-                 if (timeframeType === 'years' && month % 12 === 0) {
-                     periodLabels.push(`Year ${month / 12}`);
-                     balanceData.push(projectedFinalSavings);
-                     contributionsData.push(totalContributed + currentSavings);
-                 } else if (timeframeType === 'months') {
-                      periodLabels.push(`Month ${month}`);
-                      balanceData.push(projectedFinalSavings);
-                      contributionsData.push(totalContributed + currentSavings);
-                 }
-            }
-
-             // Add the final period if it wasn't added by the loop (e.g., not a full year)
-             if (periodLabels[periodLabels.length - 1] !== (timeframeType === 'years' ? `Year ${timeframe}` : `Month ${timeframe}`)) {
-                  periodLabels.push(timeframeType === 'years' ? `Year ${timeframe}` : `Month ${timeframe}`);
-                  balanceData.push(projectedFinalSavings);
-                  contributionsData.push(totalContributed + currentSavings);
-             }
-
-
-            const totalGrowthEarned = projectedFinalSavings - currentSavings - totalContributed;
-             const finalTotalGrowthEarned = Math.max(0, totalGrowthEarned); // Ensure growth isn't negative if goal is already met/exceeded
-
-
-            // Update result elements
-            if(amountToSaveEl) amountToSaveEl.textContent = formatCurrency(amountNeeded);
-            if(requiredContributionEl) {
-                 if (timeframeType === 'years') {
-                     requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution * 12); // Show annual contribution
+                 // Handle case where no growth rate is expected
+                 if (monthlyGrowthRate <= 0) {
+                     requiredMonthlyContribution = amountNeededFromNow / numberOfMonths;
                  } else {
-                     requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution); // Show monthly contribution
+                      // Using Future Value of an Ordinary Annuity formula, rearranged to solve for Payment (PMT)
+                      // FV = PV * (1 + r)^n + PMT * [((1 + r)^n - 1) / r]
+                      // PMT = [FV - PV * (1 + r)^n] / [((1 + r)^n - 1) / r]
+                      const fvOfCurrentSavings = currentSavings * Math.pow(1 + monthlyGrowthRate, numberOfMonths);
+                      const futureValueFactor = (Math.pow(1 + monthlyGrowthRate, numberOfMonths) - 1) / monthlyGrowthRate;
+
+                      if (futureValueFactor > 0) { // Avoid division by zero if numberOfMonths is 0 (though validation should prevent)
+                          requiredMonthlyContribution = (goalAmount - fvOfCurrentSavings) / futureValueFactor;
+                      } else {
+                          // Should only happen if numberOfMonths is 0, handled by validation
+                           requiredMonthlyContribution = amountNeededFromNow; // Requires saving full amount immediately
+                      }
                  }
-            }
-            if(projectedFinalSavingsEl) projectedFinalSavingsEl.textContent = formatCurrency(projectedFinalSavings);
-            if(totalContributedEl) totalContributedEl.textContent = formatCurrency(totalContributed);
-            if(totalGrowthEarnedEl) totalGrowthEarnedEl.textContent = formatCurrency(finalTotalGrowthEarned);
+
+                // Ensure contribution is not negative if calculations result in a slight negative due to float precision near goal
+                requiredMonthlyContribution = Math.max(0, requiredMonthlyContribution);
 
 
-            // Show results section
-            if(savingsResultsSection) savingsResultsSection.style.display = 'block';
+                // --- Simulate Growth for Chart Data ---
+                let simulatedBalance = currentSavings;
+                let simulatedTotalContributed = 0;
 
-            // Update chart
-            updateSavingsGoalChart(periodLabels, balanceData, contributionsData);
+                 const periodLabels = ['Start']; // Start at period 0 (initial savings)
+                 const balanceData = [currentSavings]; // Initial balance
+                 const contributionsData = [currentSavings]; // Initial contributions (starting point for cumulative)
+                 const growthData = [0]; // Initial growth is 0
 
-             // Optional: Scroll to results
-             if(savingsResultsSection) {
-                 savingsResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-             }
+
+                for (let month = 1; month <= numberOfMonths; month++) {
+                     simulatedBalance += requiredMonthlyContribution;
+                     simulatedTotalContributed += requiredMonthlyContribution;
+                     simulatedBalance *= (1 + monthlyGrowthRate);
+
+                     // Store data points - adjust frequency for performance on long timeframes
+                     const periodInterval = timeframeType === 'years' ? 12 : 1; // Chart every year or every month
+                     if (month % periodInterval === 0 || month === numberOfMonths) { // Always include the final month
+                          const label = timeframeType === 'years' ? `Year ${month / 12}` : `Month ${month}`;
+                          periodLabels.push(label);
+                          balanceData.push(simulatedBalance);
+                          contributionsData.push(simulatedTotalContributed + currentSavings); // Cumulative Contributions + Initial
+                          growthData.push(simulatedBalance - (simulatedTotalContributed + currentSavings));
+                     }
+                }
+
+                const projectedFinalSavings = simulatedBalance;
+                const totalContributedWithInitial = simulatedTotalContributed + currentSavings;
+                const totalGrowthEarned = projectedFinalSavings - totalContributedWithInitial;
+                const finalTotalGrowthEarned = Math.max(0, totalGrowthEarned); // Ensure growth isn't negative
+
+
+                // Update result elements
+                if(amountToSaveEl) amountToSaveEl.textContent = formatCurrency(amountNeededFromNow);
+                if(requiredContributionEl) {
+                     if (timeframeType === 'years') {
+                         requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution * 12); // Show annual contribution
+                     } else {
+                         requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution); // Show monthly contribution
+                     }
+                }
+                if(projectedFinalSavingsEl) projectedFinalSavingsEl.textContent = formatCurrency(projectedFinalSavings);
+                if(totalContributedEl) totalContributedEl.textContent = formatCurrency(totalContributedWithInitial); // Include initial savings in total contributed shown
+                if(totalGrowthEarnedEl) totalGrowthEarnedEl.textContent = formatCurrency(finalTotalGrowthEarned);
+
+
+                // Show results section
+                if(savingsResultsSection) savingsResultsSection.style.display = 'block';
+
+                // Update chart - Pass all necessary data including growth
+                updateSavingsGoalChart(periodLabels, balanceData, contributionsData, growthData);
+
+                 // Optional: Scroll to results
+                 if(savingsResultsSection) {
+                     savingsResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 }
+
+                 savingsCalculateBtn.innerHTML = '<i class="fas fa-chart-line"></i> Plan Savings';
+                 savingsCalculateBtn.disabled = false;
+
+             }, 50); // Short delay for button animation
 
         }
 
@@ -1308,12 +1438,17 @@
             if (savingsGrowthCanvas) {
                  const ctx = savingsGrowthCanvas.getContext('2d');
                  ctx.clearRect(0, 0, savingsGrowthCanvas.width, savingsGrowthCanvas.height);
+                 // Optional: Draw placeholder text if needed
+                 // ctx.fillStyle = var(--text-light);
+                 // ctx.textAlign = 'center';
+                 // ctx.fillText("Enter details to see your savings growth chart", savingsGrowthCanvas.width / 2, savingsGrowthCanvas.height / 2);
              }
         }
 
-         // Function to update the Savings Growth Line Chart
-         function updateSavingsGoalChart(periods, balances, cumulativeContributions) {
-             if (!savingsGrowthCanvas) return; // Ensure canvas element exists
+
+         // Function to update the Savings Growth Line Chart (Enhanced)
+         function updateSavingsGoalChart(periods, balances, cumulativeContributions, growthData) {
+             if (!savingsGrowthCanvas) return;
             const ctx = savingsGrowthCanvas.getContext('2d');
 
             // Destroy the previous chart instance if it exists
@@ -1325,33 +1460,48 @@
              const timeframeType = timeframeTypeSelect ? timeframeTypeSelect.value : 'years';
              const xAxisLabel = timeframeType === 'years' ? 'Years' : 'Months';
 
-
-             // Create the new Chart.js instance
+            // Create the new Chart.js instance
              savingsGrowthChart = new Chart(ctx, {
                  type: 'line', // Use 'line' for the chart type
                  data: {
                      labels: periods, // Periods on the X-axis
                      datasets: [
-                          {
+                         {
                             label: 'Projected Savings Balance',
                             data: balances, // Balance over time
-                            borderColor: chartPrincipalColor, // Blue line
-                            backgroundColor: chartBackgroundColor, // Light blue fill below the line
-                            fill: true, // Fill area below the line
-                            tension: 0.1, // Smooth the line
+                            borderColor: chartBalanceColor, // Blue line
+                            backgroundColor: chartBalanceFillColor, // Light blue fill below the line
+                            fill: 'origin', // Fill area below the line starting from the X-axis
+                            tension: 0.2, // Smooth the line slightly more
                             pointRadius: 3, // Reduce point size
-                            pointHoverRadius: 5
+                            pointHoverRadius: 5,
+                            pointBackgroundColor: chartBalanceColor // Make points match line color
                           },
                          {
                              label: 'Cumulative Contributions',
                              data: cumulativeContributions, // Contributions over time
-                             borderColor: chartInterestColor, // Coral line
+                             borderColor: chartContributionsColor, // Teal/Green line
                              backgroundColor: 'transparent', // No fill below this line
                              fill: false,
-                             tension: 0.1,
+                             tension: 0.2,
                              pointRadius: 3,
-                             pointHoverRadius: 5
+                             pointHoverRadius: 5,
+                              pointBackgroundColor: chartContributionsColor // Make points match line color
                          }
+                         // Optionally add a dataset for just the growth amount if desired
+                         /*
+                         {
+                             label: 'Estimated Growth Earned',
+                             data: growthData, // Growth earned over time
+                             borderColor: chartGrowthColor, // Yellow line
+                             backgroundColor: 'transparent', // No fill
+                             fill: false,
+                             tension: 0.2,
+                             pointRadius: 3,
+                             pointHoverRadius: 5,
+                             pointBackgroundColor: chartGrowthColor
+                         }
+                         */
                      ]
                  },
                  options: {
@@ -1359,10 +1509,11 @@
                      maintainAspectRatio: false, // Allow chart to fit container size
                      plugins: {
                           legend: {
-                              position: 'top', // Position legend above the chart
+                              position: 'bottom', // Position legend below the chart
                               labels: {
-                                  boxWidth: 12,
-                                  padding: 15
+                                  boxWidth: 16, // Slightly larger legend color box
+                                  padding: 20, // More space between legend items
+                                   font: { size: 12 } // Slightly larger font
                               }
                           },
                           tooltip: {
@@ -1372,33 +1523,55 @@
                                       const label = context.dataset.label || '';
                                       const value = context.raw; // The data point value
                                       const period = context.label; // The X-axis label (Period)
-                                      return `${label} (${period}): ${formatCurrency(value)}`;
+                                      return `${label}: ${formatCurrency(value)} (${period})`; // Format: Label: RValue (Period)
                                   }
-                              }
+                                  /* // Optional: Add a title to the tooltip showing the period
+                                  title: function(context) {
+                                      return context[0].label; // The period
+                                  }
+                                  */
+                              },
+                              backgroundColor: 'rgba(0, 0, 0, 0.8)', // Darker tooltip background
+                              titleColor: '#fff',
+                              bodyColor: '#fff',
+                              borderColor: 'var(--primary)',
+                              borderWidth: 1,
+                              cornerRadius: 4,
+                              padding: 10
                           }
                      },
                      scales: {
                          x: {
                              title: {
                                  display: true,
-                                 text: xAxisLabel // Use dynamic label
+                                 text: xAxisLabel, // Use dynamic label
+                                 font: { size: 14, weight: 'bold' },
+                                 color: var(--text-light)
+                             },
+                             grid: {
+                                 display: false // Hide x-axis grid lines
                              }
                          },
                          y: {
                              title: {
                                  display: true,
-                                 text: 'Amount (R)'
+                                 text: 'Amount (R)',
+                                 font: { size: 14, weight: 'bold' },
+                                  color: var(--text-light)
                              },
                               ticks: {
                                    callback: function(value, index, values) {
-                                       // Format Y-axis labels as currency (e.g., R100K, R50K)
+                                       // Format Y-axis labels as currency (e.g., R100K, R50K, R1M)
                                        if (value >= 1000000) {
-                                           return 'R' + (value / 1000000).toFixed(1) + 'M';
+                                           return 'R' + (value / 1000000).toFixed(value % 1000000 !== 0 ? 1 : 0) + 'M'; // Show 1 decimal if not whole million
                                        } else if (value >= 1000) {
                                            return 'R' + (value / 1000).toFixed(0) + 'K';
                                        }
                                        return formatCurrency(value); // Fallback for smaller values
                                    }
+                              },
+                              grid: {
+                                   color: var(--border) // Use border color for y-axis grid lines
                               }
                          }
                      },
@@ -1426,12 +1599,12 @@
                       document.querySelectorAll('.form-control').forEach(input => {
                           input.classList.remove('invalid');
                       });
-                     // Reset timeframe unit display
-                     if(timeframeTypeSelect && timeframeUnitSpan) {
-                         timeframeUnitSpan.textContent = timeframeTypeSelect.value === 'years' ? 'Years' : 'Months';
-                         if(requiredContributionLabelEl) {
-                              requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
-                          }
+                     // Reset timeframe unit display and label
+                     if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
+                         timeframeTypeSelect.value = 'years'; // Ensure select is reset
+                         timeframeUnitSpan.textContent = 'Years';
+                         requiredContributionLabelEl.textContent = 'Required Annual Contribution:';
+                          if (timeframeInput) timeframeInput.value = 5; // Reset default value
                      }
 
                 }, 50); // Short delay
@@ -1463,13 +1636,11 @@
                   input.classList.remove('invalid');
               });
 
-             // Set initial timeframe unit display
-             if(timeframeTypeSelect && timeframeUnitSpan) {
+             // Set initial timeframe unit display and label
+             if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
                  timeframeUnitSpan.textContent = timeframeTypeSelect.value === 'years' ? 'Years' : 'Months';
+                 requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
              }
-              if(requiredContributionLabelEl) {
-                   requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
-               }
 
 
             // --- Active Nav Link Highlighting (Update for savings-goal-planner.html) ---
@@ -1480,16 +1651,15 @@
                 const linkHref = link.getAttribute('href');
                 // Check if the current path ends with the link's href (handles index.html, sars-tax-calculator.html, etc.)
                 // Also handle the case where the href is just '/' for the home page
-                if (currentPath.endsWith(linkHref) && linkHref !== '/') {
-                     navLinks.forEach(l => l.classList.remove('active'));
-                     link.classList.add('active');
+                 // Check for direct match, ignoring trailing slash for root
+                 const isDirectMatch = (currentPath === '/' && linkHref === '/') ||
+                                       (currentPath.endsWith('.html') && currentPath.endsWith(linkHref));
+
+                if (isDirectMatch) {
+                     navLinks.forEach(l => l.classList.remove('active')); // Remove active from all
+                     link.classList.add('active'); // Add active to the matching link
                 }
-                 // Special handling for the root '/' link if the current path is exactly '/' or 'index.html'
-                else if ((currentPath === '/' || currentPath.endsWith('/index.html')) && linkHref === '/') {
-                     navLinks.forEach(l => l.classList.remove('active'));
-                     link.classList.add('active');
-                }
-                // Highlight the 'Financial Tools' link when on any calculator page
+                 // Highlight the 'Financial Tools' link when on any calculator page
                 else if (currentPath.includes('-calculator.html') && linkHref === '/#tools') {
                       navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
                       link.classList.add('active');
@@ -1500,22 +1670,19 @@
                      // The '/#tools' case above handles the link to this page
                 }
                  // For savings-goal-planner.html specifically, ensure the Financial Tools link is active if not already
-                 if (currentPath.endsWith('/savings-goal-planner.html') && linkHref === '/#tools') {
-                     // Ensure this link is active if we are on the Savings Goal page
-                      navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
+                 // This handles the case where someone navigates directly to the savings planner URL
+                 if (currentPath.endsWith('/savings-goal-planner.html') && linkHref === '/#tools' && !document.querySelector('.nav-menu .nav-link.active')) {
                      link.classList.add('active');
+                 } else if (currentPath.endsWith('/savings-goal-planner.html') && linkHref === '/savings-goal-planner.html') {
+                      // Ensure the savings planner link itself is active if directly on the page
+                      navLinks.forEach(l => l.classList.remove('active'));
+                      link.classList.add('active');
                  }
             });
-             // Ensure home is active if path is exactly "/" and no other link matched (and no hash)
-             // This is a fallback, the logic above should handle most cases
-             if (currentPath === '/' && window.location.hash === '' && !document.querySelector('.nav-menu .nav-link.active')) {
-                  const homeLink = document.querySelector('.nav-menu a[href="/"]');
-                  if (homeLink) {
-                      homeLink.classList.add('active');
-                  } else {
-                       const indexLink = document.querySelector('.nav-menu a[href="index.html"]');
-                       if (indexLink) indexLink.classList.add('active');
-                  }
+             // Ensure home is active as a fallback if nothing else matched and on the root path
+             const homeLink = document.querySelector('.nav-menu a[href="/"]');
+             if ((currentPath === '/' || currentPath.endsWith('/index.html')) && !document.querySelector('.nav-menu .nav-link.active')) {
+                  if (homeLink) homeLink.classList.add('active');
              }
         });
 
