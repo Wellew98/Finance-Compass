@@ -26,7 +26,7 @@
             --secondary: #00BC8C; /* Teal/Green */
             --secondary-dark: #009670;
             --accent: #FFC107; /* Yellow/Gold */
-            --accent-dark: #e6ac00;
+            --accent-dark: #e6ac00; /* Darker gold for text on light yellow */
             --text: #333333;
             --text-light: #666666;
             --background: #FFFFFF;
@@ -42,8 +42,11 @@
             --chart-contributions: #00BC8C;
             --chart-growth: #FFC107;
             --chart-balance-fill: rgba(0, 112, 209, 0.1);
-            --highlight-blue: rgba(0, 112, 209, 0.05); /* Added for result item highlight */
-            --highlight-green: rgba(0, 188, 140, 0.05); /* Added for result item highlight */
+            --highlight-blue: rgba(0, 112, 209, 0.05);
+            --highlight-green: rgba(0, 188, 140, 0.05);
+            --nugget-background: #FFFBEB; /* Creamy Yellow for Nugget Box */
+            --nugget-border: #FDBA74; /* Orange-Gold for Nugget Border */
+            --nugget-title-text: #D97706; /* Darker Gold/Orange for Nugget Title */
         }
 
         * {
@@ -255,15 +258,16 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             padding: 30px;
             border: 1px solid var(--border);
+            display: flex; /* Added for flex column layout */
+            flex-direction: column; /* Stack form elements and nugget */
         }
-        /* Form Title inside calculator form box */
         .calculator-form-title {
-            font-size: 1.8rem; /* Slightly smaller than section title */
+            font-size: 1.8rem;
             font-weight: 600;
-            color: var(--primary); /* Primary color for this title */
-            margin-bottom: 24px; /* Space below title */
-            padding-bottom: 12px; /* Space for underline */
-            border-bottom: 2px solid var(--secondary); /* Secondary color underline */
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--secondary);
         }
 
 
@@ -354,11 +358,32 @@
             display: flex;
             justify-content: space-between;
             gap: 16px;
-            margin-top: 30px;
+            margin-top: 30px; /* Original margin */
         }
 
         .action-buttons .btn {
             flex: 1;
+        }
+
+        /* --- Form Nugget (New element in form) --- */
+        .form-nugget {
+            background-color: var(--background-alt);
+            border: 1px dashed var(--primary); /* Dashed border for subtlety */
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-top: 24px; /* Space above the nugget */
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        .form-nugget i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        .form-nugget:hover {
+            border-color: var(--primary-dark);
+            background-color: var(--highlight-blue);
         }
 
 
@@ -447,7 +472,7 @@
             width: 100%;
         }
 
-        .chart-container { /* Renamed from visualization-container to be more specific */
+        .chart-container {
             position: relative;
             margin-top: 24px;
             height: 350px;
@@ -456,12 +481,12 @@
             justify-content: center;
             align-items: center;
         }
-         .chart-container canvas { /* Ensure canvas itself is responsive */
+         .chart-container canvas {
              max-width: 100%;
              max-height: 100%;
          }
 
-         .chart-title { /* General title for charts/visualizations */
+         .chart-title {
             text-align: center;
             font-weight: 600;
             color: var(--text);
@@ -473,14 +498,14 @@
         /* --- FAQ Section --- */
         .faq-section {
             padding: 60px 0;
-            background-color: var(--background); /* Changed from background-alt for contrast */
+            background-color: var(--background);
         }
 
         .accordion {
             margin-top: 40px;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            overflow: hidden; /* Important for containing collapsing items */
+            overflow: hidden;
         }
 
         .accordion-item {
@@ -492,7 +517,7 @@
         }
 
         .accordion-header {
-            background-color: var(--background); /* Lighter background for header */
+            background-color: var(--background);
             padding: 20px 24px;
             cursor: pointer;
             display: flex;
@@ -502,7 +527,7 @@
         }
 
         .accordion-header:hover {
-            background-color: var(--background-alt); /* Subtle hover effect */
+            background-color: var(--background-alt);
         }
 
         .accordion-title {
@@ -512,20 +537,18 @@
         }
 
         .accordion-icon {
-            transition: transform 0.3s ease; /* Smooth icon rotation */
+            transition: transform 0.3s ease;
         }
 
-        /* CORRECTED ACCORDION CSS */
         .accordion-content {
-            padding: 0 24px; /* Horizontal padding is always there */
+            padding: 0 24px;
             max-height: 0;
             overflow: hidden;
-            /* Define all transitions here for smooth open/close */
             transition: max-height 0.4s ease-in-out, padding-top 0.4s ease-in-out, padding-bottom 0.4s ease-in-out;
         }
 
         .accordion-item.active .accordion-header {
-            background-color: var(--background-alt); /* Indicate active state */
+            background-color: var(--background-alt);
         }
         
         .accordion-item.active .accordion-icon {
@@ -533,60 +556,76 @@
         }
 
         .accordion-item.active .accordion-content {
-            /* max-height will be set by JS to content.scrollHeight + "px" */
-            /* The transition for max-height from the base .accordion-content class will apply */
-            padding-top: 20px; /* Vertical padding when active */
-            padding-bottom: 24px; /* Vertical padding when active */
+            padding-top: 20px;
+            padding-bottom: 24px;
         }
-        /* END CORRECTED ACCORDION CSS */
 
         .accordion-content-inner {
-            /* This inner div is still useful if you need specific styling *inside* the padded area */
-            /* For this setup, direct children of .accordion-content will get the padding. */
-            /* If you have complex content, you might still use .accordion-content-inner */
-            /* For now, we simplify and assume direct content. */
             color: var(--text-light);
-            border-top: 1px solid var(--border); /* Add border on top when open */
+            border-top: 1px solid var(--border);
         }
 
 
-        /* Calculator Tips */
+        /* --- Tip Box (Redesigned to Financial Wisdom Nugget Style) --- */
         .tip-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(0, 112, 209, 0.05);
-            border-left: 4px solid var(--primary);
-            border-radius: 0 var(--radius) var(--radius) 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: 40px; /* Increased margin for better separation */
+            padding: 24px 30px; /* Increased padding */
+            background-color: var(--nugget-background); /* Creamy yellow */
+            border-left: 6px solid var(--nugget-border); /* Thicker gold/orange border */
+            border-radius: var(--radius); /* Keep consistent radius */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07); /* Softer shadow */
         }
 
-        .tip-title {
-            font-weight: 600;
-            margin-bottom: 10px;
+        .tip-box .tip-title { /* Target title within tip-box */
+            font-family: 'Caveat', cursive; /* Handwritten font */
+            font-size: 2rem; /* Larger title size like image */
+            font-weight: 700;
+            margin-bottom: 16px; /* More space below title */
             display: flex;
             align-items: center;
-            color: var(--primary);
-            font-size: 1.1rem;
+            color: var(--nugget-title-text); /* Darker gold/orange for title text */
         }
 
-        .tip-title i {
-            margin-right: 10px;
-            color: var(--accent);
-            font-size: 1.2em;
+        .tip-box .tip-title i.fa-lightbulb { /* Specific icon styling */
+            margin-right: 12px;
+            color: var(--nugget-title-text); /* Match title text color */
+            font-size: 1.3em; /* Slightly larger icon */
+            text-shadow: 0 0 5px rgba(255, 223, 100, 0.5); /* Subtle glow */
         }
 
-        .tip-content {
-            font-size: 0.95rem;
-            color: var(--text-light);
+        .tip-box .tip-content { /* Target content within tip-box */
+            font-size: 1rem; /* Slightly larger base content font */
+            color: var(--text); /* Darker text for better readability on light yellow */
+        }
+        .tip-box .tip-content p:first-of-type { /* Style for the introductory paragraph */
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            line-height: 1.7;
         }
 
-        .tip-content ul {
+
+        .tip-box .tip-content ul {
             margin-top: 10px;
             padding-left: 25px;
+            list-style-type: none; /* Remove default bullets if custom are added or implied */
         }
 
-        .tip-content li {
-            margin-bottom: 8px;
+        .tip-box .tip-content li {
+            margin-bottom: 12px; /* More space between list items */
+            position: relative;
+            padding-left: 20px; /* Space for custom bullet */
+        }
+        .tip-box .tip-content li::before { /* Custom bullet using FontAwesome check or similar */
+            content: "\f00c"; /* FontAwesome check icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--secondary); /* Use secondary color for checkmarks */
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        .tip-box .tip-content li strong {
+            color: var(--primary-dark); /* Make strong text stand out */
         }
 
 
@@ -739,15 +778,14 @@
         }
 
         @media (max-width: 768px) {
-            /* .section was too generic, apply padding directly or use more specific class */
             .calculator-section, .faq-section {
-                padding: 40px 0; /* Reduced padding for smaller screens */
+                padding: 40px 0;
             }
             .section-title {
-                font-size: 1.8rem; /* Adjusted title size */
+                font-size: 1.8rem;
             }
             .section-subtitle {
-                 font-size: 1rem; /* Adjusted subtitle size */
+                 font-size: 1rem;
             }
             .results-summary {
                 grid-template-columns: 1fr;
@@ -761,6 +799,16 @@
              .calculator-form-title {
                 font-size: 1.5rem;
              }
+             .tip-box .tip-title {
+                 font-size: 1.6rem; /* Adjust nugget title for smaller screens */
+             }
+             .tip-box .tip-content {
+                 font-size: 0.9rem;
+             }
+             .tip-box .tip-content p:first-of-type {
+                 font-size: 0.95rem;
+             }
+
 
             .footer-content {
                 grid-template-columns: 1fr;
@@ -810,8 +858,8 @@
                  flex-direction: column;
                  gap: 12px;
              }
-             .btn { /* Make buttons take more width on small screens */
-                 width: 100%; /* Full width within their container */
+             .btn {
+                 width: 100%;
                  padding: 14px 20px;
              }
               .form-group {
@@ -830,18 +878,22 @@
                 .accordion-title {
                     font-size: 1rem;
                 }
-                .accordion-content-inner { /* Adjust padding if still used */
+                .accordion-content-inner {
                      padding: 16px 0 20px 0;
                 }
-                .tip-box {
-                     padding: 16px;
+                .tip-box { /* Adjust main tip box padding for small screens */
+                     padding: 20px;
                 }
-                .tip-title {
-                     font-size: 1rem;
+                .tip-box .tip-title {
+                     font-size: 1.5rem;
                 }
-                .tip-title i {
-                     font-size: 1.1em;
+                .tip-box .tip-title i.fa-lightbulb {
+                     font-size: 1.2em;
                 }
+                 .form-nugget { /* Adjust form nugget padding */
+                     padding: 12px;
+                     font-size: 0.9rem;
+                 }
                 .calculator-form-title {
                     font-size: 1.3rem;
                 }
@@ -920,7 +972,8 @@
                              <div class="form-group">
                                  <label for="annualGrowthRate" class="form-label">Jungle Growth (Expected Annual Investment Growth)<i class="fas fa-info-circle" title="How fast do you expect your savings to grow each year, like a mighty Baobab? (e.g., 6 for 6%)"></i></label>
                                   <div class="input-group">
-                                     <input type="number" id="annualGrowthRate" class="form-control" value="6" min="0" max="30" step="0.1" required> <span class="input-group-addon suffix">% p.a.</span>
+                                     <input type="number" id="annualGrowthRate" class="form-control" value="6" min="0" max="30" step="0.1" required>
+                                      <span class="input-group-addon suffix">% p.a.</span>
                                   </div>
                                    <span class="form-message" id="annualGrowthRateError">Please enter a valid annual growth rate (e.g., 0-30%).</span>
                              </div>
@@ -929,6 +982,9 @@
                             <div class="action-buttons">
                                 <button type="button" id="savingsCalculateBtn" class="btn btn-primary"><i class="fas fa-map-signs"></i> Chart My Adventure!</button>
                                 <button type="reset" id="savingsResetBtn" class="btn btn-outline"><i class="fas fa-redo"></i> Reset Map</button>
+                            </div>
+                            <div class="form-nugget" id="savingsSparkNugget">
+                                <p><i class="fas fa-bolt"></i> <span id="sparkQuote">Today's discipline is tomorrow's freedom!</span></p>
                             </div>
                         </form>
                     </div>
@@ -965,18 +1021,18 @@
                             </div>
                         </div>
 
-                        <div class="chart-container"> <h4 class="chart-title">Your Savings Safari Over Time</h4>
+                        <div class="chart-container">
+                             <h4 class="chart-title">Your Savings Safari Over Time</h4>
                             <canvas id="savingsGrowthChart"></canvas>
                         </div>
                     </div>
                 </div>
-
-                 <div class="tip-box">
-                        <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Mzansi Smart Savings Secrets</h4>
+                <div class="tip-box" id="financialWisdomNugget">
+                        <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Financial Wisdom Nugget</h4>
                         <div class="tip-content">
-                            <p>Use these local strategies to make your treasure hunt easier:</p>
+                            <p>Small savings today can lead to big dreams tomorrow. Every rand counts! Use these Mzansi smart strategies to make your treasure hunt easier:</p>
                             <ul>
-                                <li><strong>Set SMART Goals:</strong> Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound. A clear map leads to treasure!</li>
+                                <li><strong>Set SMART Goals:</strong> Specific, Measurable, Achievable, Relevant, Time-bound. A clear map leads to treasure!</li>
                                 <li><strong>Automate Your Stash:</strong> Set up automatic transfers to your savings "cave" each payday. What you don't see, you won't miss!</li>
                                 <li><strong>Trim the Wild Growth (Expenses):</strong> Find areas in your budget to cut back. Even small savings are like finding extra berries on the trail – they add up!</li>
                                 <li><strong>Boost Your Foraging (Income):</strong> Explore ways to earn extra, like a side hustle (a "weekend gig") or selling unused items.</li>
@@ -1115,10 +1171,8 @@
                 body.classList.toggle('no-scroll', isExpanded);
             });
 
-            // Close menu when a link within the menu is clicked (for SPA-like behavior or anchor links)
-            navMenu.querySelectorAll('a').forEach(link => { // Changed to all 'a' tags
+            navMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // Only close if it's a link that navigates away or to an anchor on the same page
                     if (navMenu.classList.contains('active')) {
                         navMenu.classList.remove('active');
                         mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -1131,7 +1185,6 @@
                 });
             });
 
-             // Close menu when clicking outside
              document.addEventListener('click', (e) => {
                  if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                      navMenu.classList.remove('active');
@@ -1151,48 +1204,39 @@
             currentYearSpan.textContent = new Date().getFullYear();
         }
 
-        // --- Accordion Functionality (Corrected & Refined) ---
+        // --- Accordion Functionality ---
         const accordionItems = document.querySelectorAll('.accordion-item');
         accordionItems.forEach(item => {
             const header = item.querySelector('.accordion-header');
             const content = item.querySelector('.accordion-content');
 
-            if (header && content) { // Ensure elements exist
+            if (header && content) {
                 header.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
 
-                    // Close all other accordion items before opening/closing the current one
                     accordionItems.forEach(otherItem => {
-                        if (otherItem !== item) { // Don't close the item we are about to toggle
+                        if (otherItem !== item) {
                             otherItem.classList.remove('active');
                             const otherContent = otherItem.querySelector('.accordion-content');
                             if (otherContent) {
-                                otherContent.style.maxHeight = null; // Collapse by resetting maxHeight
+                                otherContent.style.maxHeight = null;
                             }
                         }
                     });
 
-                    // Toggle the clicked item
                     if (!isActive) {
                         item.classList.add('active');
-                        // Set max-height after a short delay.
-                        // This allows CSS to apply 'active' class styles that might affect scrollHeight (like padding).
-                        // The scrollHeight will then be the correct height of the content including its padding.
-                        setTimeout(() => {
+                        setTimeout(() => { // Ensure class is applied before calculating scrollHeight
                             content.style.maxHeight = content.scrollHeight + "px";
-                        }, 10); // A small delay like 10ms is usually enough.
+                        }, 10);
                     } else {
-                        // If already active, just remove the class and reset maxHeight to collapse it.
-                        // The CSS transition on .accordion-content will handle the smooth collapse.
-                        content.style.maxHeight = content.scrollHeight + "px"; // Set to current height before collapsing
-                        requestAnimationFrame(() => { // Ensure the above is processed
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        requestAnimationFrame(() => {
                             item.classList.remove('active');
-                            content.style.maxHeight = null; 
+                            content.style.maxHeight = null;
                         });
                     }
                 });
-            } else {
-                console.warn('Accordion item missing header or content:', item);
             }
         });
 
@@ -1201,7 +1245,7 @@
         function formatCurrency(amount) {
             const numericAmount = parseFloat(amount);
             if (isNaN(numericAmount)) {
-                return 'R0.00'; // Default for invalid numbers
+                return 'R0.00';
             }
             return 'R' + numericAmount.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
@@ -1211,7 +1255,6 @@
         const rootStyles = getComputedStyle(document.documentElement);
         const chartBalanceColor = rootStyles.getPropertyValue('--chart-balance').trim() || '#0070D1';
         const chartContributionsColor = rootStyles.getPropertyValue('--chart-contributions').trim() || '#00BC8C';
-        // const chartGrowthColor = rootStyles.getPropertyValue('--chart-growth').trim() || '#FFC107'; // Not directly used in current chart datasets
         const chartBalanceFillColor = rootStyles.getPropertyValue('--chart-balance-fill').trim() || 'rgba(0, 112, 209, 0.1)';
 
 
@@ -1242,6 +1285,25 @@
 
         let savingsGrowthChart = null;
 
+        // --- Savings Spark Quotes ---
+        const sparkQuotes = [
+            "Today's discipline is tomorrow's freedom!",
+            "A small seed today, a mighty tree tomorrow. Save consistently!",
+            "Every Rand saved is a step closer to your treasure!",
+            "Don't just dream it, plan it. Your future self will thank you.",
+            "The journey to a thousand Rands begins with a single cent saved.",
+            "Conquer your savings goals, one month at a time!",
+            "Your financial safari is unique – navigate it wisely!"
+        ];
+        const sparkQuoteEl = document.getElementById('sparkQuote');
+
+        function updateSparkQuote() {
+            if (sparkQuoteEl) {
+                const randomIndex = Math.floor(Math.random() * sparkQuotes.length);
+                sparkQuoteEl.textContent = sparkQuotes[randomIndex];
+            }
+        }
+
 
         if (timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl && timeframeInput) {
             timeframeTypeSelect.addEventListener('change', function() {
@@ -1251,13 +1313,13 @@
 
                  if (selectedValue === 'years') {
                      timeframeInput.min = 1;
-                     timeframeInput.max = 70; // Max years
+                     timeframeInput.max = 70;
                      if (parseInt(timeframeInput.value) > 70) timeframeInput.value = 70;
                      if (parseInt(timeframeInput.value) < 1 && timeframeInput.value !== "") timeframeInput.value = 1;
                      timeframeInput.step = 1;
                  } else {
                      timeframeInput.min = 1;
-                     timeframeInput.max = 840; // Max months (70 years * 12)
+                     timeframeInput.max = 840;
                       if (parseInt(timeframeInput.value) > 840) timeframeInput.value = 840;
                       if (parseInt(timeframeInput.value) < 1 && timeframeInput.value !== "") timeframeInput.value = 1;
                       timeframeInput.step = 1;
@@ -1267,7 +1329,6 @@
 
 
         function calculateSavingsGoal() {
-             // Use a timeout to allow the button click animation to start and UI to update
              setTimeout(() => {
                 if (!savingsCalculateBtn || !goalAmountInput || !currentSavingsInput || !timeframeInput || !timeframeTypeSelect || !annualGrowthRateInput || !savingsResultsSection) {
                      console.error("One or more required calculator elements not found.");
@@ -1280,6 +1341,7 @@
 
                 savingsCalculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Charting...';
                 savingsCalculateBtn.disabled = true;
+                updateSparkQuote(); // Update quote on calculation
 
                 document.querySelectorAll('.form-message').forEach(msg => {
                     msg.textContent = '';
@@ -1320,7 +1382,7 @@
                      if(timeframeInput) timeframeInput.classList.add('invalid');
                      isValid = false;
                  }
-                 if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 0.30) { // Max 30%
+                 if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 0.30) {
                       if(annualGrowthRateError) {
                           annualGrowthRateError.textContent = 'Please enter a valid annual growth rate (0-30%).';
                           annualGrowthRateError.classList.add('active');
@@ -1334,8 +1396,6 @@
                           currentSavingsError.textContent = 'Your current hoard already meets or exceeds your treasure target!';
                           currentSavingsError.classList.add('active');
                       }
-                       if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
-                       // isValid = false; // Allow calculation to show 0 contribution
                  }
 
 
@@ -1348,11 +1408,11 @@
 
                 const numberOfMonths = timeframeType === 'years' ? timeframe * 12 : timeframe;
                 const monthlyGrowthRate = annualGrowthRate / 12;
-                const amountNeededFromNow = Math.max(0, goalAmount - currentSavings); // Cannot be negative
+                const amountNeededFromNow = Math.max(0, goalAmount - currentSavings);
 
                 let requiredMonthlyContribution = 0;
 
-                 if (amountNeededFromNow <= 0) { // Already reached goal
+                 if (amountNeededFromNow <= 0) {
                      requiredMonthlyContribution = 0;
                  } else if (monthlyGrowthRate <= 0 || numberOfMonths <= 0) {
                      requiredMonthlyContribution = numberOfMonths > 0 ? amountNeededFromNow / numberOfMonths : amountNeededFromNow;
@@ -1363,7 +1423,7 @@
                       if (futureValueFactor > 0) {
                           requiredMonthlyContribution = (goalAmount - fvOfCurrentSavings) / futureValueFactor;
                       } else {
-                           requiredMonthlyContribution = Math.max(0, (goalAmount - fvOfCurrentSavings) / (numberOfMonths || 1) ); // Fallback
+                           requiredMonthlyContribution = Math.max(0, (goalAmount - fvOfCurrentSavings) / (numberOfMonths || 1) );
                       }
                  }
 
@@ -1371,13 +1431,13 @@
 
 
                 let simulatedBalance = currentSavings;
-                let simulatedTotalContributedByAdding = 0; // Only new contributions
+                let simulatedTotalContributedByAdding = 0;
 
                  const periodLabels = ['Start'];
                  const balanceData = [currentSavings];
-                 const contributionsData = [currentSavings]; // Cumulative: initial + added
+                 const contributionsData = [currentSavings];
 
-                 const simulationStep = numberOfMonths <= 36 ? 1 : (numberOfMonths <= 120 ? 6 : 12) ; // Monthly up to 3 yrs, 6-monthly up to 10 yrs, then yearly
+                 const simulationStep = numberOfMonths <= 36 ? 1 : (numberOfMonths <= 120 ? 6 : 12) ;
 
                 for (let month = 1; month <= numberOfMonths; month++) {
                      simulatedBalance += requiredMonthlyContribution;
@@ -1389,20 +1449,19 @@
                           if (simulationStep === 1) {
                                label = `Month ${month}`;
                           } else if (simulationStep === 6 && month % 6 === 0) {
-                               label = `Mth ${month}`; // Shorter for more points
+                               label = `Mth ${month}`;
                           } else if (simulationStep === 12 && month % 12 === 0) {
                                label = `Year ${month / 12}`;
-                          } else if (month === numberOfMonths) { // Ensure final point is labeled correctly
+                          } else if (month === numberOfMonths) {
                                label = timeframeType === 'years' ? `Year ${timeframe}` : `Month ${timeframe}`;
                           } else {
-                               continue; // Skip if not a designated step, unless it's the final month
+                               continue;
                           }
                           periodLabels.push(label);
-                          balanceData.push(Math.min(simulatedBalance, goalAmount * 1.05)); // Cap chart slightly above goal
+                          balanceData.push(Math.min(simulatedBalance, goalAmount * 1.05));
                           contributionsData.push(currentSavings + simulatedTotalContributedByAdding);
                      }
                 }
-                // Ensure the final balance point in the chart data is the goal amount for visual consistency
                 if (balanceData.length > 1) {
                     balanceData[balanceData.length - 1] = goalAmount;
                 }
@@ -1439,7 +1498,7 @@
                  savingsCalculateBtn.innerHTML = '<i class="fas fa-map-signs"></i> Chart My Adventure!';
                  savingsCalculateBtn.disabled = false;
 
-             }, 100); // Increased delay slightly for smoother UI update
+             }, 100);
 
         }
 
@@ -1501,9 +1560,9 @@
                             borderColor: chartBalanceColor,
                             backgroundColor: chartBalanceFillColor,
                             fill: 'origin',
-                            tension: 0.25, // Slightly more smoothing
+                            tension: 0.25,
                             pointRadius: 3,
-                            pointHoverRadius: 6, // Larger hover radius
+                            pointHoverRadius: 6,
                             pointBackgroundColor: chartBalanceColor,
                             pointBorderColor: '#fff',
                             pointHoverBorderColor: chartBalanceColor,
@@ -1535,9 +1594,9 @@
                           legend: {
                               position: 'bottom',
                               labels: {
-                                  boxWidth: 18, // Slightly larger
+                                  boxWidth: 18,
                                   padding: 20,
-                                  font: { size: 13 } // Slightly larger
+                                  font: { size: 13 }
                               }
                           },
                           tooltip: {
@@ -1551,13 +1610,13 @@
                                        return context[0].label;
                                   }
                               },
-                              backgroundColor: 'rgba(0, 0, 0, 0.85)', // Darker
+                              backgroundColor: 'rgba(0, 0, 0, 0.85)',
                               titleColor: '#fff',
                               bodyColor: '#fff',
                               borderColor: 'var(--primary)',
                               borderWidth: 1,
-                              cornerRadius: 5, // More rounded
-                              padding: 12 // More padding
+                              cornerRadius: 5,
+                              padding: 12
                           }
                      },
                      scales: {
@@ -1565,7 +1624,7 @@
                              title: {
                                  display: true,
                                  text: xAxisLabel,
-                                 font: { size: 14, weight: '600' }, // Bolder
+                                 font: { size: 14, weight: '600' },
                                  color: 'var(--text-light)'
                              },
                              grid: {
@@ -1574,7 +1633,7 @@
                               ticks: {
                                   maxRotation: 45,
                                   minRotation: 0,
-                                  font: { size: 11 } // Smaller ticks if many
+                                  font: { size: 11 }
                               }
                          },
                          y: {
@@ -1598,13 +1657,13 @@
                               grid: {
                                    color: 'var(--border)'
                               },
-                              beginAtZero: true // Always start Y axis at zero
+                              beginAtZero: true
                          }
                      },
                      layout: {
-                         padding: { top: 5, right: 10, bottom: 5, left: 5 } // Adjusted padding
+                         padding: { top: 5, right: 10, bottom: 5, left: 5 }
                      },
-                     interaction: { // Enhanced interaction
+                     interaction: {
                          mode: 'index',
                          intersect: false,
                      },
@@ -1622,9 +1681,9 @@
 
         if (savingsResetBtn) {
             savingsResetBtn.addEventListener('click', function() {
-                if (savingsGoalForm) savingsGoalForm.reset(); // Reset form fields first
+                if (savingsGoalForm) savingsGoalForm.reset();
 
-                setTimeout(function() { // Then clear results and UI elements
+                setTimeout(function() {
                     clearSavingsGoalResults();
                     document.querySelectorAll('.form-message').forEach(msg => {
                          msg.textContent = '';
@@ -1634,7 +1693,7 @@
                           input.classList.remove('invalid');
                     });
                     if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl && timeframeInput) {
-                         timeframeTypeSelect.value = 'years'; // Reset select
+                         timeframeTypeSelect.value = 'years';
                          timeframeUnitSpan.textContent = 'Years';
                          requiredContributionLabelEl.textContent = 'Required Annual Stash:';
                          timeframeInput.value = 5;
@@ -1645,8 +1704,9 @@
                     if (goalAmountInput) goalAmountInput.value = 100000;
                     if (currentSavingsInput) currentSavingsInput.value = 10000;
                     if (annualGrowthRateInput) annualGrowthRateInput.value = 6;
+                    updateSparkQuote(); // Reset to a new quote
 
-                    accordionItems.forEach(item => { // Close all accordions on reset
+                    accordionItems.forEach(item => {
                         item.classList.remove('active');
                         const content = item.querySelector('.accordion-content');
                         if(content) {
@@ -1659,9 +1719,8 @@
 
          if (savingsGoalForm) {
              savingsGoalForm.addEventListener('keypress', function(event) {
-                 if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') { // Allow enter in textarea if any
+                 if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
                      event.preventDefault();
-                     // Check if focused element is a button, if so, don't re-trigger
                      if (document.activeElement && document.activeElement.type === 'button') return;
                      calculateSavingsGoal();
                  }
@@ -1671,7 +1730,8 @@
 
         // --- Initial Load Logic ---
         window.addEventListener('load', function() {
-            clearSavingsGoalResults(); // Start with a clean slate
+            clearSavingsGoalResults();
+            updateSparkQuote(); // Set initial spark quote
 
             document.querySelectorAll('.form-message').forEach(msg => {
                  msg.textContent = '';
@@ -1684,7 +1744,6 @@
             if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
                  timeframeUnitSpan.textContent = timeframeTypeSelect.value === 'years' ? 'Years' : 'Months';
                  requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Stash:' : 'Required Monthly Stash:';
-                 // Trigger change once on load to set min/max for timeframe input
                  timeframeTypeSelect.dispatchEvent(new Event('change'));
             }
 
@@ -1693,43 +1752,33 @@
             const navLinks = document.querySelectorAll('.nav-menu .nav-link');
             const currentPath = window.location.pathname;
 
-            navLinks.forEach(link => link.classList.remove('active')); // Clear all first
+            navLinks.forEach(link => link.classList.remove('active'));
 
             let linkActivated = false;
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
-                // Check if the current page is exactly this link
                 if (currentPath.endsWith(linkHref) && linkHref !== '/') {
                     link.classList.add('active');
                     linkActivated = true;
                     return;
                 }
-                // Special handling for /#tools when on a calculator page
                 if ((currentPath.includes('-calculator.html') || currentPath.includes('savings-goal-planner.html') || currentPath.includes('budget-planner.html') || currentPath.includes('loan-calculators.html') || currentPath.includes('vat-calculator.html') || currentPath.includes('retirement-calculator.html')) && linkHref === '/#tools') {
                     link.classList.add('active');
                     linkActivated = true;
-                    // Don't return, allow specific page link to also be active if it matches later
                 }
             });
 
-            // Fallback for home page or if no specific link matched but on a tool page
             if (!linkActivated) {
                 if (currentPath === '/' || currentPath.endsWith('/index.html')) {
                     const homeLink = document.querySelector('.nav-menu a[href="/"]');
                     if (homeLink) homeLink.classList.add('active');
-                } else if (document.querySelector('.nav-menu a[href="/#tools"].active')) {
-                    // If #tools is active, ensure no other primary nav link is also active unless it's a sub-page of tools
-                    // This logic can get complex; the current approach is to prioritize the #tools link if on a tool page.
                 }
             }
-            // Ensure that if on a specific tool page, and #tools is active, the specific tool page link itself is NOT also active in the main nav (if it exists there)
-            // The current logic should mostly handle this by activating the most specific link.
-            // Final check: if #tools is active, and we are on savings-goal-planner.html, #tools should remain the primary active link.
              if (currentPath.endsWith('savings-goal-planner.html')) {
                  const toolsLink = document.querySelector('.nav-menu a[href="/#tools"]');
                  if (toolsLink) {
-                     navLinks.forEach(l => l.classList.remove('active')); // Remove from all
-                     toolsLink.classList.add('active'); // Set only #tools as active
+                     navLinks.forEach(l => { if(l !== toolsLink) l.classList.remove('active');});
+                     toolsLink.classList.add('active');
                  }
              }
         });
