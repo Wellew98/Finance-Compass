@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Your Success: Savings Goal Planner | Financial Compass</title>
+    <title>Chart Your Course to Riches: Savings Goal Navigator | Financial Compass</title>
     <meta name="description" content="Plan how to reach your savings goals in South Africa. Calculate required contributions based on your target amount and timeframe, with visual projections.">
 
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha5512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha5512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" integrity="sha512-5vJn8XQUg+xX9KdhOhHEqJH4LO8y7ILSFoGO0w0/idrbktwr/CmvSyF5vJn8XQUg+xX9KdhOhHEqJfSZYn7ar+V5CpQOJUWJBnddvjJJjP3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
 
 
     <style>
@@ -36,13 +36,14 @@
             --radius: 10px;
             --error: #e74c3c;
             --success: #2ecc71;
-            --warning: #ffc107; /* Added warning color */
+            --warning: #ffc107;
             --info: #17a2b8;
-             /* Chart Colors (Consistent with Retirement Calculator & Enhanced) */
-            --chart-balance: #0070D1; /* Blue (Used for Total Value) */
-            --chart-contributions: #00BC8C; /* Teal/Green (Used for Cumulative Contributions) */
-            --chart-growth: #FFC107; /* Yellow for growth */
-            --chart-balance-fill: rgba(0, 112, 209, 0.1); /* Light primary for area fill */
+            --chart-balance: #0070D1;
+            --chart-contributions: #00BC8C;
+            --chart-growth: #FFC107;
+            --chart-balance-fill: rgba(0, 112, 209, 0.1);
+            --highlight-blue: rgba(0, 112, 209, 0.05); /* Added for result item highlight */
+            --highlight-green: rgba(0, 188, 140, 0.05); /* Added for result item highlight */
         }
 
         * {
@@ -52,7 +53,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -60,11 +61,11 @@
             color: var(--text);
             line-height: 1.6;
             background-color: var(--background);
-            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
          body.no-scroll {
-            overflow: hidden; /* Prevent scrolling when mobile menu is open */
+            overflow: hidden;
         }
 
         a {
@@ -87,7 +88,7 @@
         img {
              max-width: 100%;
              height: auto;
-             display: block; /* Prevents bottom space */
+             display: block;
         }
 
         /* --- Buttons --- */
@@ -100,9 +101,9 @@
             font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent; /* Added for consistent height with outline */
+            border: 2px solid transparent;
             text-align: center;
-            font-size: 1rem; /* Ensure consistent font size */
+            font-size: 1rem;
         }
 
         .btn:hover {
@@ -152,8 +153,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0; /* Adjust as needed */
-            height: 73px; /* Explicit height for menu positioning */
+            padding: 16px 0;
+            height: 73px;
         }
 
         .logo {
@@ -194,7 +195,7 @@
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -2px; /* Position slightly below text */
+            bottom: -2px;
             left: 0;
             width: 0;
             height: 2px;
@@ -214,22 +215,22 @@
             font-size: 1.8rem;
             cursor: pointer;
             color: var(--text);
-            padding: 5px; /* Easier to tap */
+            padding: 5px;
         }
 
 
         /* --- Calculator Section --- */
         .calculator-section {
             padding: 60px 0;
-            background: linear-gradient(135deg, var(--background-alt), rgba(0, 188, 140, 0.05)); /* Subtle gradient background */
+            background: linear-gradient(135deg, var(--background-alt), rgba(0, 188, 140, 0.05));
         }
 
         .section-title {
             font-size: 2.25rem;
-            font-weight: 700; /* Slightly bolder */
+            font-weight: 700;
             margin-bottom: 1rem;
             text-align: center;
-            color: var(--primary-dark); /* Use a darker primary */
+            color: var(--primary-dark);
         }
 
         .section-subtitle {
@@ -251,10 +252,20 @@
         .calculator-form {
             background-color: var(--background);
             border-radius: var(--radius);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* More prominent shadow */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             padding: 30px;
             border: 1px solid var(--border);
         }
+        /* Form Title inside calculator form box */
+        .calculator-form-title {
+            font-size: 1.8rem; /* Slightly smaller than section title */
+            font-weight: 600;
+            color: var(--primary); /* Primary color for this title */
+            margin-bottom: 24px; /* Space below title */
+            padding-bottom: 12px; /* Space for underline */
+            border-bottom: 2px solid var(--secondary); /* Secondary color underline */
+        }
+
 
         .form-group {
             margin-bottom: 24px;
@@ -265,10 +276,10 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--text);
-             display: flex; /* Align label text and tooltip icon */
-             align-items: center;
+            display: flex;
+            align-items: center;
         }
-         .form-label .fas { /* Style for info icon in label */
+         .form-label .fas {
              margin-left: 6px;
              font-size: 0.9em;
              color: var(--primary);
@@ -283,14 +294,14 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             transition: border 0.3s ease, box-shadow 0.3s ease;
-             background-color: var(--background-alt); /* Use alt background for inputs */
+            background-color: var(--background-alt);
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(0, 112, 209, 0.15); /* More pronounced focus */
-             background-color: var(--background); /* White background on focus */
+            box-shadow: 0 0 0 4px rgba(0, 112, 209, 0.15);
+            background-color: var(--background);
         }
 
         .form-control.invalid {
@@ -298,7 +309,6 @@
              box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.15);
         }
 
-        /* Input group styling */
         .input-group {
             display: flex;
             align-items: center;
@@ -306,11 +316,11 @@
 
         .input-group-addon {
             padding: 12px 16px;
-            background-color: var(--border); /* Use border colour for addon */
+            background-color: var(--border);
             border: 1px solid var(--border);
             border-right: none;
             border-radius: var(--radius) 0 0 var(--radius);
-            color: var(--text); /* Darker text for addon */
+            color: var(--text);
             font-weight: 500;
         }
          .input-group-addon.suffix {
@@ -322,20 +332,19 @@
         .input-group .form-control {
             border-radius: 0 var(--radius) var(--radius) 0;
         }
-         /* Adjust input padding when using suffix addon */
          .input-group .form-control[type="number"] {
-             padding-right: 12px; /* Default padding */
+             padding-right: 12px;
          }
          .input-group .form-control + .input-group-addon.suffix {
-            padding-left: 12px; /* Add padding back if suffix follows */
+            padding-left: 12px;
          }
 
         .form-message {
             display: none;
             margin-top: 6px;
-            font-size: 0.9rem; /* Slightly larger font for messages */
+            font-size: 0.9rem;
             color: var(--error);
-             font-weight: 500;
+            font-weight: 500;
         }
          .form-message.active {
              display: block;
@@ -353,127 +362,125 @@
         }
 
 
-        /* Results section - Enhanced based on sars-tax-calculator */
         .calculator-results {
             background-color: var(--background);
             border-radius: var(--radius);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Consistent shadow */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             padding: 30px;
             border: 1px solid var(--border);
             position: relative;
-            display: none; /* Hide results initially */
+            display: none;
         }
 
         .results-header {
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 2px solid var(--primary); /* Prominent border */
+            border-bottom: 2px solid var(--primary);
         }
 
         .results-title {
-            font-size: 1.6rem; /* Larger title */
-            font-weight: 700; /* Bolder */
-            color: var(--primary); /* Primary color */
-            margin-bottom: 8px; /* Adjusted margin */
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
         }
 
         .results-subtitle {
-            font-size: 1rem; /* Adjusted size */
+            font-size: 1rem;
             color: var(--text-light);
         }
 
         .results-summary {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid for summary items */
-            gap: 20px; /* Gap between summary items */
-            margin-bottom: 30px; /* Space below summary */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .result-item {
             background-color: var(--background-alt);
-            padding: 20px; /* Increased padding */
+            padding: 20px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             display: flex;
-            flex-direction: column; /* Stack label and value */
-            align-items: flex-start; /* Align text to the left */
-             transition: all 0.3s ease; /* Add transition for hover */
+            flex-direction: column;
+            align-items: flex-start;
+            transition: all 0.3s ease;
         }
-         /* Highlight key result items with colour */
          .result-item.highlight-primary {
-             background-color: var(--highlight-blue); /* Light blue background */
-             border-color: var(--primary); /* Primary border */
+             background-color: var(--highlight-blue);
+             border-color: var(--primary);
          }
           .result-item.highlight-secondary {
-             background-color: var(--highlight-green); /* Light green background */
-             border-color: var(--secondary); /* Secondary border */
+             background-color: var(--highlight-green);
+             border-color: var(--secondary);
          }
 
 
         .result-label {
-            font-size: 0.95rem; /* Slightly smaller label */
+            font-size: 0.95rem;
             font-weight: 500;
-            color: var(--text-light); /* Lighter text for label */
-            margin-bottom: 8px; /* Space between label and value */
+            color: var(--text-light);
+            margin-bottom: 8px;
         }
 
         .result-value {
-            font-size: 2rem; /* Larger value font */
-            font-weight: 700; /* Bolder value */
-            color: var(--text); /* Use text color for value initially */
-             word-break: break-word; /* Prevent overflow */
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            word-break: break-word;
         }
          .result-item.highlight-primary .result-value {
-             color: var(--primary-dark); /* Dark primary for value in blue box */
+             color: var(--primary-dark);
          }
           .result-item.highlight-secondary .result-value {
-             color: var(--secondary-dark); /* Dark secondary for value in green box */
+             color: var(--secondary-dark);
          }
 
 
         .result-note {
             font-size: 0.8rem;
             color: var(--text-light);
-            margin-top: auto; /* Push note to the bottom */
-             padding-top: 10px;
-             border-top: 1px dashed var(--border); /* Dashed line separator */
-             width: 100%; /* Ensure note takes full width */
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px dashed var(--border);
+            width: 100%;
         }
 
-        .chart-container {
+        .chart-container { /* Renamed from visualization-container to be more specific */
             position: relative;
-            margin-top: 24px; /* Adjusted margin */
-            height: 350px; /* Adjusted height for line chart */
+            margin-top: 24px;
+            height: 350px;
             width: 100%;
-             display: flex;
-             justify-content: center;
-             align-items: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-         .chart-container canvas {
+         .chart-container canvas { /* Ensure canvas itself is responsive */
              max-width: 100%;
              max-height: 100%;
          }
 
-         .chart-title {
+         .chart-title { /* General title for charts/visualizations */
             text-align: center;
             font-weight: 600;
             color: var(--text);
-            margin-bottom: 1.5rem; /* More space below title */
-            font-size: 1.3rem; /* Slightly larger title for chart */
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
         }
 
 
         /* --- FAQ Section --- */
         .faq-section {
             padding: 60px 0;
-            background-color: var(--background);
+            background-color: var(--background); /* Changed from background-alt for contrast */
         }
 
         .accordion {
             margin-top: 40px;
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            overflow: hidden;
+            overflow: hidden; /* Important for containing collapsing items */
         }
 
         .accordion-item {
@@ -485,7 +492,7 @@
         }
 
         .accordion-header {
-            background-color: var(--background);
+            background-color: var(--background); /* Lighter background for header */
             padding: 20px 24px;
             cursor: pointer;
             display: flex;
@@ -495,7 +502,7 @@
         }
 
         .accordion-header:hover {
-            background-color: var(--background-alt);
+            background-color: var(--background-alt); /* Subtle hover effect */
         }
 
         .accordion-title {
@@ -505,47 +512,52 @@
         }
 
         .accordion-icon {
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease; /* Smooth icon rotation */
         }
 
+        /* CORRECTED ACCORDION CSS */
         .accordion-content {
-            padding: 0;
+            padding: 0 24px; /* Horizontal padding is always there */
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out; /* Smooth transition */
+            /* Define all transitions here for smooth open/close */
+            transition: max-height 0.4s ease-in-out, padding-top 0.4s ease-in-out, padding-bottom 0.4s ease-in-out;
         }
-
-        .accordion-content-inner {
-            padding: 20px 24px 24px; /* Applied padding here */
-            color: var(--text-light);
-            border-top: 1px solid var(--border); /* Add border on top when open */
-        }
-         .accordion-item.active .accordion-content-inner {
-             padding-top: 20px; /* Ensure consistent padding top when active */
-         }
-
 
         .accordion-item.active .accordion-header {
-            background-color: var(--background-alt);
+            background-color: var(--background-alt); /* Indicate active state */
         }
-
+        
         .accordion-item.active .accordion-icon {
             transform: rotate(180deg);
         }
 
         .accordion-item.active .accordion-content {
-            max-height: 1000px; /* Sufficiently large value */
-             /* Padding is now handled by accordion-content-inner */
+            /* max-height will be set by JS to content.scrollHeight + "px" */
+            /* The transition for max-height from the base .accordion-content class will apply */
+            padding-top: 20px; /* Vertical padding when active */
+            padding-bottom: 24px; /* Vertical padding when active */
+        }
+        /* END CORRECTED ACCORDION CSS */
+
+        .accordion-content-inner {
+            /* This inner div is still useful if you need specific styling *inside* the padded area */
+            /* For this setup, direct children of .accordion-content will get the padding. */
+            /* If you have complex content, you might still use .accordion-content-inner */
+            /* For now, we simplify and assume direct content. */
+            color: var(--text-light);
+            border-top: 1px solid var(--border); /* Add border on top when open */
         }
 
-        /* Calculator Tips - Styled like the info-box from tax calculator */
+
+        /* Calculator Tips */
         .tip-box {
             margin-top: 30px;
             padding: 20px;
-            background-color: rgba(0, 112, 209, 0.05); /* Primary tint background */
-            border-left: 4px solid var(--primary); /* Primary border */
-            border-radius: 0 var(--radius) var(--radius) 0; /* Rounded on the right */
-             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+            background-color: rgba(0, 112, 209, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .tip-title {
@@ -553,18 +565,18 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            color: var(--primary); /* Primary color for title */
-            font-size: 1.1rem; /* Slightly larger title */
+            color: var(--primary);
+            font-size: 1.1rem;
         }
 
         .tip-title i {
             margin-right: 10px;
-             color: var(--accent); /* Use accent color for the lightbulb icon */
-             font-size: 1.2em; /* Make icon a bit larger */
+            color: var(--accent);
+            font-size: 1.2em;
         }
 
         .tip-content {
-            font-size: 0.95rem; /* Adjusted font size */
+            font-size: 0.95rem;
             color: var(--text-light);
         }
 
@@ -574,11 +586,11 @@
         }
 
         .tip-content li {
-            margin-bottom: 8px; /* More space between list items */
+            margin-bottom: 8px;
         }
 
 
-        /* --- Footer (Copied from updated index.html) --- */
+        /* --- Footer --- */
         footer {
             background-color: #1e293b;
             color: rgba(255, 255, 255, 0.8);
@@ -597,7 +609,7 @@
              color: white;
              font-size: 1.6rem;
              margin-bottom: 16px;
-             display: inline-flex; /* Align icon and text */
+             display: inline-flex;
              align-items: center;
         }
         .footer-column.about .footer-logo i {
@@ -644,7 +656,7 @@
 
         .footer-links {
             list-style: none;
-            padding: 0; /* Remove default padding */
+            padding: 0;
         }
 
         .footer-link {
@@ -656,17 +668,16 @@
             transition: all 0.3s ease;
         }
 
-        /* Modified footer link hover based on the index inspiration */
         .footer-link a:hover {
-            color: var(--secondary); /* Use secondary color for hover */
-            padding-left: 8px; /* Add subtle slide effect */
+            color: var(--secondary);
+            padding-left: 8px;
         }
 
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 32px;
-            margin-top: 16px; /* Add margin above bottom line */
+            margin-top: 16px;
             text-align: center;
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.875rem;
@@ -677,7 +688,7 @@
         @media (max-width: 992px) {
             .nav-menu {
                 position: fixed;
-                top: 73px; /* Match header height */
+                top: 73px;
                 left: -100%;
                 flex-direction: column;
                 background-color: var(--background);
@@ -685,9 +696,9 @@
                 height: calc(100vh - 73px);
                 transition: left 0.3s ease-in-out;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px 0; /* Add padding top/bottom */
+                padding: 20px 0;
                 overflow-y: auto;
-                z-index: 999; /* Ensure it's below header but above content */
+                z-index: 999;
              }
 
              .nav-menu.active {
@@ -700,18 +711,17 @@
              }
              .nav-link {
                  display: block;
-                 padding: 16px 30px; /* Increase padding */
-                 text-align: left; /* Align text left */
+                 padding: 16px 30px;
+                 text-align: left;
                  border-bottom: 1px solid var(--border);
-                 font-size: 1.1rem; /* Slightly larger font */
+                 font-size: 1.1rem;
              }
              .nav-link:hover {
                  background-color: var(--background-alt);
              }
               .nav-link::after {
-                 display: none; /* Hide underline on mobile */
+                 display: none;
              }
-             /* Style last nav item without border */
              .nav-item:last-child .nav-link {
                  border-bottom: none;
              }
@@ -721,31 +731,35 @@
              }
 
              .calculator-container {
-                grid-template-columns: 1fr; /* Stack form and results */
+                grid-template-columns: 1fr;
              }
              .calculator-results {
-                 margin-top: 30px; /* Add space when stacked */
+                 margin-top: 30px;
              }
         }
 
         @media (max-width: 768px) {
-            .section {
-                padding: 64px 0;
+            /* .section was too generic, apply padding directly or use more specific class */
+            .calculator-section, .faq-section {
+                padding: 40px 0; /* Reduced padding for smaller screens */
             }
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem; /* Adjusted title size */
             }
             .section-subtitle {
-                 font-size: 1.1rem;
+                 font-size: 1rem; /* Adjusted subtitle size */
             }
             .results-summary {
-                grid-template-columns: 1fr; /* Stack summary items */
+                grid-template-columns: 1fr;
             }
             .result-value {
-                 font-size: 1.8rem; /* Adjust size */
+                 font-size: 1.8rem;
             }
              .chart-title {
-                 font-size: 1.1rem; /* Adjust chart title size */
+                 font-size: 1.1rem;
+             }
+             .calculator-form-title {
+                font-size: 1.5rem;
              }
 
             .footer-content {
@@ -758,7 +772,7 @@
                  align-items: center;
             }
              .footer-column.about .footer-logo {
-                 justify-content: center; /* Center logo items */
+                 justify-content: center;
              }
             .footer-social {
                  justify-content: center;
@@ -770,13 +784,13 @@
 
          @media (max-width: 576px) {
              .section-title {
-                 font-size: 1.75rem;
+                 font-size: 1.6rem;
              }
              .section-subtitle {
-                 font-size: 1rem;
+                 font-size: 0.9rem;
              }
              .result-value {
-                 font-size: 1.6rem; /* Further adjust size */
+                 font-size: 1.6rem;
              }
              .header-container {
                  padding: 12px 0;
@@ -796,38 +810,43 @@
                  flex-direction: column;
                  gap: 12px;
              }
-             .btn {
-                 width: 90%; /* Make buttons wider */
-                 max-width: 320px;
-                 padding: 14px 20px; /* Adjust padding */
+             .btn { /* Make buttons take more width on small screens */
+                 width: 100%; /* Full width within their container */
+                 padding: 14px 20px;
              }
               .form-group {
-                  margin-bottom: 20px; /* Reduce spacing */
+                  margin-bottom: 20px;
               }
                .form-control {
-                   padding: 10px 14px; /* Adjust input padding */
+                   padding: 10px 14px;
                    font-size: 0.95rem;
                }
                .input-group-addon {
-                   padding: 10px 14px; /* Adjust addon padding */
+                   padding: 10px 14px;
                }
                 .accordion-header {
-                    padding: 16px 20px; /* Adjust accordion header padding */
+                    padding: 16px 20px;
                 }
                 .accordion-title {
-                    font-size: 1rem; /* Adjust accordion title size */
+                    font-size: 1rem;
                 }
-                .accordion-content-inner {
-                     padding: 16px 20px 20px; /* Adjust accordion content padding */
+                .accordion-content-inner { /* Adjust padding if still used */
+                     padding: 16px 0 20px 0;
                 }
                 .tip-box {
-                     padding: 16px; /* Adjust tip box padding */
+                     padding: 16px;
                 }
                 .tip-title {
-                     font-size: 1rem; /* Adjust tip title size */
+                     font-size: 1rem;
                 }
                 .tip-title i {
-                     font-size: 1.1em; /* Adjust tip icon size */
+                     font-size: 1.1em;
+                }
+                .calculator-form-title {
+                    font-size: 1.3rem;
+                }
+                .results-title {
+                    font-size: 1.3rem;
                 }
          }
     </style>
@@ -855,14 +874,15 @@
     <main>
         <section class="calculator-section">
             <div class="container">
-                <h1 class="section-title">Plan Your Success: Savings Goal Planner</h1>
-                <p class="section-subtitle">Chart your course to financial freedom! This tool helps you figure out how much you need to save regularly to hit your targets.</p>
+                <h1 class="section-title">Chart Your Course to Riches: Savings Goal Navigator</h1>
+                <p class="section-subtitle">Embark on your financial safari! This navigator helps you map out the contributions needed to reach your treasure chest.</p>
 
                 <div class="calculator-container">
                     <div class="calculator-form">
-                        <h2 class="results-title">Map Your Savings Journey</h2> <form id="savingsGoalForm">
+                        <h2 class="calculator-form-title">Plot Your Expedition Details</h2>
+                        <form id="savingsGoalForm">
                             <div class="form-group">
-                                <label for="goalAmount" class="form-label">Your Savings Goal Amount<i class="fas fa-info-circle"></i></label>
+                                <label for="goalAmount" class="form-label">Your Treasure Target (Goal Amount)<i class="fas fa-info-circle" title="How much treasure are you aiming to gather?"></i></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">R</span>
                                     <input type="number" id="goalAmount" class="form-control" value="100000" min="1000" step="100" required>
@@ -871,7 +891,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="currentSavings" class="form-label">Current Savings<i class="fas fa-info-circle"></i></label>
+                                <label for="currentSavings" class="form-label">Your Starting Hoard (Current Savings)<i class="fas fa-info-circle" title="How much have you already stashed away?"></i></label>
                                 <div class="input-group">
                                     <span class="input-group-addon">R</span>
                                     <input type="number" id="currentSavings" class="form-control" value="10000" min="0" step="100" required>
@@ -880,7 +900,7 @@
                             </div>
 
                              <div class="form-group">
-                                 <label for="timeframe" class="form-label">Timeframe to Reach Goal<i class="fas fa-info-circle"></i></label>
+                                 <label for="timeframe" class="form-label">Expedition Length (Timeframe)<i class="fas fa-info-circle" title="How long is your journey to the treasure?"></i></label>
                                  <div class="input-group">
                                      <input type="number" id="timeframe" class="form-control" value="5" min="1" required>
                                      <span class="input-group-addon suffix" id="timeframeUnit">Years</span>
@@ -898,74 +918,70 @@
 
 
                              <div class="form-group">
-                                 <label for="annualGrowthRate" class="form-label">Expected Annual Investment Growth<i class="fas fa-info-circle"></i></label>
+                                 <label for="annualGrowthRate" class="form-label">Jungle Growth (Expected Annual Investment Growth)<i class="fas fa-info-circle" title="How fast do you expect your savings to grow each year, like a mighty Baobab? (e.g., 6 for 6%)"></i></label>
                                   <div class="input-group">
-                                     <input type="number" id="annualGrowthRate" class="form-control" value="6" min="0" max="20" step="0.1" required>
-                                      <span class="input-group-addon suffix">% p.a.</span>
+                                     <input type="number" id="annualGrowthRate" class="form-control" value="6" min="0" max="30" step="0.1" required> <span class="input-group-addon suffix">% p.a.</span>
                                   </div>
-                                   <span class="form-message" id="annualGrowthRateError">Please enter a valid annual growth rate (e.g., 6 for 6%).</span>
+                                   <span class="form-message" id="annualGrowthRateError">Please enter a valid annual growth rate (e.g., 0-30%).</span>
                              </div>
 
 
                             <div class="action-buttons">
-                                <button type="button" id="savingsCalculateBtn" class="btn btn-primary"><i class="fas fa-chart-line"></i> Plan Savings</button>
-                                <button type="reset" id="savingsResetBtn" class="btn btn-outline"><i class="fas fa-redo"></i> Reset</button>
+                                <button type="button" id="savingsCalculateBtn" class="btn btn-primary"><i class="fas fa-map-signs"></i> Chart My Adventure!</button>
+                                <button type="reset" id="savingsResetBtn" class="btn btn-outline"><i class="fas fa-redo"></i> Reset Map</button>
                             </div>
                         </form>
                     </div>
 
                     <div class="calculator-results" id="savingsResultsSection">
                         <div class="results-header">
-                            <h3 class="results-title">Your Savings Blueprint Revealed!</h3>
-                            <p class="results-subtitle">Here’s what it takes to turn your savings goal into reality.</p>
+                            <h3 class="results-title">Your Expedition Blueprint Unveiled!</h3>
+                            <p class="results-subtitle">Here’s your map to turning that savings goal into a reality.</p>
                         </div>
 
                         <div class="results-summary">
-                            <div class="result-item highlight-primary"> <span class="result-label">Amount Needed to Save:</span>
+                            <div class="result-item highlight-primary"> <span class="result-label">Treasure Still To Find (Amount Needed):</span>
                                 <span class="result-value" id="amountToSave">R0.00</span>
-                                <div class="result-note">Excluding current savings</div>
+                                <div class="result-note">Excluding your starting hoard</div>
                             </div>
-                            <div class="result-item highlight-secondary"> <span class="result-label" id="requiredContributionLabel">Required Monthly Contribution:</span>
+                            <div class="result-item highlight-secondary"> <span class="result-label" id="requiredContributionLabel">Required Monthly Stash:</span>
                                <span class="result-value" id="requiredContribution">R0.00</span>
-                               <div class="result-note">Based on your timeframe and growth</div>
+                               <div class="result-note">Based on your expedition length & jungle growth</div>
                            </div>
                             <div class="result-item">
-                                <span class="result-label">Projected Final Savings:</span>
+                                <span class="result-label">Projected Final Treasure Chest:</span>
                                 <span class="result-value" id="projectedFinalSavings">R0.00</span>
-                                <div class="result-note">Includes your contributions + estimated growth</div>
+                                <div class="result-note">Your contributions + estimated jungle growth</div>
                             </div>
                             <div class="result-item">
-                                <span class="result-label">Total Contributed by You:</span>
+                                <span class="result-label">Total Stashed by You:</span>
                                 <span class="result-value" id="totalContributed">R0.00</span>
-                                <div class="result-note">Sum of your regular contributions + initial savings</div>
+                                <div class="result-note">Sum of your regular stashes + starting hoard</div>
                             </div>
                              <div class="result-item">
-                                <span class="result-label">Total Estimated Growth Earned:</span>
+                                <span class="result-label">Total Estimated Jungle Growth:</span>
                                 <span class="result-value" id="totalGrowthEarned">R0.00</span>
-                                <div class="result-note">The power of compounding in action!</div>
+                                <div class="result-note">The magic of compounding in the financial jungle!</div>
                             </div>
                         </div>
 
-                        <div class="visualization-container">
-                             <h4 class="chart-title">How Your Savings Could Grow Over Time</h4>
-                            <div class="chart-container">
-                                <canvas id="savingsGrowthChart"></canvas>
-                            </div>
+                        <div class="chart-container"> <h4 class="chart-title">Your Savings Safari Over Time</h4>
+                            <canvas id="savingsGrowthChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                  <div class="tip-box">
-                        <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Smart Savings Tips in SA</h4>
+                        <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Mzansi Smart Savings Secrets</h4>
                         <div class="tip-content">
-                            <p>Use these strategies to make reaching your goal easier:</p>
+                            <p>Use these local strategies to make your treasure hunt easier:</p>
                             <ul>
-                                <li><strong>Set SMART Goals:</strong> Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound.</li>
-                                <li><strong>Automate Savings:</strong> Set up automatic transfers from your current account to your savings account each payday – "out of sight, out of mind" for easier saving!</li>
-                                <li><strong>Reduce Expenses:</strong> Find areas in your budget to cut back. Even small savings add up significantly over time.</li>
-                                <li><strong>Increase Income:</strong> Explore ways to earn extra income, like a side hustle or selling unused items.</li>
-                                 <li><strong>Track & Adjust:</strong> Regularly check your progress. If you're ahead of schedule, fantastic! If you're behind, adjust your contributions or timeframe.</li>
-                                  <li><strong>Choose Wisely:</strong> Research savings accounts or investments (like Tax-Free Savings Accounts) that offer the best returns for your timeframe and comfort level with risk.</li>
+                                <li><strong>Set SMART Goals:</strong> Make your goals Specific, Measurable, Achievable, Relevant, and Time-bound. A clear map leads to treasure!</li>
+                                <li><strong>Automate Your Stash:</strong> Set up automatic transfers to your savings "cave" each payday. What you don't see, you won't miss!</li>
+                                <li><strong>Trim the Wild Growth (Expenses):</strong> Find areas in your budget to cut back. Even small savings are like finding extra berries on the trail – they add up!</li>
+                                <li><strong>Boost Your Foraging (Income):</strong> Explore ways to earn extra, like a side hustle (a "weekend gig") or selling unused items.</li>
+                                <li><strong>Check Your Compass Regularly:</strong> Track your progress. If you're ahead, awesome! If behind, adjust your path or how much you stash.</li>
+                                <li><strong>Choose Your Watering Hole Wisely:</strong> Research savings accounts or investments (like Tax-Free Savings Accounts in SA) that offer the best growth for your journey and comfort with risk.</li>
                             </ul>
                         </div>
                     </div>
@@ -975,50 +991,51 @@
 
          <section class="faq-section">
             <div class="container">
-                <h2 class="section-title">Savings FAQs</h2> <p class="section-subtitle">Get answers to common questions about planning and achieving your savings goals.</p>
+                <h2 class="section-title">Savings Safari FAQs</h2>
+                <p class="section-subtitle">Your guide to common questions on the trail to your savings treasure.</p>
 
                 <div class="accordion" id="savingsFAQ">
                     <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">How much should I aim to save each month?</h3>
+                            <h3 class="accordion-title">How much treasure should I bury (save) each month?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>There's no one-size-fits-all answer. It depends on your income, current expenses, debts, and the size and urgency of your savings goal. A common guideline is the 50/30/20 rule (50% needs, 30% wants, 20% savings/debt repayment), but this calculator gives you a concrete monthly target for your specific goal.</p>
+                                <p>There's no single map for everyone! It depends on your income, expenses, debts, and how big & urgent your treasure hunt is. The 50/30/20 rule (50% needs, 30% wants, 20% savings/debt) is a general guide, but this navigator gives you a specific monthly target for *your* treasure.</p>
                             </div>
                         </div>
                     </div>
                     <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">Where is the best place to keep my savings in South Africa?</h3>
+                            <h3 class="accordion-title">Where's the safest cave for my savings in South Africa?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>For short-term goals (money you might need in less than 1-3 years), consider high-yield savings accounts or money market accounts offered by banks. They offer easy access and low risk. For longer-term goals, explore Tax-Free Savings Accounts (TFSAs) or investments like unit trusts, which can offer higher growth potential over time (though they carry more risk).</p>
+                                <p>For short-term hunts (treasure you need in <1-3 years), look at high-yield savings or money market accounts from local banks – easy access, low risk. For longer expeditions, explore Tax-Free Savings Accounts (TFSAs) or investments like unit trusts. They can offer more "jungle growth" but might have more twists and turns (risk).</p>
                             </div>
                         </div>
                     </div>
                      <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">How does the 'growth rate' affect my savings plan?</h3>
+                            <h3 class="accordion-title">How does 'jungle growth' (growth rate) affect my hunt?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>The annual growth rate (your expected return on savings/investments) is crucial due to compounding. The higher the growth rate, the less you might need to contribute yourself to reach your goal, as your existing savings and earned growth will also be earning returns. Be realistic with your growth rate – higher potential returns often come with higher risk.</p>
+                                <p>Annual growth rate is like magic fertilizer for your savings due to compounding! Higher growth means you might need to stash less yourself, as your existing treasure and its growth also start earning. Be realistic – faster growth often means a bumpier trail (higher risk).</p>
                             </div>
                         </div>
                     </div>
                      <div class="accordion-item">
                         <div class="accordion-header">
-                            <h3 class="accordion-title">What if I can't meet the required monthly contribution?</h3>
+                            <h3 class="accordion-title">What if I can't stash the required monthly amount?</h3>
                             <i class="accordion-icon fas fa-chevron-down"></i>
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-content-inner">
-                                <p>Don't be discouraged! If the calculated contribution is too high, you have a few options: aim for a smaller savings goal, extend your timeframe, or explore ways to increase your income or decrease your expenses to free up more cash for saving. Consistency is key, even if the amount is smaller than initially planned.</p>
+                                <p>Don't get lost in the bush! If the calculated stash is too high: aim for a smaller treasure chest, extend your expedition, or find ways to boost your foraging (income) or trim wild growth (expenses). Consistency is key, even if the stash is smaller than first mapped out.</p>
                             </div>
                         </div>
                     </div>
@@ -1098,8 +1115,10 @@
                 body.classList.toggle('no-scroll', isExpanded);
             });
 
-            navMenu.querySelectorAll('a[href^="#"]').forEach(link => {
+            // Close menu when a link within the menu is clicked (for SPA-like behavior or anchor links)
+            navMenu.querySelectorAll('a').forEach(link => { // Changed to all 'a' tags
                 link.addEventListener('click', (e) => {
+                    // Only close if it's a link that navigates away or to an anchor on the same page
                     if (navMenu.classList.contains('active')) {
                         navMenu.classList.remove('active');
                         mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -1111,9 +1130,9 @@
                     }
                 });
             });
-             // Close menu when clicking outside (basic implementation)
+
+             // Close menu when clicking outside
              document.addEventListener('click', (e) => {
-                 // Check if the menu is active and the click is outside the menu and the button
                  if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                      navMenu.classList.remove('active');
                      mobileMenuBtn.setAttribute('aria-expanded', 'false');
@@ -1124,20 +1143,6 @@
                      body.classList.remove('no-scroll');
                  }
              });
-             // Close menu if a link to a different page is clicked
-             navMenu.querySelectorAll('a:not([href^="#"])').forEach(link => {
-                link.addEventListener('click', () => {
-                     if (navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        const icon = mobileMenuBtn.querySelector('i');
-                        if (icon) {
-                             icon.className = 'fas fa-bars';
-                        }
-                         body.classList.remove('no-scroll');
-                     }
-                });
-            });
         }
 
         // --- Footer Year ---
@@ -1146,29 +1151,49 @@
             currentYearSpan.textContent = new Date().getFullYear();
         }
 
-        // --- Accordion Functionality ---
+        // --- Accordion Functionality (Corrected & Refined) ---
         const accordionItems = document.querySelectorAll('.accordion-item');
         accordionItems.forEach(item => {
             const header = item.querySelector('.accordion-header');
-            header.addEventListener('click', () => {
-                // Close all other items
-                accordionItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                         const otherContent = otherItem.querySelector('.accordion-content');
-                         if(otherContent) otherContent.style.maxHeight = null; // Reset max-height
+            const content = item.querySelector('.accordion-content');
+
+            if (header && content) { // Ensure elements exist
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+
+                    // Close all other accordion items before opening/closing the current one
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item) { // Don't close the item we are about to toggle
+                            otherItem.classList.remove('active');
+                            const otherContent = otherItem.querySelector('.accordion-content');
+                            if (otherContent) {
+                                otherContent.style.maxHeight = null; // Collapse by resetting maxHeight
+                            }
+                        }
+                    });
+
+                    // Toggle the clicked item
+                    if (!isActive) {
+                        item.classList.add('active');
+                        // Set max-height after a short delay.
+                        // This allows CSS to apply 'active' class styles that might affect scrollHeight (like padding).
+                        // The scrollHeight will then be the correct height of the content including its padding.
+                        setTimeout(() => {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }, 10); // A small delay like 10ms is usually enough.
+                    } else {
+                        // If already active, just remove the class and reset maxHeight to collapse it.
+                        // The CSS transition on .accordion-content will handle the smooth collapse.
+                        content.style.maxHeight = content.scrollHeight + "px"; // Set to current height before collapsing
+                        requestAnimationFrame(() => { // Ensure the above is processed
+                            item.classList.remove('active');
+                            content.style.maxHeight = null; 
+                        });
                     }
                 });
-
-                // Toggle the clicked item
-                item.classList.toggle('active');
-                const content = item.querySelector('.accordion-content');
-                 if (item.classList.contains('active')) {
-                     content.style.maxHeight = content.scrollHeight + "px"; // Set max-height to content height
-                 } else {
-                     content.style.maxHeight = null; // Reset max-height
-                 }
-            });
+            } else {
+                console.warn('Accordion item missing header or content:', item);
+            }
         });
 
 
@@ -1176,20 +1201,18 @@
         function formatCurrency(amount) {
             const numericAmount = parseFloat(amount);
             if (isNaN(numericAmount)) {
-                return 'R0.00';
+                return 'R0.00'; // Default for invalid numbers
             }
-             // Use toLocaleString with minimum and maximum fraction digits for consistency
             return 'R' + numericAmount.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
 
         // --- Get CSS Chart Colors ---
-        // Fetch the computed styles from the root element once
-        const style = getComputedStyle(document.documentElement);
-        const chartBalanceColor = style.getPropertyValue('--chart-balance').trim();
-        const chartContributionsColor = style.getPropertyValue('--chart-contributions').trim();
-        const chartGrowthColor = style.getPropertyValue('--chart-growth').trim();
-        const chartBalanceFillColor = style.getPropertyValue('--chart-balance-fill').trim();
+        const rootStyles = getComputedStyle(document.documentElement);
+        const chartBalanceColor = rootStyles.getPropertyValue('--chart-balance').trim() || '#0070D1';
+        const chartContributionsColor = rootStyles.getPropertyValue('--chart-contributions').trim() || '#00BC8C';
+        // const chartGrowthColor = rootStyles.getPropertyValue('--chart-growth').trim() || '#FFC107'; // Not directly used in current chart datasets
+        const chartBalanceFillColor = rootStyles.getPropertyValue('--chart-balance-fill').trim() || 'rgba(0, 112, 209, 0.1)';
 
 
         // --- Savings Goal Planner Logic ---
@@ -1212,49 +1235,52 @@
         const totalGrowthEarnedEl = document.getElementById('totalGrowthEarned');
         const savingsGrowthCanvas = document.getElementById('savingsGrowthChart');
 
-        // Error message elements
         const goalAmountError = document.getElementById('goalAmountError');
         const currentSavingsError = document.getElementById('currentSavingsError');
         const timeframeError = document.getElementById('timeframeError');
         const annualGrowthRateError = document.getElementById('annualGrowthRateError');
 
-        let savingsGrowthChart = null; // To hold the chart instance
+        let savingsGrowthChart = null;
 
 
-        // Update the timeframe unit text and label based on the select value
-        if (timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
+        if (timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl && timeframeInput) {
             timeframeTypeSelect.addEventListener('change', function() {
                 const selectedValue = timeframeTypeSelect.value;
                 timeframeUnitSpan.textContent = selectedValue === 'years' ? 'Years' : 'Months';
-                requiredContributionLabelEl.textContent = selectedValue === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
+                requiredContributionLabelEl.textContent = selectedValue === 'years' ? 'Required Annual Stash:' : 'Required Monthly Stash:';
 
-                 // Adjust min/max for timeframe input based on type (optional but good practice)
-                 if (timeframeInput) {
-                     if (selectedValue === 'years') {
-                         timeframeInput.min = 1;
-                         timeframeInput.max = 60; // Example max years (60 years)
-                         if (parseInt(timeframeInput.value) > 60) timeframeInput.value = 60;
-                         if (parseInt(timeframeInput.value) < 1) timeframeInput.value = 1;
-                         timeframeInput.step = 1;
-                     } else { // months
-                         timeframeInput.min = 1;
-                         timeframeInput.max = 720; // Example max months (60 years * 12)
-                          if (parseInt(timeframeInput.value) > 720) timeframeInput.value = 720;
-                          if (parseInt(timeframeInput.value) < 1) timeframeInput.value = 1;
-                          timeframeInput.step = 1;
-                     }
+                 if (selectedValue === 'years') {
+                     timeframeInput.min = 1;
+                     timeframeInput.max = 70; // Max years
+                     if (parseInt(timeframeInput.value) > 70) timeframeInput.value = 70;
+                     if (parseInt(timeframeInput.value) < 1 && timeframeInput.value !== "") timeframeInput.value = 1;
+                     timeframeInput.step = 1;
+                 } else {
+                     timeframeInput.min = 1;
+                     timeframeInput.max = 840; // Max months (70 years * 12)
+                      if (parseInt(timeframeInput.value) > 840) timeframeInput.value = 840;
+                      if (parseInt(timeframeInput.value) < 1 && timeframeInput.value !== "") timeframeInput.value = 1;
+                      timeframeInput.step = 1;
                  }
             });
         }
 
 
         function calculateSavingsGoal() {
-             // Use a timeout to allow the button click animation to start
-             setTimeout(async () => {
-                savingsCalculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Planning...';
+             // Use a timeout to allow the button click animation to start and UI to update
+             setTimeout(() => {
+                if (!savingsCalculateBtn || !goalAmountInput || !currentSavingsInput || !timeframeInput || !timeframeTypeSelect || !annualGrowthRateInput || !savingsResultsSection) {
+                     console.error("One or more required calculator elements not found.");
+                     if(savingsCalculateBtn) {
+                        savingsCalculateBtn.innerHTML = '<i class="fas fa-map-signs"></i> Chart My Adventure!';
+                        savingsCalculateBtn.disabled = false;
+                     }
+                     return;
+                }
+
+                savingsCalculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Charting...';
                 savingsCalculateBtn.disabled = true;
 
-                // Clear previous errors
                 document.querySelectorAll('.form-message').forEach(msg => {
                     msg.textContent = '';
                     msg.classList.remove('active');
@@ -1263,15 +1289,12 @@
                      input.classList.remove('invalid');
                  });
 
+                const goalAmount = parseFloat(goalAmountInput.value);
+                let currentSavings = parseFloat(currentSavingsInput.value) || 0;
+                const timeframe = parseInt(timeframeInput.value);
+                const timeframeType = timeframeTypeSelect.value;
+                const annualGrowthRate = parseFloat(annualGrowthRateInput.value) / 100;
 
-                // Get input values
-                const goalAmount = goalAmountInput ? parseFloat(goalAmountInput.value) : NaN;
-                let currentSavings = currentSavingsInput ? parseFloat(currentSavingsInput.value) || 0 : NaN;
-                const timeframe = timeframeInput ? parseInt(timeframeInput.value) : NaN;
-                const timeframeType = timeframeTypeSelect ? timeframeTypeSelect.value : 'years';
-                const annualGrowthRate = annualGrowthRateInput ? parseFloat(annualGrowthRateInput.value) / 100 : NaN;
-
-                // Input Validation
                 let isValid = true;
                 if (isNaN(goalAmount) || goalAmount <= 0) {
                     if(goalAmountError) {
@@ -1297,9 +1320,9 @@
                      if(timeframeInput) timeframeInput.classList.add('invalid');
                      isValid = false;
                  }
-                 if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 1) { // Rates as decimals
+                 if (isNaN(annualGrowthRate) || annualGrowthRate < 0 || annualGrowthRate > 0.30) { // Max 30%
                       if(annualGrowthRateError) {
-                          annualGrowthRateError.textContent = 'Please enter a valid annual growth rate (0-100%).';
+                          annualGrowthRateError.textContent = 'Please enter a valid annual growth rate (0-30%).';
                           annualGrowthRateError.classList.add('active');
                       }
                       if(annualGrowthRateInput) annualGrowthRateInput.classList.add('invalid');
@@ -1308,314 +1331,338 @@
 
                  if (isValid && currentSavings >= goalAmount) {
                       if(currentSavingsError) {
-                          currentSavingsError.textContent = 'Your current savings already meet or exceed your goal! No further contributions needed.';
+                          currentSavingsError.textContent = 'Your current hoard already meets or exceeds your treasure target!';
                           currentSavingsError.classList.add('active');
                       }
                        if(currentSavingsInput) currentSavingsInput.classList.add('invalid');
-                       isValid = false;
+                       // isValid = false; // Allow calculation to show 0 contribution
                  }
 
 
                 if (!isValid) {
-                    clearSavingsGoalResults(); // Clear results and hide section on error
-                     savingsCalculateBtn.innerHTML = '<i class="fas fa-chart-line"></i> Plan Savings';
+                    clearSavingsGoalResults();
+                     savingsCalculateBtn.innerHTML = '<i class="fas fa-map-signs"></i> Chart My Adventure!';
                      savingsCalculateBtn.disabled = false;
                     return;
                 }
 
-                const numberOfMonths = timeframeType === 'years' ? timeframe * 12 : timeframe; // Total months for calculation
+                const numberOfMonths = timeframeType === 'years' ? timeframe * 12 : timeframe;
                 const monthlyGrowthRate = annualGrowthRate / 12;
+                const amountNeededFromNow = Math.max(0, goalAmount - currentSavings); // Cannot be negative
 
-                const amountNeededFromNow = goalAmount - currentSavings;
-
-
-                // --- Calculate Required Contribution ---
                 let requiredMonthlyContribution = 0;
 
-                 // Handle case where no growth rate is expected
-                 if (monthlyGrowthRate <= 0) {
-                     requiredMonthlyContribution = amountNeededFromNow / numberOfMonths;
+                 if (amountNeededFromNow <= 0) { // Already reached goal
+                     requiredMonthlyContribution = 0;
+                 } else if (monthlyGrowthRate <= 0 || numberOfMonths <= 0) {
+                     requiredMonthlyContribution = numberOfMonths > 0 ? amountNeededFromNow / numberOfMonths : amountNeededFromNow;
                  } else {
-                      // Using Future Value of an Ordinary Annuity formula, rearranged to solve for Payment (PMT)
-                      // FV = PV * (1 + r)^n + PMT * [((1 + r)^n - 1) / r]
-                      // PMT = [FV - PV * (1 + r)^n] / [((1 + r)^n - 1) / r]
                       const fvOfCurrentSavings = currentSavings * Math.pow(1 + monthlyGrowthRate, numberOfMonths);
                       const futureValueFactor = (Math.pow(1 + monthlyGrowthRate, numberOfMonths) - 1) / monthlyGrowthRate;
 
-                      if (futureValueFactor > 0) { // Avoid division by zero if numberOfMonths is 0 (though validation should prevent)
+                      if (futureValueFactor > 0) {
                           requiredMonthlyContribution = (goalAmount - fvOfCurrentSavings) / futureValueFactor;
                       } else {
-                          // Should only happen if numberOfMonths is 0, handled by validation
-                           requiredMonthlyContribution = amountNeededFromNow; // Requires saving full amount immediately
+                           requiredMonthlyContribution = Math.max(0, (goalAmount - fvOfCurrentSavings) / (numberOfMonths || 1) ); // Fallback
                       }
                  }
 
-                // Ensure contribution is not negative if calculations result in a slight negative due to float precision near goal
                 requiredMonthlyContribution = Math.max(0, requiredMonthlyContribution);
 
 
-                // --- Simulate Growth for Chart Data ---
                 let simulatedBalance = currentSavings;
-                let simulatedTotalContributed = 0;
+                let simulatedTotalContributedByAdding = 0; // Only new contributions
 
-                 const periodLabels = ['Start']; // Start at period 0 (initial savings)
-                 const balanceData = [currentSavings]; // Initial balance
-                 const contributionsData = [currentSavings]; // Initial contributions (starting point for cumulative)
-                 const growthData = [0]; // Initial growth is 0
+                 const periodLabels = ['Start'];
+                 const balanceData = [currentSavings];
+                 const contributionsData = [currentSavings]; // Cumulative: initial + added
 
+                 const simulationStep = numberOfMonths <= 36 ? 1 : (numberOfMonths <= 120 ? 6 : 12) ; // Monthly up to 3 yrs, 6-monthly up to 10 yrs, then yearly
 
                 for (let month = 1; month <= numberOfMonths; month++) {
                      simulatedBalance += requiredMonthlyContribution;
-                     simulatedTotalContributed += requiredMonthlyContribution;
+                     simulatedTotalContributedByAdding += requiredMonthlyContribution;
                      simulatedBalance *= (1 + monthlyGrowthRate);
 
-                     // Store data points - adjust frequency for performance on long timeframes
-                     const periodInterval = timeframeType === 'years' ? 12 : 1; // Chart every year or every month
-                     if (month % periodInterval === 0 || month === numberOfMonths) { // Always include the final month
-                          const label = timeframeType === 'years' ? `Year ${month / 12}` : `Month ${month}`;
+                     if (month % simulationStep === 0 || month === numberOfMonths) {
+                          let label;
+                          if (simulationStep === 1) {
+                               label = `Month ${month}`;
+                          } else if (simulationStep === 6 && month % 6 === 0) {
+                               label = `Mth ${month}`; // Shorter for more points
+                          } else if (simulationStep === 12 && month % 12 === 0) {
+                               label = `Year ${month / 12}`;
+                          } else if (month === numberOfMonths) { // Ensure final point is labeled correctly
+                               label = timeframeType === 'years' ? `Year ${timeframe}` : `Month ${timeframe}`;
+                          } else {
+                               continue; // Skip if not a designated step, unless it's the final month
+                          }
                           periodLabels.push(label);
-                          balanceData.push(simulatedBalance);
-                          contributionsData.push(simulatedTotalContributed + currentSavings); // Cumulative Contributions + Initial
-                          growthData.push(simulatedBalance - (simulatedTotalContributed + currentSavings));
+                          balanceData.push(Math.min(simulatedBalance, goalAmount * 1.05)); // Cap chart slightly above goal
+                          contributionsData.push(currentSavings + simulatedTotalContributedByAdding);
                      }
                 }
-
-                const projectedFinalSavings = simulatedBalance;
-                const totalContributedWithInitial = simulatedTotalContributed + currentSavings;
-                const totalGrowthEarned = projectedFinalSavings - totalContributedWithInitial;
-                const finalTotalGrowthEarned = Math.max(0, totalGrowthEarned); // Ensure growth isn't negative
-
-
-                // Update result elements
-                if(amountToSaveEl) amountToSaveEl.textContent = formatCurrency(amountNeededFromNow);
-                if(requiredContributionEl) {
-                     if (timeframeType === 'years') {
-                         requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution * 12); // Show annual contribution
-                     } else {
-                         requiredContributionEl.textContent = formatCurrency(requiredMonthlyContribution); // Show monthly contribution
-                     }
+                // Ensure the final balance point in the chart data is the goal amount for visual consistency
+                if (balanceData.length > 1) {
+                    balanceData[balanceData.length - 1] = goalAmount;
                 }
-                if(projectedFinalSavingsEl) projectedFinalSavingsEl.textContent = formatCurrency(projectedFinalSavings);
-                if(totalContributedEl) totalContributedEl.textContent = formatCurrency(totalContributedWithInitial); // Include initial savings in total contributed shown
-                if(totalGrowthEarnedEl) totalGrowthEarnedEl.textContent = formatCurrency(finalTotalGrowthEarned);
 
 
-                // Show results section
+                const amountNeededFromNowFormatted = formatCurrency(amountNeededFromNow);
+                let requiredContributionFormatted;
+                if (timeframeType === 'years') {
+                    requiredContributionFormatted = formatCurrency(requiredMonthlyContribution * 12);
+                } else {
+                    requiredContributionFormatted = formatCurrency(requiredMonthlyContribution);
+                }
+
+                const totalContributedAtEnd = currentSavings + (requiredMonthlyContribution * numberOfMonths);
+                const totalContributedFormatted = formatCurrency(totalContributedAtEnd);
+                const totalGrowthEarnedAtEnd = Math.max(0, goalAmount - totalContributedAtEnd);
+                const totalGrowthEarnedFormatted = formatCurrency(totalGrowthEarnedAtEnd);
+
+
+                if(amountToSaveEl) amountToSaveEl.textContent = amountNeededFromNowFormatted;
+                if(requiredContributionEl) requiredContributionEl.textContent = requiredContributionFormatted;
+                if(projectedFinalSavingsEl) projectedFinalSavingsEl.textContent = formatCurrency(goalAmount);
+                if(totalContributedEl) totalContributedEl.textContent = totalContributedFormatted;
+                if(totalGrowthEarnedEl) totalGrowthEarnedEl.textContent = totalGrowthEarnedFormatted;
+
+
                 if(savingsResultsSection) savingsResultsSection.style.display = 'block';
+                updateSavingsGoalChart(periodLabels, balanceData, contributionsData);
 
-                // Update chart - Pass all necessary data including growth
-                updateSavingsGoalChart(periodLabels, balanceData, contributionsData, growthData);
-
-                 // Optional: Scroll to results
                  if(savingsResultsSection) {
-                     savingsResultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     savingsResultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                  }
 
-                 savingsCalculateBtn.innerHTML = '<i class="fas fa-chart-line"></i> Plan Savings';
+                 savingsCalculateBtn.innerHTML = '<i class="fas fa-map-signs"></i> Chart My Adventure!';
                  savingsCalculateBtn.disabled = false;
 
-             }, 50); // Short delay for button animation
+             }, 100); // Increased delay slightly for smoother UI update
 
         }
 
         function clearSavingsGoalResults() {
-            // Clear result elements
             if(amountToSaveEl) amountToSaveEl.textContent = 'R0.00';
             if(requiredContributionEl) requiredContributionEl.textContent = 'R0.00';
             if(projectedFinalSavingsEl) projectedFinalSavingsEl.textContent = 'R0.00';
             if(totalContributedEl) totalContributedEl.textContent = 'R0.00';
             if(totalGrowthEarnedEl) totalGrowthEarnedEl.textContent = 'R0.00';
 
-            // Hide results section
             if(savingsResultsSection) savingsResultsSection.style.display = 'none';
 
-            // Destroy chart
             if (savingsGrowthChart) {
                savingsGrowthChart.destroy();
-               savingsGrowthChart = null; // Clear the reference
+               savingsGrowthChart = null;
             }
-             // Clear canvas explicitly if chart was destroyed
             if (savingsGrowthCanvas) {
                  const ctx = savingsGrowthCanvas.getContext('2d');
-                 ctx.clearRect(0, 0, savingsGrowthCanvas.width, savingsGrowthCanvas.height);
-                 // Optional: Draw placeholder text if needed
-                 // ctx.fillStyle = var(--text-light);
-                 // ctx.textAlign = 'center';
-                 // ctx.fillText("Enter details to see your savings growth chart", savingsGrowthCanvas.width / 2, savingsGrowthCanvas.height / 2);
-             }
+                 if (ctx) {
+                    ctx.clearRect(0, 0, savingsGrowthCanvas.width, savingsGrowthCanvas.height);
+                 }
+            }
         }
 
 
-         // Function to update the Savings Growth Line Chart (Enhanced)
-         function updateSavingsGoalChart(periods, balances, cumulativeContributions, growthData) {
-             if (!savingsGrowthCanvas) return;
+         function updateSavingsGoalChart(periods, balances, cumulativeContributions) {
+             if (!savingsGrowthCanvas) {
+                 console.error("Chart canvas element (#savingsGrowthChart) not found.");
+                 return;
+             }
             const ctx = savingsGrowthCanvas.getContext('2d');
+             if (!ctx) {
+                 console.error("Chart canvas context not found for #savingsGrowthChart.");
+                 return;
+             }
 
-            // Destroy the previous chart instance if it exists
             if (savingsGrowthChart) {
                 savingsGrowthChart.destroy();
             }
 
-             // Determine the label for the X-axis
-             const timeframeType = timeframeTypeSelect ? timeframeTypeSelect.value : 'years';
-             const xAxisLabel = timeframeType === 'years' ? 'Years' : 'Months';
+             let xAxisLabel = 'Period';
+             if (periods && periods.length > 1 && typeof periods[1] === 'string') {
+                 if (periods[1].toLowerCase().includes('month') || periods[1].toLowerCase().includes('mth')) {
+                     xAxisLabel = 'Months';
+                 } else if (periods[1].toLowerCase().includes('year')) {
+                     xAxisLabel = 'Years';
+                 }
+             }
 
-            // Create the new Chart.js instance
+
              savingsGrowthChart = new Chart(ctx, {
-                 type: 'line', // Use 'line' for the chart type
+                 type: 'line',
                  data: {
-                     labels: periods, // Periods on the X-axis
+                     labels: periods,
                      datasets: [
                          {
                             label: 'Projected Savings Balance',
-                            data: balances, // Balance over time
-                            borderColor: chartBalanceColor, // Blue line
-                            backgroundColor: chartBalanceFillColor, // Light blue fill below the line
-                            fill: 'origin', // Fill area below the line starting from the X-axis
-                            tension: 0.2, // Smooth the line slightly more
-                            pointRadius: 3, // Reduce point size
-                            pointHoverRadius: 5,
-                            pointBackgroundColor: chartBalanceColor // Make points match line color
+                            data: balances,
+                            borderColor: chartBalanceColor,
+                            backgroundColor: chartBalanceFillColor,
+                            fill: 'origin',
+                            tension: 0.25, // Slightly more smoothing
+                            pointRadius: 3,
+                            pointHoverRadius: 6, // Larger hover radius
+                            pointBackgroundColor: chartBalanceColor,
+                            pointBorderColor: '#fff',
+                            pointHoverBorderColor: chartBalanceColor,
+                            pointHoverBorderWidth: 2,
+                            cubicInterpolationMode: 'monotone'
                           },
                          {
                              label: 'Cumulative Contributions',
-                             data: cumulativeContributions, // Contributions over time
-                             borderColor: chartContributionsColor, // Teal/Green line
-                             backgroundColor: 'transparent', // No fill below this line
+                             data: cumulativeContributions,
+                             borderColor: chartContributionsColor,
+                             backgroundColor: 'transparent',
                              fill: false,
-                             tension: 0.2,
+                             tension: 0.25,
                              pointRadius: 3,
-                             pointHoverRadius: 5,
-                              pointBackgroundColor: chartContributionsColor // Make points match line color
+                             pointHoverRadius: 6,
+                             pointBackgroundColor: chartContributionsColor,
+                             pointBorderColor: '#fff',
+                             pointHoverBorderColor: chartContributionsColor,
+                             pointHoverBorderWidth: 2,
+                             borderDash: [5, 5],
+                             cubicInterpolationMode: 'monotone'
                          }
-                         // Optionally add a dataset for just the growth amount if desired
-                         /*
-                         {
-                             label: 'Estimated Growth Earned',
-                             data: growthData, // Growth earned over time
-                             borderColor: chartGrowthColor, // Yellow line
-                             backgroundColor: 'transparent', // No fill
-                             fill: false,
-                             tension: 0.2,
-                             pointRadius: 3,
-                             pointHoverRadius: 5,
-                             pointBackgroundColor: chartGrowthColor
-                         }
-                         */
                      ]
                  },
                  options: {
                      responsive: true,
-                     maintainAspectRatio: false, // Allow chart to fit container size
+                     maintainAspectRatio: false,
                      plugins: {
                           legend: {
-                              position: 'bottom', // Position legend below the chart
+                              position: 'bottom',
                               labels: {
-                                  boxWidth: 16, // Slightly larger legend color box
-                                  padding: 20, // More space between legend items
-                                   font: { size: 12 } // Slightly larger font
+                                  boxWidth: 18, // Slightly larger
+                                  padding: 20,
+                                  font: { size: 13 } // Slightly larger
                               }
                           },
                           tooltip: {
                               callbacks: {
-                                  // Custom tooltip to show currency and period
                                   label: function(context) {
                                       const label = context.dataset.label || '';
-                                      const value = context.raw; // The data point value
-                                      const period = context.label; // The X-axis label (Period)
-                                      return `${label}: ${formatCurrency(value)} (${period})`; // Format: Label: RValue (Period)
-                                  }
-                                  /* // Optional: Add a title to the tooltip showing the period
+                                      const value = context.raw;
+                                      return `${label}: ${formatCurrency(value)}`;
+                                  },
                                   title: function(context) {
-                                      return context[0].label; // The period
+                                       return context[0].label;
                                   }
-                                  */
                               },
-                              backgroundColor: 'rgba(0, 0, 0, 0.8)', // Darker tooltip background
+                              backgroundColor: 'rgba(0, 0, 0, 0.85)', // Darker
                               titleColor: '#fff',
                               bodyColor: '#fff',
                               borderColor: 'var(--primary)',
                               borderWidth: 1,
-                              cornerRadius: 4,
-                              padding: 10
+                              cornerRadius: 5, // More rounded
+                              padding: 12 // More padding
                           }
                      },
                      scales: {
                          x: {
                              title: {
                                  display: true,
-                                 text: xAxisLabel, // Use dynamic label
-                                 font: { size: 14, weight: 'bold' },
-                                 color: var(--text-light)
+                                 text: xAxisLabel,
+                                 font: { size: 14, weight: '600' }, // Bolder
+                                 color: 'var(--text-light)'
                              },
                              grid: {
-                                 display: false // Hide x-axis grid lines
-                             }
+                                 display: false
+                             },
+                              ticks: {
+                                  maxRotation: 45,
+                                  minRotation: 0,
+                                  font: { size: 11 } // Smaller ticks if many
+                              }
                          },
                          y: {
                              title: {
                                  display: true,
                                  text: 'Amount (R)',
-                                 font: { size: 14, weight: 'bold' },
-                                  color: var(--text-light)
+                                 font: { size: 14, weight: '600' },
+                                 color: 'var(--text-light)'
                              },
                               ticks: {
-                                   callback: function(value, index, values) {
-                                       // Format Y-axis labels as currency (e.g., R100K, R50K, R1M)
+                                   callback: function(value) {
                                        if (value >= 1000000) {
-                                           return 'R' + (value / 1000000).toFixed(value % 1000000 !== 0 ? 1 : 0) + 'M'; // Show 1 decimal if not whole million
+                                           return 'R' + (value / 1000000).toFixed(value % 1000000 !== 0 ? 1 : 0) + 'M';
                                        } else if (value >= 1000) {
-                                           return 'R' + (value / 1000).toFixed(0) + 'K';
+                                           return 'R' + (value / 1000).toFixed(value % 1000 !== 0 ? 1 : 0) + 'K';
                                        }
-                                       return formatCurrency(value); // Fallback for smaller values
-                                   }
+                                       return formatCurrency(value);
+                                   },
+                                   font: { size: 11 }
                               },
                               grid: {
-                                   color: var(--border) // Use border color for y-axis grid lines
-                              }
+                                   color: 'var(--border)'
+                              },
+                              beginAtZero: true // Always start Y axis at zero
                          }
                      },
                      layout: {
-                         padding: 10 // Add some padding around the chart
-                     }
+                         padding: { top: 5, right: 10, bottom: 5, left: 5 } // Adjusted padding
+                     },
+                     interaction: { // Enhanced interaction
+                         mode: 'index',
+                         intersect: false,
+                     },
                  }
              });
-              savingsGrowthCanvas.chart = savingsGrowthChart; // Store chart instance
          }
 
 
         // Event Listeners
-        if (savingsCalculateBtn) savingsCalculateBtn.addEventListener('click', calculateSavingsGoal);
+        if (savingsCalculateBtn) {
+             savingsCalculateBtn.addEventListener('click', calculateSavingsGoal);
+        } else {
+             console.error("Critical: Savings Calculate Button (#savingsCalculateBtn) not found!");
+        }
+
         if (savingsResetBtn) {
             savingsResetBtn.addEventListener('click', function() {
-                // Use a timeout to allow form.reset() to complete before clearing results
-                setTimeout(function() {
+                if (savingsGoalForm) savingsGoalForm.reset(); // Reset form fields first
+
+                setTimeout(function() { // Then clear results and UI elements
                     clearSavingsGoalResults();
-                     // Clear validation messages and invalid classes
-                     document.querySelectorAll('.form-message').forEach(msg => {
+                    document.querySelectorAll('.form-message').forEach(msg => {
                          msg.textContent = '';
                          msg.classList.remove('active');
                      });
-                      document.querySelectorAll('.form-control').forEach(input => {
+                    document.querySelectorAll('.form-control').forEach(input => {
                           input.classList.remove('invalid');
-                      });
-                     // Reset timeframe unit display and label
-                     if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
-                         timeframeTypeSelect.value = 'years'; // Ensure select is reset
+                    });
+                    if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl && timeframeInput) {
+                         timeframeTypeSelect.value = 'years'; // Reset select
                          timeframeUnitSpan.textContent = 'Years';
-                         requiredContributionLabelEl.textContent = 'Required Annual Contribution:';
-                          if (timeframeInput) timeframeInput.value = 5; // Reset default value
-                     }
+                         requiredContributionLabelEl.textContent = 'Required Annual Stash:';
+                         timeframeInput.value = 5;
+                         timeframeInput.min = 1;
+                         timeframeInput.max = 70;
+                         timeframeInput.step = 1;
+                    }
+                    if (goalAmountInput) goalAmountInput.value = 100000;
+                    if (currentSavingsInput) currentSavingsInput.value = 10000;
+                    if (annualGrowthRateInput) annualGrowthRateInput.value = 6;
 
-                }, 50); // Short delay
+                    accordionItems.forEach(item => { // Close all accordions on reset
+                        item.classList.remove('active');
+                        const content = item.querySelector('.accordion-content');
+                        if(content) {
+                            content.style.maxHeight = null;
+                        }
+                    });
+                }, 50);
             });
         }
 
-         // Optional: Recalculate on Enter key in any input field within the form
          if (savingsGoalForm) {
              savingsGoalForm.addEventListener('keypress', function(event) {
-                 if (event.key === 'Enter') {
-                     event.preventDefault(); // Prevent form submission
+                 if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') { // Allow enter in textarea if any
+                     event.preventDefault();
+                     // Check if focused element is a button, if so, don't re-trigger
+                     if (document.activeElement && document.activeElement.type === 'button') return;
                      calculateSavingsGoal();
                  }
              });
@@ -1624,69 +1671,68 @@
 
         // --- Initial Load Logic ---
         window.addEventListener('load', function() {
-             // On initial load, clear results and hide the results section
-            clearSavingsGoalResults();
+            clearSavingsGoalResults(); // Start with a clean slate
 
-             // Clear any existing validation messages
-             document.querySelectorAll('.form-message').forEach(msg => {
+            document.querySelectorAll('.form-message').forEach(msg => {
                  msg.textContent = '';
                  msg.classList.remove('active');
-             });
-              document.querySelectorAll('.form-control').forEach(input => {
+            });
+            document.querySelectorAll('.form-control').forEach(input => {
                   input.classList.remove('invalid');
-              });
+            });
 
-             // Set initial timeframe unit display and label
-             if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
+            if(timeframeTypeSelect && timeframeUnitSpan && requiredContributionLabelEl) {
                  timeframeUnitSpan.textContent = timeframeTypeSelect.value === 'years' ? 'Years' : 'Months';
-                 requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Contribution:' : 'Required Monthly Contribution:';
-             }
+                 requiredContributionLabelEl.textContent = timeframeTypeSelect.value === 'years' ? 'Required Annual Stash:' : 'Required Monthly Stash:';
+                 // Trigger change once on load to set min/max for timeframe input
+                 timeframeTypeSelect.dispatchEvent(new Event('change'));
+            }
 
 
-            // --- Active Nav Link Highlighting (Update for savings-goal-planner.html) ---
+            // --- Active Nav Link Highlighting ---
             const navLinks = document.querySelectorAll('.nav-menu .nav-link');
             const currentPath = window.location.pathname;
 
+            navLinks.forEach(link => link.classList.remove('active')); // Clear all first
+
+            let linkActivated = false;
             navLinks.forEach(link => {
                 const linkHref = link.getAttribute('href');
-                // Check if the current path ends with the link's href (handles index.html, sars-tax-calculator.html, etc.)
-                // Also handle the case where the href is just '/' for the home page
-                 // Check for direct match, ignoring trailing slash for root
-                 const isDirectMatch = (currentPath === '/' && linkHref === '/') ||
-                                       (currentPath.endsWith('.html') && currentPath.endsWith(linkHref));
-
-                if (isDirectMatch) {
-                     navLinks.forEach(l => l.classList.remove('active')); // Remove active from all
-                     link.classList.add('active'); // Add active to the matching link
+                // Check if the current page is exactly this link
+                if (currentPath.endsWith(linkHref) && linkHref !== '/') {
+                    link.classList.add('active');
+                    linkActivated = true;
+                    return;
                 }
-                 // Highlight the 'Financial Tools' link when on any calculator page
-                else if (currentPath.includes('-calculator.html') && linkHref === '/#tools') {
-                      navLinks.forEach(l => l.classList.remove('active')); // Remove active from others first
-                      link.classList.add('active');
+                // Special handling for /#tools when on a calculator page
+                if ((currentPath.includes('-calculator.html') || currentPath.includes('savings-goal-planner.html') || currentPath.includes('budget-planner.html') || currentPath.includes('loan-calculators.html') || currentPath.includes('vat-calculator.html') || currentPath.includes('retirement-calculator.html')) && linkHref === '/#tools') {
+                    link.classList.add('active');
+                    linkActivated = true;
+                    // Don't return, allow specific page link to also be active if it matches later
                 }
-                 // Handle hash links on the homepage - only activate if on the homepage
-                else if (currentPath === '/' && linkHref.startsWith('#')) {
-                     // No specific action needed for highlighting based on hash on load
-                     // The '/#tools' case above handles the link to this page
-                }
-                 // For savings-goal-planner.html specifically, ensure the Financial Tools link is active if not already
-                 // This handles the case where someone navigates directly to the savings planner URL
-                 if (currentPath.endsWith('/savings-goal-planner.html') && linkHref === '/#tools' && !document.querySelector('.nav-menu .nav-link.active')) {
-                     link.classList.add('active');
-                 } else if (currentPath.endsWith('/savings-goal-planner.html') && linkHref === '/savings-goal-planner.html') {
-                      // Ensure the savings planner link itself is active if directly on the page
-                      navLinks.forEach(l => l.classList.remove('active'));
-                      link.classList.add('active');
-                 }
             });
-             // Ensure home is active as a fallback if nothing else matched and on the root path
-             const homeLink = document.querySelector('.nav-menu a[href="/"]');
-             if ((currentPath === '/' || currentPath.endsWith('/index.html')) && !document.querySelector('.nav-menu .nav-link.active')) {
-                  if (homeLink) homeLink.classList.add('active');
+
+            // Fallback for home page or if no specific link matched but on a tool page
+            if (!linkActivated) {
+                if (currentPath === '/' || currentPath.endsWith('/index.html')) {
+                    const homeLink = document.querySelector('.nav-menu a[href="/"]');
+                    if (homeLink) homeLink.classList.add('active');
+                } else if (document.querySelector('.nav-menu a[href="/#tools"].active')) {
+                    // If #tools is active, ensure no other primary nav link is also active unless it's a sub-page of tools
+                    // This logic can get complex; the current approach is to prioritize the #tools link if on a tool page.
+                }
+            }
+            // Ensure that if on a specific tool page, and #tools is active, the specific tool page link itself is NOT also active in the main nav (if it exists there)
+            // The current logic should mostly handle this by activating the most specific link.
+            // Final check: if #tools is active, and we are on savings-goal-planner.html, #tools should remain the primary active link.
+             if (currentPath.endsWith('savings-goal-planner.html')) {
+                 const toolsLink = document.querySelector('.nav-menu a[href="/#tools"]');
+                 if (toolsLink) {
+                     navLinks.forEach(l => l.classList.remove('active')); // Remove from all
+                     toolsLink.classList.add('active'); // Set only #tools as active
+                 }
              }
         });
-
-
     </script>
 </body>
 </html>
