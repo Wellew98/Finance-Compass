@@ -244,11 +244,11 @@
             margin: 0 auto 3rem;
         }
 
-
+        /* MODIFIED: .calculator-container to be single column by default */
         .calculator-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: 1fr; /* Always single column */
+            gap: 30px; /* Gap will apply between form and results when stacked */
             margin-top: 40px;
         }
 
@@ -258,8 +258,8 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             padding: 30px;
             border: 1px solid var(--border);
-            display: flex; /* Added for flex column layout */
-            flex-direction: column; /* Stack form elements and nugget */
+            display: flex;
+            flex-direction: column;
         }
         .calculator-form-title {
             font-size: 1.8rem;
@@ -358,20 +358,19 @@
             display: flex;
             justify-content: space-between;
             gap: 16px;
-            margin-top: 30px; /* Original margin */
+            margin-top: 30px;
         }
 
         .action-buttons .btn {
             flex: 1;
         }
 
-        /* --- Form Nugget (New element in form) --- */
         .form-nugget {
             background-color: var(--background-alt);
-            border: 1px dashed var(--primary); /* Dashed border for subtlety */
+            border: 1px dashed var(--primary);
             border-radius: var(--radius);
             padding: 15px;
-            margin-top: 24px; /* Space above the nugget */
+            margin-top: 24px;
             text-align: center;
             font-size: 0.95rem;
             color: var(--text-light);
@@ -395,6 +394,12 @@
             border: 1px solid var(--border);
             position: relative;
             display: none;
+            /* MODIFIED: Ensure results section has margin-top if it's not the first child,
+               which it won't be if the form is above it.
+               The gap in .calculator-container handles this.
+               Explicit margin can be added if needed, e.g., if gap is removed.
+            */
+            /* margin-top: 30px; /* This is handled by the gap in .calculator-container now */
         }
 
         .results-header {
@@ -566,38 +571,38 @@
         }
 
 
-        /* --- Tip Box (Redesigned to Financial Wisdom Nugget Style) --- */
+        /* --- Tip Box (Financial Wisdom Nugget Style) --- */
         .tip-box {
-            margin-top: 40px; /* Increased margin for better separation */
-            padding: 24px 30px; /* Increased padding */
-            background-color: var(--nugget-background); /* Creamy yellow */
-            border-left: 6px solid var(--nugget-border); /* Thicker gold/orange border */
-            border-radius: var(--radius); /* Keep consistent radius */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07); /* Softer shadow */
+            margin-top: 40px;
+            padding: 24px 30px;
+            background-color: var(--nugget-background);
+            border-left: 6px solid var(--nugget-border);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
         }
 
-        .tip-box .tip-title { /* Target title within tip-box */
-            font-family: 'Caveat', cursive; /* Handwritten font */
-            font-size: 2rem; /* Larger title size like image */
+        .tip-box .tip-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 16px; /* More space below title */
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            color: var(--nugget-title-text); /* Darker gold/orange for title text */
+            color: var(--nugget-title-text);
         }
 
-        .tip-box .tip-title i.fa-lightbulb { /* Specific icon styling */
+        .tip-box .tip-title i.fa-lightbulb {
             margin-right: 12px;
-            color: var(--nugget-title-text); /* Match title text color */
-            font-size: 1.3em; /* Slightly larger icon */
-            text-shadow: 0 0 5px rgba(255, 223, 100, 0.5); /* Subtle glow */
+            color: var(--nugget-title-text);
+            font-size: 1.3em;
+            text-shadow: 0 0 5px rgba(255, 223, 100, 0.5);
         }
 
-        .tip-box .tip-content { /* Target content within tip-box */
-            font-size: 1rem; /* Slightly larger base content font */
-            color: var(--text); /* Darker text for better readability on light yellow */
+        .tip-box .tip-content {
+            font-size: 1rem;
+            color: var(--text);
         }
-        .tip-box .tip-content p:first-of-type { /* Style for the introductory paragraph */
+        .tip-box .tip-content p:first-of-type {
             margin-bottom: 18px;
             font-size: 1.05rem;
             line-height: 1.7;
@@ -606,26 +611,27 @@
 
         .tip-box .tip-content ul {
             margin-top: 10px;
-            padding-left: 25px;
-            list-style-type: none; /* Remove default bullets if custom are added or implied */
+            padding-left: 0; /* Adjusted for custom bullet alignment */
+            list-style-type: none;
         }
 
         .tip-box .tip-content li {
-            margin-bottom: 12px; /* More space between list items */
+            margin-bottom: 12px;
             position: relative;
-            padding-left: 20px; /* Space for custom bullet */
+            padding-left: 25px; /* Space for custom bullet */
         }
-        .tip-box .tip-content li::before { /* Custom bullet using FontAwesome check or similar */
+        .tip-box .tip-content li::before {
             content: "\f00c"; /* FontAwesome check icon */
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: var(--secondary); /* Use secondary color for checkmarks */
+            font-family: "Font Awesome 6 Free"; /* Ensure correct FontAwesome family */
+            font-weight: 900; /* Solid icon */
+            color: var(--secondary);
             position: absolute;
             left: 0;
-            top: 2px;
+            top: 3px; /* Adjust vertical alignment if needed */
+            font-size: 0.9em; /* Adjust icon size */
         }
         .tip-box .tip-content li strong {
-            color: var(--primary-dark); /* Make strong text stand out */
+            color: var(--primary-dark);
         }
 
 
@@ -725,6 +731,7 @@
 
         /* --- Responsive Styles --- */
         @media (max-width: 992px) {
+            /* .calculator-container is already 1fr, so no change needed here for this breakpoint specifically for columns */
             .nav-menu {
                 position: fixed;
                 top: 73px;
@@ -768,13 +775,6 @@
              .mobile-menu-btn {
                  display: block;
              }
-
-             .calculator-container {
-                grid-template-columns: 1fr;
-             }
-             .calculator-results {
-                 margin-top: 30px;
-             }
         }
 
         @media (max-width: 768px) {
@@ -787,8 +787,8 @@
             .section-subtitle {
                  font-size: 1rem;
             }
-            .results-summary {
-                grid-template-columns: 1fr;
+            .results-summary { /* This is inside .calculator-results, which is now full width */
+                grid-template-columns: 1fr; /* Stack summary items if they were multi-column */
             }
             .result-value {
                  font-size: 1.8rem;
@@ -800,7 +800,7 @@
                 font-size: 1.5rem;
              }
              .tip-box .tip-title {
-                 font-size: 1.6rem; /* Adjust nugget title for smaller screens */
+                 font-size: 1.6rem;
              }
              .tip-box .tip-content {
                  font-size: 0.9rem;
@@ -881,7 +881,7 @@
                 .accordion-content-inner {
                      padding: 16px 0 20px 0;
                 }
-                .tip-box { /* Adjust main tip box padding for small screens */
+                .tip-box {
                      padding: 20px;
                 }
                 .tip-box .tip-title {
@@ -890,7 +890,7 @@
                 .tip-box .tip-title i.fa-lightbulb {
                      font-size: 1.2em;
                 }
-                 .form-nugget { /* Adjust form nugget padding */
+                 .form-nugget {
                      padding: 12px;
                      font-size: 0.9rem;
                  }
@@ -1027,7 +1027,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tip-box" id="financialWisdomNugget">
+                 <div class="tip-box" id="financialWisdomNugget">
                         <h4 class="tip-title"><i class="fas fa-lightbulb"></i> Financial Wisdom Nugget</h4>
                         <div class="tip-content">
                             <p>Small savings today can lead to big dreams tomorrow. Every rand counts! Use these Mzansi smart strategies to make your treasure hunt easier:</p>
@@ -1226,7 +1226,7 @@
 
                     if (!isActive) {
                         item.classList.add('active');
-                        setTimeout(() => { // Ensure class is applied before calculating scrollHeight
+                        setTimeout(() => {
                             content.style.maxHeight = content.scrollHeight + "px";
                         }, 10);
                     } else {
@@ -1285,7 +1285,6 @@
 
         let savingsGrowthChart = null;
 
-        // --- Savings Spark Quotes ---
         const sparkQuotes = [
             "Today's discipline is tomorrow's freedom!",
             "A small seed today, a mighty tree tomorrow. Save consistently!",
@@ -1341,7 +1340,7 @@
 
                 savingsCalculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Charting...';
                 savingsCalculateBtn.disabled = true;
-                updateSparkQuote(); // Update quote on calculation
+                updateSparkQuote();
 
                 document.querySelectorAll('.form-message').forEach(msg => {
                     msg.textContent = '';
@@ -1704,7 +1703,7 @@
                     if (goalAmountInput) goalAmountInput.value = 100000;
                     if (currentSavingsInput) currentSavingsInput.value = 10000;
                     if (annualGrowthRateInput) annualGrowthRateInput.value = 6;
-                    updateSparkQuote(); // Reset to a new quote
+                    updateSparkQuote();
 
                     accordionItems.forEach(item => {
                         item.classList.remove('active');
@@ -1731,7 +1730,7 @@
         // --- Initial Load Logic ---
         window.addEventListener('load', function() {
             clearSavingsGoalResults();
-            updateSparkQuote(); // Set initial spark quote
+            updateSparkQuote();
 
             document.querySelectorAll('.form-message').forEach(msg => {
                  msg.textContent = '';
