@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Financial Compass · Accountants in Johannesburg</title>
+  <meta name="description" content="Find trusted accountants in Johannesburg. Filter by suburb, services, rating, and contact directly. Built as a lightweight HTML/CSS/JS directory for Financial Compass.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d12; --muted:#151822; --card:#10131b; --text:#e7eaef; --sub:#aab2c2; --brand:#4f8cff; --accent:#7fd1ae;
+      --ring: 0 0 0 3px rgba(79,140,255,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b0d12, #0f1320 40%, #0b0d12);color:var(--text)}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+
+    header{
+      position:sticky;top:0;z-index:50;background:rgba(11,13,18,.8);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #1b2130
+    }
+    .nav{display:flex;align-items:center;gap:16px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#9aaeff);box-shadow:0 10px 30px rgba(79,140,255,.35)}
+    .brand h1{font-size:18px;margin:0}
+    .tag{font-size:12px;color:var(--sub)}
+
+    .hero{padding:28px 0 8px}
+    .hero h2{margin:0 0 8px;font-size:28px;letter-spacing:.2px}
+    .hero p{margin:0;color:var(--sub)}
+
+    .controls{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr .8fr;gap:10px;margin:18px 0}
+    .controls input,.controls select{width:100%;padding:12px 12px;border-radius:12px;border:1px solid #242b3d;background:#0d111a;color:var(--text)}
+    .controls input:focus,.controls select:focus{outline:none;box-shadow:var(--ring);border-color:#2a3550}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 14px;background:var(--brand);color:white;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#1a2234;color:#c8d2e6;border:1px solid #27314a}
+    .btn.ghost{background:transparent;border:1px solid #263049;color:#c5cfe2}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:1fr 1fr 1fr}}
+    @media(max-width:680px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.hide-sm{display:none}}
+
+    .card{background:linear-gradient(180deg,#0d1118,#0a0d14);border:1px solid #1b2130;border-radius:16px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card header{position:static;background:transparent;border:0}
+    .card h3{margin:4px 0 6px;font-size:18px}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--sub);font-size:12px}
+    .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .chip{font-size:11px;color:#b7c0d3;border:1px solid #2a3550;background:#0d121c;border-radius:999px;padding:6px 8px}
+    .rating{font-weight:700;color:#ffd76a}
+    .actions{display:flex;gap:8px;margin-top:12px}
+
+    .empty{padding:26px;border:1px dashed #2a3550;border-radius:16px;text-align:center;color:#a8b1c4}
+
+    .footer-note{margin:28px 0 60px;color:var(--sub);font-size:13px}
+
+    dialog{background:#0b0f18;border:1px solid #27314a;color:var(--text);border-radius:16px;padding:0;width:min(680px,92vw)}
+    dialog::backdrop{background:rgba(0,0,0,.5)}
+    .modal-head{padding:16px 18px;border-bottom:1px solid #1e2536;display:flex;align-items:center;justify-content:space-between}
+    .modal-body{padding:16px 18px}
+    .modal-actions{padding:12px 18px;border-top:1px solid #1e2536;display:flex;gap:10px;justify-content:flex-end}
+    .x{background:transparent;border:0;color:#9fb0d3;font-size:20px;cursor:pointer}
+
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid #27314a;background:#0f1421;color:#c8d2e6;font-size:12px}
+
+    .table{width:100%;border-collapse:collapse;font-size:13px}
+    .table th,.table td{border-bottom:1px solid #1b2130;padding:8px 6px;text-align:left}
+
+    .notice{background:#0f1522;border:1px solid #25304a;color:#c9d3e8;padding:10px 12px;border-radius:12px;margin:10px 0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Financial Compass</h1>
+          <div class="tag">Find trusted accountants in Johannesburg</div>
+        </div>
+      </div>
+      <div class="hide-sm"><span class="pill">Beta · HTML/CSS/JS only</span></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h2>Accountants in Johannesburg</h2>
+      <p>Search, filter, and contact verified firms across suburbs. Import your Outscraper CSV/JSON to populate the directory.</p>
+    </section>
+
+    <section class="controls" aria-label="Filters and search">
+      <input id="q" type="search" placeholder="Search by firm name, suburb, service… (e.g., ‘tax’, ‘Sandton’)" aria-label="Search"/>
+      <select id="suburb"><option value="">All suburbs</option></select>
+      <select id="service"><option value="">All services</option><option>Tax</option><option>Bookkeeping</option><option>Payroll</option><option>Audit</option><option>Advisory</option><option>Company Registrations</option></select>
+      <select id="sort"><option value="relevance">Sort · Relevance</option><option value="rating">Highest rating</option><option value="reviews">Most reviews</option><option value="az">A → Z</option></select>
+      <select id="minRating">
+        <option value="0">★ Any</option>
+        <option value="3">★ 3.0+</option>
+        <option value="3.5">★ 3.5+</option>
+        <option value="4">★ 4.0+</option>
+        <option value="4.5">★ 4.5+</option>
+      </select>
+    </section>
+
+    <div class="cta-row">
+      <label class="btn secondary" for="file">📥 Import data (CSV or JSON)</label>
+      <input id="file" type="file" accept=".csv,.json" style="display:none"/>
+      <button class="btn ghost" id="seed">🌱 Load demo data</button>
+      <button class="btn" id="exportHtml">⬇️ Export static HTML</button>
+      <button class="btn secondary" id="clear">🧹 Clear data</button>
+    </div>
+
+    <div id="stats" class="notice" role="status">No data yet. Import your Outscraper export or load demo data.</div>
+
+    <section id="results" class="grid" aria-live="polite"></section>
+
+    <p class="footer-note">Tip: Click a card’s “Request Quote” to send a quick brief or “Claim Profile” if you are the firm owner. Suburbs & services are tag‑based for flexible filtering. Your imported data only lives in your browser (LocalStorage).</p>
+  </main>
+
+  <!-- Quote / Claim Modal -->
+  <dialog id="modal">
+    <div class="modal-head">
+      <strong id="modalTitle">Contact firm</strong>
+      <button class="x" onclick="modal.close()" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <form id="leadForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label>Full name<br><input required name="name" placeholder="Your name"/></label>
+          </div>
+          <div>
+            <label>Email<br><input required type="email" name="email" placeholder="you@example.com"/></label>
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <label>Phone (optional)<br><input name="phone" placeholder="+27…"/></label>
+        </div>
+        <div style="margin-top:10px">
+          <label>What do you need help with?<br>
+            <textarea name="message" rows="4" placeholder="E.g., Annual returns, payroll for 8 staff, VAT registration…"></textarea>
+          </label>
+        </div>
+        <input type="hidden" name="firm" id="firmField"/>
+      </form>
+      <div class="notice">Your message will open in your email app addressed to the firm (if email exists). If not, we’ll prepare a copyable brief.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="modal.close()">Cancel</button>
+      <button class="btn" id="sendLead">Send</button>
+    </div>
+  </dialog>
+
+  <script>
+  // ====== Utilities ======
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+  const state = { data: [], view: [], q:"", suburb:"", service:"", sort:"relevance", minRating:0 };
+  const SERVICES = ["Tax","Bookkeeping","Payroll","Audit","Advisory","Company Registrations"]; // used for tagging
+
+  function normalizeFirm(raw){
+    // Map common Outscraper columns -> our schema
+    // Try multiple keys to be resilient to CSV/JSON variations
+    const get = (obj, keys, def="") => {
+      for(const k of keys){ if(obj[k] !== undefined && obj[k] !== null) return obj[k]; }
+      return def;
+    };
+    const name = get(raw,["name","Business Name","title","Business"]).toString();
+    const suburb = get(raw,["suburb","city","City","District","Area"]).toString();
+    const address = get(raw,["address","full_address","Address"]).toString();
+    const phone = get(raw,["phone","Phone","phone_number","formatted_phone_number"]).toString();
+    const website = get(raw,["website","Website","site","url"]).toString();
+    const email = get(raw,["email","Email"]).toString();
+    const rating = parseFloat(get(raw,["rating","Rating"],0)) || 0;
+    const reviews = parseInt(get(raw,["reviews","reviews_count","Reviews"],0)) || 0;
+    const categories = (get(raw,["category","categories","Types"],"") || "").toString();
+    const services = extractServices(categories + " " + name).map(s=>s);
+
+    return { id: crypto.randomUUID(), name, suburb, address, phone, website, email, rating, reviews, services };
+  }
+
+  function extractServices(text){
+    const t = (text||"").toLowerCase();
+    const out = new Set();
+    if(/tax|sars|returns|vat/.test(t)) out.add("Tax");
+    if(/bookkeep|books|ledger|recon/.test(t)) out.add("Bookkeeping");
+    if(/payroll|pay run|paye|uif/.test(t)) out.add("Payroll");
+    if(/audit|assurance|irba/.test(t)) out.add("Audit");
+    if(/advis|consult/.test(t)) out.add("Advisory");
+    if(/company|cipc|registration|pty/.test(t)) out.add("Company Registrations");
+    return [...out];
+  }
+
+  function save(){ localStorage.setItem("fc_acc_dir", JSON.stringify(state.data)); }
+  function load(){ try{ const x=JSON.parse(localStorage.getItem("fc_acc_dir")||"[]"); if(Array.isArray(x)) state.data=x; }catch(e){} }
+
+  function render(){
+    const stats = document.getElementById('stats');
+    const res = document.getElementById('results');
+    let list = state.data.slice();
+
+    // Filter
+    const q = state.q.trim().toLowerCase();
+    if(q){ list = list.filter(it => (`${it.name} ${it.suburb} ${it.services.join(' ')}`.toLowerCase().includes(q))); }
+    if(state.suburb){ list = list.filter(it => (it.suburb||"").toLowerCase() === state.suburb.toLowerCase()); }
+    if(state.service){ list = list.filter(it => it.services.includes(state.service)); }
+    if(state.minRating){ list = list.filter(it => (it.rating||0) >= Number(state.minRating)); }
+
+    // Sort
+    if(state.sort === 'rating') list.sort((a,b)=>(b.rating||0)-(a.rating||0));
+    else if(state.sort === 'reviews') list.sort((a,b)=>(b.reviews||0)-(a.reviews||0));
+    else if(state.sort === 'az') list.sort((a,b)=>a.name.localeCompare(b.name));
+    else { // relevance: simple boost by query matches + rating
+      list.sort((a,b)=> score(b) - score(a));
+    }
+
+    state.view = list;
+
+    // Stats
+    stats.innerHTML = list.length
+      ? `Showing <strong>${list.length}</strong> of ${state.data.length} firms${state.q?` for “${escapeHtml(state.q)}”`:''}.`
+      : `No matches. Try a different search or load the demo data.`;
+
+    // Cards
+    res.innerHTML = list.length ? list.map(cardHtml).join('') : `<div class="empty">No results found.</div>`;
+
+    // Bind buttons
+    $$('#results .btn[data-id]').forEach(btn=>{
+      btn.addEventListener('click',()=>openModal(btn.dataset.id, btn.dataset.action));
+    });
+
+    // Update suburb options
+    updateSuburbOptions();
+
+    // Inject JSON-LD for the first 20 results to keep DOM small
+    injectJsonLd(list.slice(0,20));
+  }
+
+  function score(it){
+    let s = 0;
+    const q = state.q.trim().toLowerCase();
+    if(q){ if(it.name.toLowerCase().includes(q)) s+=4; if((it.suburb||'').toLowerCase().includes(q)) s+=2; if(it.services.join(' ').toLowerCase().includes(q)) s+=2; }
+    s += (it.rating||0) * 0.6 + (Math.min(it.reviews||0, 200))/200; // light boost by rating/reviews
+    return s;
+  }
+
+  function cardHtml(it){
+    const svc = it.services.length ? it.services.map(s=>`<span class="chip">${s}</span>`).join(' ') : '<span class="chip">General</span>';
+    const phone = it.phone ? `<span>📞 ${escapeHtml(it.phone)}</span>` : '';
+    const web = it.website ? `<a href="${escapeAttr(it.website)}" target="_blank" rel="nofollow noopener">🌐 Website</a>` : '';
+    const email = it.email ? `<a href="mailto:${escapeAttr(it.email)}">✉️ Email</a>` : '';
+    const addr = it.address ? `<span>📍 ${escapeHtml(it.address)}</span>` : '';
+    return `
+      <article class="card" data-id="${it.id}">
+        <h3>${escapeHtml(it.name)}</h3>
+        <div class="meta">
+          <span class="rating">${it.rating?`★ ${it.rating.toFixed(1)}`:'★ –'} </span>
+          <span>(${it.reviews||0} reviews)</span>
+          ${it.suburb?`<span>• ${escapeHtml(it.suburb)}</span>`:''}
+        </div>
+        <div class="chips">${svc}</div>
+        <div class="meta" style="margin-top:6px">${addr}</div>
+        <div class="actions">
+          <button class="btn" data-action="quote" data-id="${it.id}">Request Quote</button>
+          <button class="btn secondary" data-action="claim" data-id="${it.id}">Claim Profile</button>
+          <a class="btn ghost" href="${mapLink(it)}" target="_blank" rel="noopener">🗺️ Map</a>
+          ${web||''}
+          ${email||''}
+        </div>
+      </article>`;
+  }
+
+  function mapLink(it){
+    const q = encodeURIComponent(`${it.name} ${it.address||it.suburb||'Johannesburg'}`);
+    return `https://www.google.com/maps/search/?api=1&query=${q}`;
+  }
+
+  function updateSuburbOptions(){
+    const subSel = document.getElementById('suburb');
+    const current = subSel.value;
+    const suburbs = Array.from(new Set(state.data.map(x=>x.suburb).filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+    subSel.innerHTML = `<option value="">All suburbs</option>` + suburbs.map(s=>`<option ${s===current?'selected':''}>${escapeHtml(s)}</option>`).join('');
+  }
+
+  function injectJsonLd(list){
+    // Remove old
+    $$('script[data-jsonld="firm"]').forEach(n=>n.remove());
+    list.forEach(it=>{
+      const ld = {
+        "@context":"https://schema.org",
+        "@type":"AccountingService",
+        "name":it.name,
+        "address": it.address ? {"@type":"PostalAddress","streetAddress":it.address} : undefined,
+        "areaServed":"Johannesburg, South Africa",
+        "telephone": it.phone || undefined,
+        "url": it.website || undefined,
+        "email": it.email || undefined,
+        "aggregateRating": (it.rating?{"@type":"AggregateRating","ratingValue":it.rating,"reviewCount":it.reviews||0}: undefined),
+        "knowsAbout": it.services
+      };
+      const s = document.createElement('script');
+      s.type='application/ld+json';
+      s.dataset.jsonld='firm';
+      s.textContent = JSON.stringify(ld);
+      document.body.appendChild(s);
+    });
+  }
+
+  // ====== Events ======
+  function bindUI(){
+    $('#q').addEventListener('input', debounce(e=>{ state.q=e.target.value; render(); }, 160));
+    $('#suburb').addEventListener('change', e=>{ state.suburb=e.target.value; render(); });
+    $('#service').addEventListener('change', e=>{ state.service=e.target.value; render(); });
+    $('#sort').addEventListener('change', e=>{ state.sort=e.target.value; render(); });
+    $('#minRating').addEventListener('change', e=>{ state.minRating=e.target.value; render(); });
+
+    $('#seed').addEventListener('click', ()=>{ seedDemo(); save(); render(); });
+    $('#clear').addEventListener('click', ()=>{ state.data=[]; save(); render(); });
+
+    $('#exportHtml').addEventListener('click', exportStaticHtml);
+
+    $('#file').addEventListener('change', handleFile);
+
+    $('#sendLead').addEventListener('click', sendLead);
+  }
+
+  function openModal(id, action){
+    const firm = state.data.find(f=>f.id===id) || state.view.find(f=>f.id===id);
+    if(!firm) return;
+    $('#modalTitle').textContent = action==='claim' ? `Claim profile: ${firm.name}` : `Request a quote: ${firm.name}`;
+    $('#firmField').value = firm.name;
+    window.currentFirm = firm;
+    modal.showModal();
+  }
+
+  function sendLead(ev){
+    ev.preventDefault();
+    const fd = new FormData($('#leadForm'));
+    const name = fd.get('name')||''; const email = fd.get('email')||''; const phone = fd.get('phone')||''; const msg = fd.get('message')||'';
+    const firm = window.currentFirm || {};
+
+    const subject = encodeURIComponent(`[Financial Compass] Inquiry for ${firm.name}`);
+    const body = encodeURIComponent(`Hi ${firm.name},%0D%0A%0D%0AMy name is ${name}. I'm looking for help with:%0D%0A${msg}%0D%0A%0D%0AYou can reach me at ${email}${phone?` / ${phone}`:''}.%0D%0A%0D%0AThanks!`);
+
+    if(firm.email){
+      window.open(`mailto:${firm.email}?subject=${subject}&body=${body}`,'_blank');
+    } else if(firm.website){
+      // fallback to website contact
+      alert('This firm has no email on file. We will open their website so you can contact them there. Your message is copied to clipboard.');
+      navigator.clipboard.writeText(`Subject: [Financial Compass] Inquiry for ${firm.name}\n\n${decodeURIComponent(body)}`);
+      window.open(firm.website, '_blank');
+    } else {
+      alert('No email/website on file. Your message is copied to clipboard.');
+      navigator.clipboard.writeText(`Subject: [Financial Compass] Inquiry for ${firm.name}\n\n${decodeURIComponent(body)}`);
+    }
+    modal.close();
+  }
+
+  // ====== Data Import / Export ======
+  function handleFile(e){
+    const file = e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        let items = [];
+        if(file.name.endsWith('.json')){
+          const raw = JSON.parse(reader.result);
+          items = Array.isArray(raw)? raw : (raw.data||[]);
+        } else {
+          items = parseCSV(reader.result);
+        }
+        const normalized = items.map(normalizeFirm).filter(x=>x.name);
+        state.data = dedupeBy(normalized, x=>`${x.name}|${x.address}`);
+        save(); render();
+      }catch(err){ alert('Could not import file. Ensure it is a CSV/JSON from Outscraper.'); console.error(err); }
+    };
+    reader.readAsText(file);
+  }
+
+  function parseCSV(text){
+    // Simple CSV parser (handles commas in quotes). Not bulletproof but works for standard Outscraper exports
+    const rows = [];
+    const re = /(?!\s*$)\s*(?:'([^']*)'|"([^"]*)"|([^,'"]*))\s*(?:,|$)/g;
+    const lines = text.split(/\r?\n/).filter(l=>l.trim().length);
+    const headers = [];
+    let m;
+    // parse header
+    re.lastIndex=0; while((m=re.exec(lines[0]))!==null){ headers.push(m[1]||m[2]||m[3]); }
+    for(let i=1;i<lines.length;i++){
+      const obj={}; const values=[]; re.lastIndex=0; while((m=re.exec(lines[i]))!==null){ values.push(m[1]||m[2]||m[3]); }
+      headers.forEach((h,idx)=> obj[h]=values[idx]);
+      rows.push(obj);
+    }
+    return rows;
+  }
+
+  function dedupeBy(arr, keyFn){
+    const seen = new Set();
+    return arr.filter(it=>{ const k=keyFn(it); if(seen.has(k)) return false; seen.add(k); return true; });
+  }
+
+  function seedDemo(){
+    const demo = [
+      {name:"BJP Chartered Accountants", suburb:"Benoni", address:"23 Fourteenth Ave, Northmead, Benoni", phone:"010 020 3456", website:"https://example.com/bjp", email:"info@bjpca.co.za", rating:4.7, reviews:118, categories:"Audit, Tax, Payroll"},
+      {name:"Gorosi Consulting CC", suburb:"Kempton Park", address:"Isando Business Park, Hulley St, Isando", phone:"011 555 0123", website:"https://example.com/gorosi", email:"hello@gorosi.co.za", rating:4.4, reviews:67, categories:"Tax, Payroll, Advisory"},
+      {name:"Arachnet Consulting", suburb:"Glenanda", address:"81 Vorster Ave, Glenanda", phone:"083 123 4567", website:"https://example.com/arachnet", email:"contact@arachnetconsulting.co.za", rating:4.9, reviews:22, categories:"Bookkeeping, Tax, SME"},
+      {name:"JD Hill & Company", suburb:"Johannesburg", address:"Rosebank", phone:"", website:"https://example.com/jdhill", email:"", rating:4.6, reviews:54, categories:"Audit, Advisory"},
+      {name:"Taxcomplied", suburb:"Johannesburg", address:"CBD", phone:"", website:"https://example.com/taxcomplied", email:"sales@taxcomplied.co.za", rating:4.2, reviews:201, categories:"Tax"}
+    ].map(normalizeFirm);
+    state.data = demo; updateSuburbOptions();
+  }
+
+  function exportStaticHtml(){
+    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'financial-compass-accountants.html';
+    a.click();
+  }
+
+  // Helpers
+  function debounce(fn, ms){ let t; return function(...args){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), ms); } }
+  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+  function escapeAttr(s){ return escapeHtml(s).replace(/\s/g,'%20'); }
+
+  // Init
+  load();
+  bindUI();
+  if(state.data.length===0) seedDemo();
+  render();
+  </script>
+</body>
+</html>
